@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/env python
 '''
 Copyright 2010 Wu Albert Cheng <albertwcheng@gmail.com>
 

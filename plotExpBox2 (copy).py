@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/env python
 
 from pylab import *
 from sys import stderr,stdout,argv
