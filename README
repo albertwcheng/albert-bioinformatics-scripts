@@ -1,0 +1,180 @@
+This is a set of python scripts and Bash shell scripts as a reimplementation of the unix tools, cut, join, etc. with more flexibility. For example, the column specification can now be specified by header field in addition to column number. e.g., imagine a tab-delimited file (info.txt):
+
+Name	Address	Phone	Email
+Albert	1 Mass Ave, Cambridge, MA 02139	111-723-2723	albert@domain.com
+Amy	125 Broadway, Cambridge, MA 02139	125-263-2612	amy@macrosoft.com
+Jason	2312 Prospect St, Somerville, MA	126-251-2316	jason@orange.com
+
+You can get the address column by cuta.py -f.Address info.txt
+
+Most of the scripts in this module depend on albertcommon module. to include this in the python path update your env var $PYTHONPATH to include the path you are putting these files
+
+You can also add these program to your PATH and chmod 777 *.py *.sh inside the folder containing these scripts and then edit your ~/.bashrc (if using bash) by appending
+
+export PATH=${PATH}:/the/path/to/these/scripts/
+
+such that you can run the scripts without having to specify the full path and to have to call python scriptname.py to run them
+
+========
+LICENSE
+========
+
+Copyright 2010 Wu Albert Cheng <albertwcheng@gmail.com>
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in
+all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+THE SOFTWARE.
+
+============
+COLUMN DIRECTIVES
+============
+
+A lot of scripts in this toolkit allow specification of column in more flexible ways in addition to column numbers
+Here I illustrate the use of column directives by using the cuta.py program which extracts column from a file with the following syntax
+
+python cuta.py -f<column directives> <infile> 
+
+e.g., 
+
+python cuta.py -f1,3 hello.txt will gives you the first and the third column of the file hello.txt. 
+
+
+consider this file (example1.txt in the examples folder)
+
+Name	Address1	Address2	Phone	Email
+Albert	303 Broadway	252 Mass Ave	125-241	albert@domain.com
+Amy	125 Broadway	303 Prospect St	125-212	amy@anotherdomain.com
+
+
+to select the two address columns, the convention way is to specify column 2,3 or 2-3, i.e.,
+
+>python cuta.py -f2,3 examples/example1.txt
+Address1        Address2
+303 Broadway    252 Mass Ave
+125 Broadway    303 Prospect St
+
+If you don't know about the column numbers and don't want to check everytime and in case your column numbers shift quite frequently, you just want to select Address1 and Address2 everytime you run your script, you can do this directly by specifying the column name preceded by a dot (not that you need to precede with a dot in each of the column selector)
+
+>python cuta.py -f.Address1,.Address2 examples/example1.txt
+Address1        Address2
+303 Broadway    252 Mass Ave
+125 Broadway    303 Prospect St
+
+Now you will select Address1 and Address2 everytime no need to worry about which column numbers they are at.
+
+What if I want to select all Address columns? The column selection directives allow you to specify regular expression to match columns. Precede the pattern by @
+
+>python cuta.py -f@Address examples/example1.txt
+Address1        Address2
+303 Broadway    252 Mass Ave
+125 Broadway    303 Prospect St
+
+What if I want to select a range? Say the first column util the second last. You do this by using dash to specify a range. e.g., 1-3 means columns 1 thru 3. column can be counted from the end by preceding with "_". So _1 means the last column. _2 means the second last.
+
+>python cuta.py -f1-_2 examples/example1.txt
+Name    Address1        Address2        Phone
+Albert  303 Broadway    252 Mass Ave    125-241
+Amy     125 Broadway    303 Prospect St 125-212
+
+1-_2 says "select the first to the second last columns" that's would be Name column until Phone. Email, which is the last column is ignored
+
+We can combine different types of directives and even several ranges together
+
+>python cuta.py -f.Name-2,_1,xD examples/example1.txt
+Name    Address1        Email   Phone
+Albert  303 Broadway    albert@domain.com       125-241
+Amy     125 Broadway    amy@anotherdomain.com   125-212
+
+
+Can you guess what ".Name-2,_1,xD" says? It says that give me column Name (which is column 1) to column 2 (which is Address1), followed by the last column (which is Email) and then column D (as in Excel [preceding the excel column index by "x"], that would be 4th column, i.e., Phone)
+
+
+What if I have "-", or "," in my field name that I want to select. say, I have a column with name "Expense-Income". In some cases including this, you can escape the "-" sign by ^m
+
+python cuta.py -fExpense^mIncome file.txt
+
+This is a list of escape characters:
+
+specialCharMap={ "\\t":"\t",
+		 "\\n":"\n",
+		 "\\r":"\r",
+		 "^t":"\t",
+		 "^b":" ",
+		"^s":"<",
+		"^g":">",
+		"^c":",",
+		"^d":".",
+		"^^":"^",
+		"^M":"$",
+		"^m":"-",
+		"^o":":",
+		"^S":"\\"
+
+		}
+
+which reads ^m will escape "-", ^c will escape ",", etc.
+
+============
+BRIEF DESCRIPTIONS
+============
+
+
+
+Executables:
+
+cuta.py		Substitute of unix cut command. Extract selected columns and print to standard output.
+colSelect.py	give back the column numbers selected by the column directives
+colStat.py	print the list of column names, column number, and column index in excel style
+joinu.py	Sustitute of unix join function. Join two files on specified field or fields from each of the file. No sorting required. Also order of the lines is retained as in file1
+uniqa.py	get unique lines from a file. No sorting of input file required. Also order of lines is retained as the first apperance of each unique line
+transposeMatrix.py	rotate, flip, invert a matrix from a file and print to STDOUT
+
+For more descriptions, run scripts without arguments to get help message. e.g.,
+
+python cuta.py will give you
+
+Usage: cuta.py [options] filename
+Synopsis: Substitute of unix cut command. Extract selected columns and print to standard output.
+options:
+-f,--fields  idCols
+--fields-relabel cols/relabel1/relabel2/...
+-d,--sep   separator. set input and output separator. use --use-blank-to-nonblank-transition to set it to any blank characters
+--ofs  ofs. set output separator
+--fs   fs.  set input separator
+--headerRow row. set the header Row
+--sorted.  indicate that the columns are outputed in the order of their indices
+--uniq. indicate that columns are outputed only once
+--sortedUniq. a combination of uniq and sorted flag
+-F,--fill-empty-with sth. fill empty colum with sth
+cols format:
+        * inserts all columns
+        number: 1-5,3
+        number preceded by '_' means from the end. _1 means last row, _2 second last
+        field name preceded by '.': .exp-5,.pvalue-.fdr
+        excel column preceded by 'x': xB-xAA means column 2 to column 27
+        regex preceded by '@': @FDR[a-z]
+        %filename%sep or just %filename: open file which contains the fields to include. default separator is [TAB]
+        if last field is a. Then following columns are added as ascending. If appears at end, all are sorted ascending
+        is last field is d. Then following columns are added as descending. If appears at end, all are sorted descending
+
+-----
+
+------------
+
+README UNDERCONSTRUCTION
+------------
+

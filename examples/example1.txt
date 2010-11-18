@@ -1,0 +1,3 @@
+Name	Address1	Address2	Phone	Email
+Albert	303 Broadway	252 Mass Ave	125-241	albert@domain.com
+Amy	125 Broadway	303 Prospect St	125-212	amy@anotherdomain.com
