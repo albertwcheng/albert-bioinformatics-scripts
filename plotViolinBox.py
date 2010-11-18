@@ -41,7 +41,7 @@ from random import *
 from scipy.stats import gaussian_kde
 from numpy import arange
 
-def plotExpBox(data,xtickLabels,showIndPoints,mark,markMean,showMean,notch,whisker,outliers,xlegendrotation,xlabe,ylabe,titl,showSampleSizes,showViolin):
+def plotExpBox(data,xtickLabels,showIndPoints,mark,markMean,showMean,notch,whisker,outliers,xlegendrotation,xlabe,ylabe,titl,showSampleSizes,showViolin,showBox):
 	prevHoldState=ishold()	
 	hold(True)
 	
@@ -57,7 +57,9 @@ def plotExpBox(data,xtickLabels,showIndPoints,mark,markMean,showMean,notch,whisk
 
 	for i in range(0,len(data)):
 		print >> stderr,len(data[i])
-	boxplot(data,notch,widths=0.5,sym=fliers,whis=whisValue)
+
+	if showBox:
+		boxplot(data,notch,widths=0.5,sym=fliers,whis=whisValue)
 	#print >> stderr,resultD
 	
 	maxMax=-10000000.0
@@ -295,7 +297,7 @@ def drawHistogram(outfilename,plotData,xtickLabels,nbins=50):
 
 	fig.savefig(outfilename,bbox_inches="tight")
 	
-def plotExpBox_Main(inputFiles,headers,valcols,outputFile,sep,startRow,showIndPoints,mark,markMean,showMean,notch,whisker,outliers,plotPvalueCluster,outputClusterPrefix,methodCluster,xlegendrotation,xlabe,ylabe,figsz,titl,showSampleSizes,trimToMinSize,relabels,logb,plotHistogramToFile,plotMedianForGroups,botta,showViolin):
+def plotExpBox_Main(inputFiles,headers,valcols,outputFile,sep,startRow,showIndPoints,mark,markMean,showMean,notch,whisker,outliers,plotPvalueCluster,outputClusterPrefix,methodCluster,xlegendrotation,xlabe,ylabe,figsz,titl,showSampleSizes,trimToMinSize,relabels,logb,plotHistogramToFile,plotMedianForGroups,botta,showViolin,showBox):
 
 	#if plotPvalueCluster:
 		#if pvalue cluster is needed:
@@ -517,7 +519,7 @@ def plotExpBox_Main(inputFiles,headers,valcols,outputFile,sep,startRow,showIndPo
 		titl=outputFile
 
 
-	plotExpBox(plotData,xtickLabels,showIndPoints,mark,markMean,showMean,notch,whisker,outliers,xlegendrotation,xlabe,ylabe,titl,showSampleSizes,showViolin)
+	plotExpBox(plotData,xtickLabels,showIndPoints,mark,markMean,showMean,notch,whisker,outliers,xlegendrotation,xlabe,ylabe,titl,showSampleSizes,showViolin,showBox)
 	
 	#ylim([0,200])
 	for m in medianToDraw:
@@ -570,7 +572,7 @@ def usageExit(programName):
 
 if __name__=='__main__':
 	programName=argv[0]
-	optlist,args=getopt(argv[1:],'t:F:d:r:s:pmn',['fs=','headerRow=','startRow=','showIndPoints','showMean','notch','offWhisker','offOutliers','pvalue-cluster-as=','pvalue-cluster-method=','xtick-rotation=','xlabel=','ylabel=','figsize=','title=','show-sample-sizes','trim-to-min-size','relabel-as=','plot-hist=','plot-median-for-group=','log=','bottom='])
+	optlist,args=getopt(argv[1:],'t:F:d:r:s:pmn',['fs=','headerRow=','startRow=','showIndPoints','showMean','notch','offWhisker','offOutliers','pvalue-cluster-as=','pvalue-cluster-method=','xtick-rotation=','xlabel=','ylabel=','figsize=','title=','show-sample-sizes','trim-to-min-size','relabel-as=','plot-hist=','plot-median-for-group=','log=','bottom=','hide-violin','hide-box'])
 
 	headerRow=1
 	startRow=2
@@ -600,7 +602,8 @@ if __name__=='__main__':
 
 	trimToMinSize=False
 	showViolin=True
-		
+	showBox=True
+	
 	#if len(args)!=3:
 		
 	#else:
@@ -656,7 +659,10 @@ if __name__=='__main__':
 				plotMedianForGroups.append(v)
 			elif a in ['--bottom']:
 				botta=float(v)
-	
+			elif a in ['--hide-violin']:
+				showViolin=False
+			elif a in ['--hide-box']:
+				showBox=False
 	except:
 		usageExit(programName)
 	
@@ -677,6 +683,6 @@ if __name__=='__main__':
 		from Bio.Cluster import *
 	
 	
-	plotExpBox_Main(filenames,headers,valcols,outputFile,fs,startRow,showIndPoints,'b,','g--',showMean,notch,whisker,outliers,makePvalueClusters,pvalueClusterOutputPrefix,pvalueClusterMethod,xlegendrotation,xlabe,ylabe,figsz,titl,showSampleSizes,trimToMinSize,relabels,logb,plotHistogramToFile,plotMedianForGroups,botta,showViolin)	
+	plotExpBox_Main(filenames,headers,valcols,outputFile,fs,startRow,showIndPoints,'b,','g--',showMean,notch,whisker,outliers,makePvalueClusters,pvalueClusterOutputPrefix,pvalueClusterMethod,xlegendrotation,xlabe,ylabe,figsz,titl,showSampleSizes,trimToMinSize,relabels,logb,plotHistogramToFile,plotMedianForGroups,botta,showViolin,showBox)	
 		
 		
