@@ -154,7 +154,7 @@ def printUsageAndExit(programName):
 	print >> stderr,"--no-operation. Overrides all operations and do nothing. Just print using ofs"	
 	print >> stderr,"\tMethods:"
 	print >> stderr,"\t\tT [default]     Transpose the matrix"
-	print >> stderr,"\t\tr90cc 			 Rotate the matrix 90 counter-clockwise"
+	print >> stderr,"\t\tr90cc           Rotate the matrix 90 counter-clockwise"
 	print >> stderr,"\t\tr90             Rotate the matrix 90 clockwise"
 	print >> stderr,"\t\tr180            Rotate the matrix 180. i.e., invert"
 	print >> stderr,"\t\tflipH           Flip the matrix horizontal"
