@@ -4,7 +4,7 @@
 
 transposeMatrix.py
 
-rotate, flip, invert a matrix from a file and print to STDOUT
+Tranpose, rotate, flip, invert a matrix from a file and print to STDOUT
 
 Copyright 2010 Wu Albert Cheng <albertwcheng@gmail.com>
 
