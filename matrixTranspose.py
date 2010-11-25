@@ -69,7 +69,7 @@ def readFileIntoMatrixFillIn(filename,sep,fill):
 	return [M,len(M),maxNcols]
 
 
-def matrix_r90cc(M,nrows,ncols):
+def matrix_r90(M,nrows,ncols):
 	Mp=[]
 	MpNRows=ncols
 	MpNCols=nrows
@@ -82,8 +82,22 @@ def matrix_r90cc(M,nrows,ncols):
 
 		
 	return [Mp,MpNRows,MpNCols]
+	
+def matrix_transpose(M,nrows,ncols):
+	Mp=[]
+	MpNRows=ncols
+	MpNCols=nrows
 
-def matrix_r90(M,nrows,ncols):	
+	for i in range(0,MpNRows):	
+		MpRow=[]
+		Mp.append(MpRow)
+		for j in range(0,MpNCols):
+			MpRow.append(M[j][i])
+
+		
+	return [Mp,MpNRows,MpNCols]	
+
+def matrix_r90cc(M,nrows,ncols):	
 	Mp=[]
 	MpNRows=ncols
 	MpNCols=nrows
@@ -139,7 +153,8 @@ def printUsageAndExit(programName):
 	print >> stderr,"--operation <method> or simply --<method>. Define the operation on the matrix. Allows chaining of operations to be done in sequential order"
 	print >> stderr,"--no-operation. Overrides all operations and do nothing. Just print using ofs"	
 	print >> stderr,"\tMethods:"
-	print >> stderr,"\t\tr90cc [default] Rotate the matrix 90 counter-clockwise"
+	print >> stderr,"\t\tT [default]     Transpose the matrix"
+	print >> stderr,"\t\tr90cc 			 Rotate the matrix 90 counter-clockwise"
 	print >> stderr,"\t\tr90             Rotate the matrix 90 clockwise"
 	print >> stderr,"\t\tr180            Rotate the matrix 180. i.e., invert"
 	print >> stderr,"\t\tflipH           Flip the matrix horizontal"
@@ -155,7 +170,7 @@ def printUsageAndExit(programName):
 
 if __name__=='__main__':
 	programName=argv[0]
-	operationsList=["r90","r90cc","r180","flipH","flipV"]
+	operationsList=["r90","r90cc","r180","flipH","flipV","T"]
 	
 	opt,args=getopt(argv[1:],'',['fill-with=','fs=','ofs=','fsofs=','operation=','no-operation']+operationsList)
 	
@@ -164,7 +179,7 @@ if __name__=='__main__':
 	ofs="\t"
 	
 	operations=[]
-	defaultOp="r90cc"
+	defaultOp="T"
 	noOp=False
 
 	try:
@@ -219,7 +234,8 @@ if __name__=='__main__':
 				M,nrows,ncols=matrix_flipH(M,nrows,ncols)
 			elif operation=="flipV":
 				M,nrows,ncols=matrix_flipV(M,nrows,ncols)
-
+			elif operation=="T":
+				M,nrows,ncols=matrix_transpose(M,nrows,ncols)
 
 	printMatrix(stdout,M,ofs)
 	
