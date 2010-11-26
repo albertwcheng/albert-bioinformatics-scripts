@@ -208,8 +208,8 @@ variancesCdf=cumulative(variancesProportion)
 variancesCdfOffset=variancesCdf-variancesProportion
 png(filename=paste(outputDir,"/","variancePlotProportion.png",sep=""))
 barplot(rbind(variancesProportion[1:min(showMaxPC,length(variances))], variancesCdfOffset[1:min(showMaxPC,length(variances))]),xlab="principal components",ylab="variance proportion (%)",pch=16,ylim=c(0,100),names.arg=1:length(variances),col=c("red","grey"))
-par(new=TRUE)
-#plot(variancesCdf,pch=16,type="b",ylim=c(0,100),xlim=c(1-0.5,length(variances)+0.5))
+
+
 sink("/dev/null")
 dev.off()
 sink()
