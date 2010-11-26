@@ -21,6 +21,11 @@
 #OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 #THE SOFTWARE.
 #
+#
+#This is based on tutorial from Steven M. Holland
+#http://www.uga.edu/strata/software/pdf/pcaTutorial.pdfJOawJ5IyJuS3Hg&cad=rja
+#
+#
 ###################################################################################
 
 
