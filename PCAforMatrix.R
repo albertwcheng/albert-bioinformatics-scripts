@@ -6,8 +6,8 @@ args <- commandArgs(TRUE)
 largs <- length(args)
 
 if(largs<2){
-	cat("Usage: Rscript PCAforMatrix.R matrixFileName outputDir [center:yes] [scale:yes] [sep:tab] [showMaxPC:20] [ [drawcomponents:1,2] ...]\n")
-	cat("Descriptions:\n")
+	cat("Usage: \n\t[Rscript] PCAforMatrix.R matrixFileName outputDir [center:yes] [scale:yes] [sep:tab] [showMaxPC:20] [ [drawcomponents:1,2] ...]\n")
+	cat("\nDescriptions:\n")
 	cat("\tPerform PCA analysis on a matrix file where data vectors are in columns. Output to outputDir\n")
 	cat("\nOptions Descriptions:\n")
 	cat("\tcenter\t\t\t\tWhether to set mean to 0\n")
