@@ -6,7 +6,23 @@ args <- commandArgs(TRUE)
 largs <- length(args)
 
 if(largs<2){
-	print("Usage: Rscript PCAforMatrix.R matrixFileName outputDir center=yes scale=yes sep=tab drawcomponents=1,2 ...")
+	cat("Usage: Rscript PCAforMatrix.R matrixFileName outputDir center=yes scale=yes sep=tab showMaxPC=20 drawcomponents=1,2 ...\n")
+	cat("Descriptions:\n")
+	cat("\tPerform PCA analysis on a matrix file where data vectors are in columns. Output to outputDir\n")
+	cat("\nOptions Descriptions:\n")
+	cat("\tcenter\t\t\t\tWhether to set mean to 0\n")
+	cat("\tscale\t\t\t\tWhether to scale such that sd=1 for each data vector\n")
+	cat("\tsep\t\t\t\tSet field separator\n")
+	cat("\tshowMaxPC\t\t\tHow many maximum PC to plots on variance plots\n")
+	cat("\tdrawcomponents...\t\tSpecify PC pairs to draw the PCA plot, biplot and loading plot. By default 1 and 2 are already included. e.g., 2,3 4,5 will draw PCA1,2 PCA2,3 and PCA4,5\n")
+	cat("\nOutput Descriptions (in outputDir):\n")
+	cat("\tloading.txt\t\t\tThe loading matrix for the variables and PCs\n")
+	cat("\tscores.txt\t\t\tThe PCA score matrix\n")
+	cat("\tsd.txt\t\t\t\tThe singular values, variances info\n")
+	cat("\tsummary.txt\t\t\tThe summary report from R on the pca result object\n")
+	cat("\tloading.<c1>,<c2>.png\t\tThe loading plot for components <c1> and <c2>\n")
+	cat("\tPCA.<c1>,<c2>.png\t\tThe PCA score plot for components <c1> and <c2>\n")
+	cat("\tPCABiPlot.<c1>,<c2>.png\t\tThe Biplot for components <c1> and <c2>\n")
 	quit()	
 }
 
@@ -16,7 +32,7 @@ scale="yes"
 separator="\t"
 matrixFileName=args[1]
 outputDir=args[2]
-
+showMaxPC=20
 drawcomponents=cbind(c(0,0),c(1,2))
 
 if(largs>=3){
@@ -26,12 +42,17 @@ if(largs>=3){
 		if(largs>=5)
 		{
 			separator=args[5]
-				
+			
+			
 			if(largs>=6)
 			{
-				for(i in 6:largs){
-					fields=as.numeric(unlist(strsplit(args[i],",")))
-					drawcomponents=cbind(drawcomponents,fields)				}
+				showMaxPC=as.numeric(args[6])
+				
+				if(largs>=7){
+					for(i in 7:largs){
+						fields=as.numeric(unlist(strsplit(args[i],",")))
+						drawcomponents=cbind(drawcomponents,fields)					}
+				}
 				
 			}
 		}
@@ -131,20 +152,35 @@ for(prequestI in 2:ncol(drawcomponents)){
 
 #variance plots
 png(filename=paste(outputDir,"/","variancePlot.png",sep=""))
-plot(log(variances),xlab="principal components",ylab="log(variance)",type="b",pch=16)
+plot(log(variances[1:min(showMaxPC,length(variances))]),xlab="principal components",ylab="log(variance)",type="b",pch=16)
 sink("/dev/null")
 dev.off()
 sink()
 
 png(filename=paste(outputDir,"/","variancePlotNL.png",sep=""))
-plot(variances,xlab="principal components",ylab="variance",type="b",pch=16)
+plot(variances[1:min(showMaxPC,length(variances))],xlab="principal components",ylab="variance",type="b",pch=16)
 sink("/dev/null")
 dev.off()
 sink()
 
+cumulative =function(L)
+{
+	cL=L
+	cL[1]=L[1]
+	for(i in 2:length(L)){
+		cL[i]=cL[i-1]+L[i]	
+	}
+	return(cL)
+}
+
 sumOfVariances=sum(sd^2)
+variancesProportion=variances/sumOfVariances*100
+variancesCdf=cumulative(variancesProportion)
+variancesCdfOffset=variancesCdf-variancesProportion
 png(filename=paste(outputDir,"/","variancePlotProportion.png",sep=""))
-barplot(variances/sumOfVariances*100,xlab="principal components",ylab="variance proportion (%)",pch=16,ylim=c(0,100),names.arg=1:length(variances))
+barplot(rbind(variancesProportion[1:min(showMaxPC,length(variances))], variancesCdfOffset[1:min(showMaxPC,length(variances))]),xlab="principal components",ylab="variance proportion (%)",pch=16,ylim=c(0,100),names.arg=1:length(variances),col=c("red","grey"))
+par(new=TRUE)
+#plot(variancesCdf,pch=16,type="b",ylim=c(0,100),xlim=c(1-0.5,length(variances)+0.5))
 sink("/dev/null")
 dev.off()
 sink()
@@ -162,4 +198,4 @@ write.table(loadings,file=loadingOut,sep=separator,append=TRUE,quote=FALSE)
 cat("X\t", file=scoresOut)
 write.table(scores,file=scoresOut,sep=separator,append=TRUE,quote=FALSE)
 cat("PC\t", file=sdOut)
-write.table(sd,file=sdOut,sep=separator,append=TRUE,quote=FALSE)
+write.table(cbind(sd=sd,variance=variances,variancePdf=variancesProportion/100.0,varainceCdf=variancesCdf/100.0),file=sdOut,sep=separator,append=TRUE,quote=FALSE)

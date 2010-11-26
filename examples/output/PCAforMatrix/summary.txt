@@ -1,17 +1,17 @@
 First 5 lines of Data:
-    x   y
-a 2.5 2.4
-b 0.5 0.7
-c 2.2 2.9
-d 1.9 2.2
-e 3.1 3.0
+    x   y    z
+a 2.5 2.4  3.3
+b 0.5 0.7 10.5
+c 2.2 2.9  5.2
+d 1.9 2.2  2.5
+e 3.1 3.0  5.2
 
 Center:
-   x    y 
-1.81 1.91 
+   x    y    z 
+1.81 1.91 3.62 
 
 Importance of components:
-                         PC1     PC2
-Standard deviation     1.388 0.27216
-Proportion of Variance 0.963 0.03704
-Cumulative Proportion  0.963 1.00000
+                          PC1    PC2     PC3
+Standard deviation     1.3968 0.9877 0.27098
+Proportion of Variance 0.6503 0.3252 0.02448
+Cumulative Proportion  0.6503 0.9755 1.00000
