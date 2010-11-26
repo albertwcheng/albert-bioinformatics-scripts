@@ -8,7 +8,7 @@ largs <- length(args)
 if(largs<2){
 	cat("Usage: \n\t[Rscript] PCAforMatrix.R matrixFileName outputDir [center:yes] [scale:yes] [sep:tab] [showMaxPC:20] [ [drawcomponents:1,2] ...]\n")
 	cat("\nDescriptions:\n")
-	cat("\tPerform PCA analysis on a matrix file where data vectors are in columns. Output to outputDir\n")
+	cat("\tPerform PCA analysis on a matrix file where data vectors are in rows. For data vectors in columns, first perform transposition, e.g., by using matrixTranspose.py originalMatrix > transposedMatrix. Output to outputDir\n")
 	cat("\nOptions Descriptions:\n")
 	cat("\tcenter\t\t\t\tWhether to set mean to 0\n")
 	cat("\tscale\t\t\t\tWhether to scale such that sd=1 for each data vector\n")
