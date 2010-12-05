@@ -44,6 +44,7 @@ THE SOFTWARE.
 from Bio.Cluster.cluster import *
 from Bio.Cluster import *
 from numpy import std
+from math import sqrt
 
 import shutil
 import sys
