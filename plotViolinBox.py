@@ -557,6 +557,7 @@ def usageExit(programName):
 	print >> stderr,"--figsize w,h"
 	print >> stderr,"--title title (default is filename)"
 	print >> stderr,"--show-sample-sizes"
+	print >> stderr,"--relabel-as label1,label2,label3,...  relabel the columns"
 	print >> stderr,"--plot-hist filename"
 	print >> stderr,"--plot-median-for-group cols"
 	print >> stderr,"--log base"

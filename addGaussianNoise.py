@@ -27,6 +27,7 @@ THE SOFTWARE.
 
 from pylab import randn
 from sys import *
+from albertcommon import *
 
 def randn_with_mean_sd(miu,sd,rep):
 	return randn(rep)*sd+miu
@@ -50,7 +51,7 @@ if __name__=='__main__':
 	sd=float(sd)
 	
 	lino=0
-	fil=open(infile)
+	fil=generic_istream(infile)
 	for lin in fil:
 		lino+=1
 		fields=lin.rstrip("\r\n").split(sep)
@@ -59,8 +60,11 @@ if __name__=='__main__':
 		if lino>1:
 			randnums=randn_with_mean_sd(mean,sd,numFields-1)
 			for i in range(1,numFields):
-				fields[i]=str(float(fields[i])+randnums[i-1])
-		
+				try:
+					fields[i]=str(float(fields[i])+randnums[i-1])
+				except:
+					pass
+					
 		print >> stdout,sep.join(fields)
 			
 	fil.close()
