@@ -332,7 +332,7 @@ all\treturn all features
 					if len(param)>0:
 						param=param.split(":")
 						if len(param)==1:
-							param=int(param)
+							param=int(param[0])
 							if param>=1:
 								#this is from begining, to 0-based. if negative, ok no need to offset
 								param-=1
