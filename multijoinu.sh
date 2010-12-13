@@ -15,6 +15,13 @@ file1=$3
 file2=$4
 limiter=$#
 
+#protection mechanism
+if [ -e $resultFile ]; then
+	echo "result File existed. quit. Make sure the resultFile is not your input file. Or rm it before running this. This is a protection mechanism."
+	exit
+fi
+
+
 #join first two file
 cmd="joinu.py $joinparam $file1 $file2 > jtmp.00"
 echo $cmd
