@@ -33,13 +33,14 @@ from albertcommon import *
 from sys import stderr, stdout
 import sys
 
-def cuta_Main(filename,cols0,fs,ofs,fill_empty,relabelmap,headerRow):
+def cuta_Main(filename,cols0,fs,ofs,fill_empty,relabelmap,headerRow,ignoreTrunc):
 	fil=generic_istream(filename)
 	
 	relabelmapkeys=relabelmap.keys()
 	lrelabelmapkeys=len(relabelmapkeys)
 	lino=0
 	for line in fil:
+		ignoreThisRow=False
 		lino+=1		
 		line=line.strip("\r\n")
 		if fs=="":
@@ -57,9 +58,15 @@ def cuta_Main(filename,cols0,fs,ofs,fill_empty,relabelmap,headerRow):
 				if fill_empty[0]:
 					fieldsOut.append(fill_empty[1])
 				else:
-					print >> sys.stderr,"Error: Not enough column. Aborted"
-					sys.exit()
-		print >> stdout,ofs.join(fieldsOut)
+					if ignoreTrunc:
+						ignoreThisRow=True
+						break
+					else:
+						print >> sys.stderr,"Error: Not enough column. Aborted"
+						sys.exit()
+						
+		if not ignoreThisRow:
+			print >> stdout,ofs.join(fieldsOut)
 	
 	fil.close()
 
@@ -77,10 +84,11 @@ def printUsage(programName):
 	print >> stderr,"--uniq. indicate that columns are outputed only once"
 	print >> stderr,"--sortedUniq. a combination of uniq and sorted flag"
 	print >> stderr,"-F,--fill-empty-with sth. fill empty colum with sth"
+	print >> stderr,"--ignore-truncated-col. ignore rows with not enough columns"
 	explainColumns(stderr)
 
 if __name__=="__main__":
-	optlist,args=getopt(sys.argv[1:],'f:d:F:',["use-blank-to-nonblank-transition","fields=","sep=","ofs=","fs=","headerRow=","sortedUniq","sorted","uniq","fill-empty-with","fields-relabel="])
+	optlist,args=getopt(sys.argv[1:],'f:d:F:',["use-blank-to-nonblank-transition","fields=","sep=","ofs=","fs=","headerRow=","sortedUniq","sorted","uniq","fill-empty-with","fields-relabel=","ignore-truncated-rows"])
 	if len(args)!=1:
 		printUsage(sys.argv[0])
 		sys.exit()		
@@ -94,7 +102,7 @@ if __name__=="__main__":
 	headerRow=1
 	sortB=False
 	uniqB=False
-	
+	ignoreTrunc=False
 		
 	for opt,val in optlist:
 		if opt in ["-f","--fields"]:
@@ -126,6 +134,8 @@ if __name__=="__main__":
 			uniqB=True
 		elif opt=="-F" or opt=="--fill-empty-with":
 			fill_empty=[True,val]
+		elif opt=="--ignore-truncated-rows":
+			ignoreTrunc=True
 				
 				
 	
@@ -153,5 +163,5 @@ if __name__=="__main__":
 		cols0=uniq(cols0)
 		
 
-	cuta_Main(filename,cols0,fs,ofs,fill_empty,relabelmap,headerRow)
+	cuta_Main(filename,cols0,fs,ofs,fill_empty,relabelmap,headerRow,ignoreTrunc)
 
