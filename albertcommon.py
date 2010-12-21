@@ -34,6 +34,21 @@ import types
 import re
 import os
 
+def RE_findOverlappingInstances(pattern, thestring):
+	#total = 0
+	start = 0
+	there = re.compile(pattern)
+	locations=[]
+	while True:
+		mo = there.search(thestring, start)
+		if mo is None: 
+			return locations
+		#total += 1
+		moStart=mo.start()
+		locations.append(moStart)
+ 		start = 1 + moStart
+
+
 def generic_istream(filename):
 	#print >> stderr,"opening ",filename
 	if filename=="-":

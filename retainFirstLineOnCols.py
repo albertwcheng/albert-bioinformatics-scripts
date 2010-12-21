@@ -21,7 +21,7 @@ if __name__=='__main__':
 		
 	selectedCols=[]
 	
-	header,prestarts=getHeader(filename,headerRow,startRow,options.fs)
+	header,prestarts=getHeader(filename,options.headerRow,options.startRow,options.fs)
 	
 	for selector in selectors:
 		newCols=getCol0ListFromCol1ListStringAdv(header,selector)
@@ -37,12 +37,12 @@ if __name__=='__main__':
 		lin=lin.rstrip("\r\n")
 		
 		lino+=1
-		if lino<startRow:
+		if lino<options.startRow:
 			print >> stdout,lin
 			continue
 		
 		fields=lin.split(options.fs)
-		linkey=tuple(getSubvector(selectedCols))
+		linkey=tuple(getSubvector(fields,selectedCols))
 		if linkey in outputHistory:
 			continue
 		
