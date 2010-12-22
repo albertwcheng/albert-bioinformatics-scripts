@@ -39,7 +39,7 @@ from albertcommon import *
 #append to keys the keyCol0 col
 #append to lines the whole line
 #return keys,lines as a tuple
-def getFileOrderedKeyLines(filename,keyCol0,separator,keyInternalSeparator,maxKey0,warningLevel,warnDuplicateKeys):
+def getFileOrderedKeyLines(filename,keyCol0,separator,keyInternalSeparator,maxKey0,warningLevel,warnDuplicateKeys,stripFields,headerRow,fhreplace):
 	try:
 		f=open(filename)
 	except IOError:
@@ -66,7 +66,13 @@ def getFileOrderedKeyLines(filename,keyCol0,separator,keyInternalSeparator,maxKe
 		if len(splits)<=maxKey0: #error requesting col out of range, ignore that line
 			print >> stderr,filename,"line",lino,"has not enough splits:",splits
 			continue
-
+			
+		if stripFields:
+			stripL(splits)
+		
+		if lino==headerRow:
+			replaceValuesByDict(splits,fhreplace)
+				
 		maxFNumber=max(maxFNumber,len(splits))	
 		key=[]
 		for keyCol in keyCol0:
@@ -93,12 +99,24 @@ def getFileOrderedKeyLines(filename,keyCol0,separator,keyInternalSeparator,maxKe
 
 	return keys,lines,maxFNumber #return the tuple
 	
+	
+def stripL(L):
+	for i in range(0,len(L)):
+		L[i]=L[i].strip()
+		
+def replaceValuesByDict(L,D):
+	if len(D)<1:
+		return
+	for i in range(0,len(L)):
+		if L[i] in D:
+			L[i]=D[L[i]]	
+					
 #getKeyedLines
 #open file
 #KeyedLines[key][] store lines with the same key in their order of appearance 
 #fill up KeyedLines[][]
 #return it
-def getKeyedLines(filename,keyCol0,separator,keyInternalSeparator,maxKey0,warningLevel,warnDuplicateKeys):
+def getKeyedLines(filename,keyCol0,separator,keyInternalSeparator,maxKey0,warningLevel,warnDuplicateKeys,stripFields,headerRow,fhreplace):
 	try:
 		f=open(filename)
 	except IOError:
@@ -114,12 +132,20 @@ def getKeyedLines(filename,keyCol0,separator,keyInternalSeparator,maxKey0,warnin
 	lino=0 #line counter
 	maxFNumber=-1000
 	for line in f:
-		lino+=1 
+		lino+=1
+		
 		line=line.rstrip("\r\n") #remove carriage return at end of line
 		splits=line.split(separator) #split
 		if len(splits)<=maxKey0: #requesting out of range, ignore line
 			print >> stderr,filename,"line",lino,"has not enough splits:",splits
 			continue
+		
+		
+		if stripFields:
+			stripL(splits)
+		
+		if lino==headerRow:
+			replaceValuesByDict(splits,fhreplace)
 		
 		maxFNumber=max(maxFNumber,len(splits))
 
@@ -165,14 +191,14 @@ def repeat(element,times):
 	return arr
 	
 
-def joinFiles(filename1,filename2,file1f0,file2f0,separator,printFile2Only,skipKeyColFile2,keyInternalSeparator,warningLevel,includeEveryFile1Rows,File2FillIn,warnDuplicateKeys,replaceFile1ColsByFile2,replaceFile1ColsByFile2Cols):
+def joinFiles(filename1,filename2,file1f0,file2f0,separator,printFile2Only,skipKeyColFile2,keyInternalSeparator,warningLevel,includeEveryFile1Rows,File2FillIn,warnDuplicateKeys,replaceFile1ColsByFile2,replaceFile1ColsByFile2Cols,stripFields,f1hreplace,f2hreplace,headerRow):
 
 	
 	#get the Keys and lines in order from file1
-	File1Keys,File1Lines,maxFNumber1=getFileOrderedKeyLines(filename1,file1f0,separator,keyInternalSeparator,max(file1f0),warningLevel,warnDuplicateKeys)
+	File1Keys,File1Lines,maxFNumber1=getFileOrderedKeyLines(filename1,file1f0,separator,keyInternalSeparator,max(file1f0),warningLevel,warnDuplicateKeys,stripFields,headerRow,f1hreplace)
 	
 	#get the Key => Lines dictionary from file 2
-	KeyedLinesFile2,maxFNumber2=getKeyedLines(filename2,file2f0,separator,keyInternalSeparator,max(file2f0),warningLevel,warnDuplicateKeys)
+	KeyedLinesFile2,maxFNumber2=getKeyedLines(filename2,file2f0,separator,keyInternalSeparator,max(file2f0),warningLevel,warnDuplicateKeys,stripFields,headerRow,f2hreplace)
 	
 	#maxColNumber=maxFNumber1+maxFNumber2
 	
@@ -266,11 +292,13 @@ def joinFiles(filename1,filename2,file1f0,file2f0,separator,printFile2Only,skipK
 				toPrint.append(File2FillIn)
 
 		print >> stdout,separator.join(toPrint)
-		
+
+
+	
 
 def joinu_Main():
 	programName=argv[0]
-	optlist,argvs=getopt(argv[1:],'1:2:rck:t:h:f:w:W:',['replace-file1-cols-by-file2-cols-on-joined-items='])
+	optlist,argvs=getopt(argv[1:],'1:2:rck:t:h:f:w:W:s',['replace-file1-cols-by-file2-cols-on-joined-items=','r1=','r2=','with='])
 	headerRow=1
 
 	if len(argvs)<2:
@@ -278,6 +306,8 @@ def joinu_Main():
 		print >> stderr,"Options:"
 		print >> stderr,"-1 col1forFile1 (support multiple columns)"
 		print >> stderr,"-2 col1forFile2 (support multiple columns)"
+		print >> stderr,"--r1 A --with B. Replace header field of file1 from A to B"
+		print >> stderr,"--r2 A --with B."
 		print >> stderr,"-t separator"
 		print >> stderr,"-r :print file 2 only"
 		print >> stderr,"--replace-file1-cols-by-file2-cols-on-joined-items columns  (keeping all file1 lines, replace only when matched)"
@@ -287,6 +317,7 @@ def joinu_Main():
 		print >> stderr,"-f placeholder. Fill in the empty columns by placeholder if File1 row is not found in File2"
 		print >> stderr,"-w warningLevel. Warning print to stderr. 0=no warning, 1=print the number of lines matched and unmatched at the end, 2=print every instances of unmatching, and the total number at the end"
 		print >> stderr,"-Wd warn duplicate keys in files"
+		print >> stderr,"-s  strip fields"
 		explainColumns(stderr)
 		return
 		
@@ -304,7 +335,12 @@ def joinu_Main():
 	warnDuplicateKeys=False
 	replaceFile1ColsByFile2=False
 	replaceFile1ColsByFile2Cols=[]
-
+	stripFields=False
+	headerFieldReplaceeSelector=0
+	headerFieldReplaceeKey=""
+	f1hreplace=dict()
+	f2hreplace=dict()
+	
 	for k,v in optlist:
 		if k=="-h":
 			headerRow=int(v)
@@ -314,6 +350,9 @@ def joinu_Main():
 				file1f0=getCol0ListFromCol1ListString(v)
 			except ValueError:
 				header,prestarts=getHeader(filename1,headerRow,headerRow+1,separator)
+				if stripFields:
+					stripL(header)
+				replaceValuesByDict(header,f1hreplace)
 				file1f0=getCol0ListFromCol1ListStringAdv(header,v)	
 
 		elif k=='-2':	
@@ -321,6 +360,9 @@ def joinu_Main():
 				file2f0=getCol0ListFromCol1ListString(v)
 			except ValueError:
 				header,prestarts=getHeader(filename2,headerRow,headerRow+1,separator)
+				if stripFields:
+					stripL(header)				
+				replaceValuesByDict(header,f2hreplace)
 				file2f0=getCol0ListFromCol1ListStringAdv(header,v)				
 
 		elif k=='-t':
@@ -346,13 +388,38 @@ def joinu_Main():
 		elif k=='--replace-file1-cols-by-file2-cols-on-joined-items':
 			replaceFile1ColsByFile2=True
 			header,prestarts=getHeader(filename2,headerRow,headerRow+1,separator)
+			if stripFields:
+				stripL(header)			
+			replaceValuesByDict(header,f2hreplace)
 			replaceFile1ColsByFile2_File2Cols=getCol0ListFromCol1ListStringAdv(header,v)	
 			header,prestarts=getHeader(filename1,headerRow,headerRow+1,separator)
+			if stripFields:
+				stripL(header)				
+			replaceValuesByDict(header,f1hreplace)
 			replaceFile1ColsByFile2_File1Cols=getCol0ListFromCol1ListStringAdv(header,v)			
 			replaceFile1ColsByFile2Cols=(replaceFile1ColsByFile2_File1Cols,replaceFile1ColsByFile2_File2Cols)
-		
+		elif k=='-s':
+			stripFields=True
+		elif k=='--r1':
+			headerFieldReplaceeSelector=1
+			headerFieldReplaceeKey=v
+		elif k=='--r2':
+			headerFieldReaplceeSelector=2
+			headerFieldReplaceeKey=v
+		elif k=='--with':
+
+			if headerFieldReplaceeSelector==1:
+				f1hreplace[headerFieldReplaceeKey]=v
+			elif headerFieldReplaceeSelector==2:
+				f2hreplace[headerFieldReplaceeKey]=v
+			else:
+				print >> stderr,"--with not preceded by --r1 or --r2. Abort"
+				printUsageAndExit(programName)
+								
+			headerFieldReplaceeSelector=0
+			
 	print >> sys.stderr,"seperator is ["+separator+"]";
-	joinFiles(filename1,filename2,file1f0,file2f0,separator,printFile2Only,skipKeyColFile2,keyInternalSeparator,warningLevel,includeEveryFile1Rows,File2FillIn,warnDuplicateKeys,replaceFile1ColsByFile2,replaceFile1ColsByFile2Cols)
+	joinFiles(filename1,filename2,file1f0,file2f0,separator,printFile2Only,skipKeyColFile2,keyInternalSeparator,warningLevel,includeEveryFile1Rows,File2FillIn,warnDuplicateKeys,replaceFile1ColsByFile2,replaceFile1ColsByFile2Cols,stripFields,f1hreplace,f2hreplace,headerRow)
 
 if __name__=='__main__':
 	joinu_Main()

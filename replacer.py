@@ -29,11 +29,21 @@ THE SOFTWARE.
 import sys
 from sys import *
 #from albertcommon import *
+from getopt import getopt
+
+programName=argv[0]
+opts,args=getopt(argv[1:],'',['strip-field'])
+
+stripField=False
+
+for o,v in opts:
+	if o=='--strip-field':
+		stripField=True
 
 try:
-	Replacee,Replacer=sys.argv[1:]
+	Replacee,Replacer=args
 except:
-	print >> sys.stderr,"Usage",sys.argv[0],"replacee replacer"
+	print >> sys.stderr,"Usage",programName,"[--strip-field] replacee replacer"
 	sys.exit()
 
 replacer_dict=dict()
@@ -54,6 +64,8 @@ for lin in fil:
 	lin=lin.rstrip("\r\n")
 	fields=lin.split("\t")
 	for i in range(0,len(fields)):
+		if stripField:
+			fields[i]=fields[i].strip()
 		if fields[i] in replacer_dict:
 			replaca=replacer_dict[fields[i]]
 			print >> stderr,"at line",lino,"field",i,fields[i],"replaced by",replaca
