@@ -33,6 +33,7 @@ import sys
 import types
 import re
 import os
+from ConfigParser import ConfigParser
 
 def RE_findOverlappingInstances(pattern, thestring):
 	#total = 0
@@ -703,6 +704,99 @@ def findAllCombinations(ListOfLists):
 
 	return combinations
 
+
+def preprocessFileLoadableArgs_inner_formkeystring(key,extraPrefix=""):
+	prefix=""
+	if key[0]!="-":
+		if len(key)==1:
+			prefix="-"
+		else:
+			prefix="--"
+	
+	
+	key=key.replace("_","-")
+	key=key.replace(" ","-")
+	
+	return prefix+extraPrefix+key
+	
+def preprocessFileLoadableArgs_helpmsg():
+	return """import args from files
+	--@import-args	filename
+	import args from filename formatted <key><TAB><value>[[<TAB><value>]...]
+	--@import-cfg filename
+	import args from filename formatted as config file format
+	[section_name]
+	<key>=<value>[[<TAB><value>]...]
+	if section_name is main,default,defaults,or ' ', or key is already prefixed by "-", then key is not (additionally) prefixed
+	else key is prefixed by <section_name>-
+	
+	all " ",_ in key are replaced by "-" """
+
+def preprocessFileLoadableArgs(args=sys.argv):
+	i=0
+	newArgs=[]
+	while i<len(args):
+		avalue=args[i]
+		if avalue=="--@import-args":
+			#--import-args filename
+			#consume [i:i+2]		
+			try:
+				filename=args[i+1]
+			except:
+				print >> stderr,"not enough arg for --import-args. Need --import-args <filename>"
+				raise ValueError
+			
+			
+			fil=open(filename)
+			
+			for lin in fil:
+				lin=lin.rstrip("\r\n")
+				fields=lin.split("\t")
+				key=fields[0]
+				values=fields[1:]
+				#now append!
+				key=preprocessFileLoadableArgs_inner_formkeystring(key)
+				newArgs.append(key)
+				newArgs.extend(values)
+				
+			
+			fil.close()
+			i+=1
+		elif avalue=="--@import-cfg":
+			#--import-cfg configfilename
+			#consume [i:i+2]
+			try:
+				filename=args[i+1]	
+			except:
+				print >> stderr,"not enough arg for --import-args. Need --import-cfg <configfilename>"
+				raise ValueError
+			
+			configparser=ConfigParser()
+			configparser.read(filename)
+			sections=configparser.sections()
+			for section in sections:
+				sectionItems=configparser.items(section)
+				for key,value in sectionItems:
+					
+					value=value.split("\t")
+					
+					if key[0]!="-":
+						if section not in ["main","MAIN"," ","__main__","__MAIN__","defaults","default","DEFAULT","DEFAULTS"]:
+							key=preprocessFileLoadableArgs_inner_formkeystring(key,section+"-")
+						else:
+							key=preprocessFileLoadableArgs_inner_formkeystring(key)
+					
+					#now append!
+					newArgs.append(key)
+					newArgs.extend(value)
+			i+=1
+		else:
+			newArgs.append(avalue)
+		
+		i+=1 #prepare to go to next
+
+	return newArgs
+		
 def debugFindAllCombinations():
 	print >> stderr, findAllCombinations([ [1,2,3],[1],[1,2] ])
 	print >> stderr, findAllCombinations([ ['amy','fiona','kate'],['likes','hates','kisses'],['jason','albert'] ])
