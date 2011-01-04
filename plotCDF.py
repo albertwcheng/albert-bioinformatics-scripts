@@ -1,5 +1,7 @@
 #!/usr/bin/env python
 
+
+
 '''
 
 
@@ -26,9 +28,12 @@ THE SOFTWARE.
 
 '''
 
+import warnings
+warnings.simplefilter("ignore",DeprecationWarning)
 from pylab import *
 from sys import *
 from albertcommon import *
+from scipy.stats import ks_2samp
 
 from getopt import getopt
 
@@ -43,12 +48,14 @@ def usageExit(programName):
 	print >> stderr, "--min minvalue to bin"
 	print >> stderr, "--max maxvalue to bin"
 	print >> stderr, "--ylim low,hi"
+	print >> stderr, "--xlabel lx"
+	print >> stderr, "--ylabel ly"
 	explainColumns(stderr)	
 	exit()
 
 if __name__=="__main__":
 	programName=argv[0]
-	optlist,args=getopt(argv[1:],'t:F:d:r:s:o:',['ofs=','fs=','headerRow=','numBins=','show-pdf','out-img=','max=','min=','ylim='])
+	optlist,args=getopt(argv[1:],'t:F:d:r:s:o:',['ofs=','fs=','headerRow=','numBins=','show-pdf','out-img=','max=','min=','ylim=','xlabel=','ylabel='])
 
 	sort=False
 	headerRow=1
@@ -63,6 +70,8 @@ if __name__=="__main__":
 	maxFixed=False
 	YRangeFixed=False
 	YRange=False
+	_xlabel=None
+	_ylabel=None
 		
 	try:
 		fileName,colString=args
@@ -90,7 +99,10 @@ if __name__=="__main__":
 			YRangeFixed=True
 			v=v.split(",")
 			YRange=(float(v[0]),float(v[1]))
-			
+		elif a in ['--xlabel']:
+			_xlabel=v
+		elif a in ['--ylabel']:
+			_ylabel=v
 
 	if outputFile=="":
 		outputFile=fileName+".png"
@@ -167,7 +179,24 @@ if __name__=="__main__":
 
 	figlegend(plots,labels,'upper right')
 	
+	
 	if YRangeFixed:
 		ylim(YRange[0],YRange[1])
+	
+	if _xlabel:
+		xlabel(_xlabel)
+	
+	if _ylabel:
+		ylabel(_ylabel)
 
 	savefig(outputFile,bbox_inches="tight")
+
+	#calculate pairwise K-S test
+	print >> stdout,"xCol","yCol","xLabel","yLabel","KS_test_two-sided_Pvalue"
+
+	for x in range(0,len(toPlots)-1):
+		for y in range(x+1,len(toPlots)):
+			#compute KS for x,y
+			D,pvalue=ks_2samp(toPlots[x][1],toPlots[y][1])
+			print >> stdout,(x+1),(y+1),toPlots[x][0],toPlots[y][0],pvalue
+

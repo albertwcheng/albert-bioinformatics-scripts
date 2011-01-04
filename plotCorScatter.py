@@ -39,7 +39,7 @@ from scipy.stats import pearsonr,spearmanr
 
 #plotScatter(filename,plotName,startRow,XCol,YCol,XLabel,YLabel,outImage,figformat)
 
-def plotScatter(filename,plotName,startRow1,GCol,RCol,GLabel,RLabel,outFileFigureRG,formatFigure,logb):
+def plotScatter(filename,plotName,startRow1,GCol,RCol,GLabel,RLabel,outFileFigureRG,formatFigure,logb,absvalues):
 	
 	
 	lino=0;
@@ -91,6 +91,10 @@ def plotScatter(filename,plotName,startRow1,GCol,RCol,GLabel,RLabel,outFileFigur
 
 			RValue=float(spliton[RCol]);
 			GValue=float(spliton[GCol]);
+
+			if absvalues:
+				RValue=fabs(RValue)
+				GValue=fabs(GValue)
 
 			#print >> stderr, "Read",RValue,GValue
 			
@@ -203,6 +207,7 @@ def printUsageAndExit(programName):
 	print >> stderr,"figFormat"
 	print >> stderr,"outImage outputImageFileName"
 	print >> stderr,"logtransform base"
+	print >> stderr,"abs plot absolute values"
 	explainColumns(stderr)
 	exit()
 
@@ -216,7 +221,8 @@ if __name__=='__main__':
 	plotName=""
 	outImage=""
 	logb=0
-	opts,args=getopt(argv[1:],'',['startRow=','headerRow=','useSmartName','plotName=','figFormat=','outImage=','logtransform='])
+	absvalues=False
+	opts,args=getopt(argv[1:],'',['startRow=','headerRow=','useSmartName','plotName=','figFormat=','outImage=','logtransform=','abs'])
 
 	for o,v in opts:
 		if o=='--startRow':
@@ -233,6 +239,8 @@ if __name__=='__main__':
 			outImage=v
 		elif o=='--logtransform':
 			logb=log(float(v))
+		elif o=='--abs':
+			absvalues=True
 	try:
 		filename,XCol,YCol=args
 	except:
@@ -259,6 +267,6 @@ if __name__=='__main__':
 		outImage=plotName+"."+figformat
 	
 		
-	plotScatter(filename,plotName,startRow,XCol,YCol,XLabel,YLabel,outImage,figformat,logb)
+	plotScatter(filename,plotName,startRow,XCol,YCol,XLabel,YLabel,outImage,figformat,logb,absvalues)
 
 
