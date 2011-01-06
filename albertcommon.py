@@ -35,10 +35,12 @@ import re
 import os
 from ConfigParser import ConfigParser
 
-def RE_findOverlappingInstances(pattern, thestring):
+
+ 
+def RE_findOverlappingInstancesOfCompiledRegex(there, thestring):
 	#total = 0
 	start = 0
-	there = re.compile(pattern)
+	#there = re.compile(pattern)
 	locations=[]
 	while True:
 		mo = there.search(thestring, start)
@@ -46,10 +48,16 @@ def RE_findOverlappingInstances(pattern, thestring):
 			return locations
 		#total += 1
 		moStart=mo.start()
-		locations.append(moStart)
+		moEnd=mo.end()
+		locations.append((moStart,moEnd))
  		start = 1 + moStart
 
+	return locations
 
+def RE_findOverlappingInstancesOfRegexString(pattern, thestring):
+	return RE_findOverlappingInstancesOfCompiledRegex(re.compile(pattern),thestring)
+	
+	
 def generic_istream(filename):
 	#print >> stderr,"opening ",filename
 	if filename=="-":
