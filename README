@@ -1,3 +1,14 @@
+========
+Prerequisites
+========
+
+fisherExactTest.py uses Fast Fisher's Exact Test module (http://pypi.python.org/pypi/fisher/0.1.4)
+
+=========
+BRIEF INTRODUCTION (under constructions)
+=========
+
+
 This is a set of python scripts and Bash shell scripts as a reimplementation of the unix tools, cut, join, etc. with more flexibility. For example, the column specification can now be specified by header field in addition to column number. e.g., imagine a tab-delimited file (info.txt):
 
 Name	Address	Phone	Email
