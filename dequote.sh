@@ -5,4 +5,4 @@ if [ $# -lt 1 ]; then
 	exit
 fi;
 
-cat $1 | tr -d "\"" 
+cat $1 | tr -d "\"'" 

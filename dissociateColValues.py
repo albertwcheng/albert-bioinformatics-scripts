@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/python
 
 '''
 
@@ -36,10 +36,29 @@ def printUsageAndExit(programName):
 	print >> stderr,"-u only unique items"
 	print >> stderr,"--startRow set startrow"
 	print >> stderr,"--headerRow set headerrow"
+	print >> stderr,"--roll-over roll the list instead of multiplying. i.e., 1,2,3 a,b,c +,- will become 1 a + <return> 2 b - <return> 3 c + <return>"
 	explainColumns(stderr)
 	exit()
 
-
+def rolloverCombinations(fields):
+	lfields=[]
+	
+	numCols=len(fields)
+	
+	for field in fields:
+		lfields.append(len(field))
+	
+	roComb=[]
+	
+	maxLFields=max(lfields) #there should then be maxLFields lines
+	for i in range(0,maxLFields):
+		newComb=[]
+		roComb.append(newComb)
+		for lthisfield,thisField in zip(lfields,fields):
+			ia= i % lthisfield
+			newComb.append(thisField[ia])
+		
+	return roComb
 
 
 if __name__=='__main__':
@@ -48,7 +67,7 @@ if __name__=='__main__':
 
 
 	programName=argv[0]
-	opt,args=getopt(argv[1:],'i:s:d:u',['startRow=','headerRow='])
+	opt,args=getopt(argv[1:],'i:s:d:u',['startRow=','headerRow=','roll-over'])
 	try:
 		filename,=args
 	except:
@@ -59,6 +78,7 @@ if __name__=='__main__':
 	colSelectors=[]
 	internalSeparators=[]
 	
+	rollover=False
 	fs="\t"
 	headerRow=-1
 	startRow=-1
@@ -78,6 +98,8 @@ if __name__=='__main__':
 			startRow=int(v)
 		elif o=='--headerRow':
 			headerRow=int(v)
+		elif o=='--roll-over':
+			rollover=True
 
 	if startRow ==-1 and headerRow==-1:
 		startRow=2
@@ -96,7 +118,9 @@ if __name__=='__main__':
 		colSelectors[i]=getCol0ListFromCol1ListStringAdv(header,colSelectors[i])
 
 	#now expand
-
+	
+	
+	
 	fil=open(filename)
 	lino=0
 	for lin in fil:
@@ -121,8 +145,10 @@ if __name__=='__main__':
 				else:
 					fields[col]=newFieldItems
 
-
-		lineCombinations=findAllCombinations(fields)
+		if rollover:
+			lineCombinations=rolloverCombinations(fields)
+		else:
+			lineCombinations=findAllCombinations(fields)
 
 		for linCom in lineCombinations:
 			print >> stdout,fs.join(linCom)		

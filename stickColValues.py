@@ -33,7 +33,7 @@ from getopt import getopt
 
 if __name__=='__main__':
 	programName=argv[0]
-	opts,args=getopt(argv[1:],'',['fs=','internalfs='])
+	opts,args=getopt(argv[1:],'',['fs=','internalfs=','printlino='])
 
 	try:
 		filename,colsKey=args
@@ -43,19 +43,22 @@ if __name__=='__main__':
 		print >> stderr,"options:"
 		print >> stderr,"--fs field-separator"
 		print >> stderr,"--internalfs internal field-separator to join collapsed fields"
+		print >> stderr,"--printlino x  print line number read every x lines"
 		exit()
 
 	headerRow=1
 	fs="\t"
 	internalfs="|"
-
+	printlino=None
 
 	for o,v in opts:
 		if o=='--fs':
 			fs=v
 		elif o=='--internalfs':
 			internalfs=v
-
+		elif o=='--printlino':
+			printlino=int(v)
+			
 	startRow=headerRow+1
 
 	header,prestarts=getHeader(filename,headerRow,startRow,fs)
@@ -72,7 +75,7 @@ if __name__=='__main__':
 
 	for lin in fil:
 		lino+=1
-		if lino%100==1:
+		if printlino and lino%printlino==1:
 			print >> stderr,"reading in line",lino
 		
 		lin=lin.rstrip()
