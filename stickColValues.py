@@ -88,7 +88,7 @@ if __name__=='__main__':
 			linedata=[]
 			lines.append(linedata)
 			for i in range(0,len(fields)):
-				linedata.append(set([fields[i]]))
+				linedata.append([fields[i]])
 
 			continue
 	
@@ -96,14 +96,15 @@ if __name__=='__main__':
 		for i in range(0,len(fields)):
 			if i not in colsKey:
 				try:
-					linedata[i].add(fields[i])
+					if fields[i] not in linedata[i]:
+						linedata[i].append(fields[i])
 				except IndexError: #for lineData
 					llinedata=len(linedata)
 					needed=i-llinedata
 					for j in range(0,needed):
-						linedata.append(set())
+						linedata.append([])   ##
 					#now add in the new thing
-					linedata.append(set([fields[i]]))
+					linedata.append([fields[i]])
 	
 				
 			
@@ -116,7 +117,7 @@ if __name__=='__main__':
 	for linedata in lines:
 		#convert!
 		for i in range(0,len(linedata)):
-			linedata[i]=internalfs.join(list(linedata[i]))
+			linedata[i]=internalfs.join(linedata[i])
 		
 		print >> stdout,fs.join(linedata)
 
