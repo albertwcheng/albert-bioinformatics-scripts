@@ -35,8 +35,26 @@ import re
 import os
 from ConfigParser import ConfigParser
 
-
- 
+def String_findAll(s,sub,start=0,end=-1):
+	if end!=-1:
+		endSearch=end
+	else:
+		endSearch=len(s)
+		
+	curStart=start
+	
+	locations=[]
+	
+	while True:
+		idx=s.find(sub,curStart,endSearch)
+		if idx<0:
+			break
+			
+		locations.append(idx)
+		curStart=idx+1
+	
+	return locations	
+ 	
 def RE_findOverlappingInstancesOfCompiledRegex(there, thestring):
 	#total = 0
 	start = 0
