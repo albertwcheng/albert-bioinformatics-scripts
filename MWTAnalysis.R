@@ -59,6 +59,7 @@ args=commandArgs(TRUE)
 if(length(args)<5)
 {
 	cat(paste("usage:","MWTAnalysis.R","filename grpvector[sep by , 0=group1 or 1=group2, NA means ignore] logitForMWT[1,0] [ratio|diff] group1Prefix group2Prefix comparisonPrefix outfilename\n"))
+	cat("you can get the simple matrix and the mwt grp file by running prepareGSEAFiles.sh and getting the content of *.mwtcls for the grp arg\n")
 	quit()
 }
 
