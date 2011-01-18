@@ -3,7 +3,7 @@
 
 if [ $# -lt 7 ]; then
 	echo $0 Infile GeneIDCol class1label class1cols class2label class2cols outprefix
-	echo "make outprefix.exp.txt and outprefix.cls"
+	echo "make outprefix.exp.txt and outprefix.cls and outprefix.mwtcls"
 	exit
 fi
 
@@ -42,6 +42,8 @@ echo "# $class1label $class2label" >> $outprefix.cls
 class1flag=`repeatNTimes "0" $colTmp1`
 class2flag=`repeatNTimes "1" $colTmp2`
 echo "$class1flag $class2flag" >> $outprefix.cls
+
+echo "NA $class1flag $class2flag" | tr " " "," > $outprefix.mwtcls #ignore gene ID
 
 tmp3=`mktemp`
 tmp4=`mktemp`
