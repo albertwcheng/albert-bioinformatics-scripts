@@ -404,7 +404,7 @@ def joinu_Main():
 			headerFieldReplaceeSelector=1
 			headerFieldReplaceeKey=v
 		elif k=='--r2':
-			headerFieldReaplceeSelector=2
+			headerFieldReplaceeSelector=2
 			headerFieldReplaceeKey=v
 		elif k=='--with':
 
@@ -414,7 +414,8 @@ def joinu_Main():
 				f2hreplace[headerFieldReplaceeKey]=v
 			else:
 				print >> stderr,"--with not preceded by --r1 or --r2. Abort"
-				printUsageAndExit(programName)
+				#printUsageAndExit(programName)
+				exit()
 								
 			headerFieldReplaceeSelector=0
 			

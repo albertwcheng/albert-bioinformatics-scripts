@@ -109,10 +109,20 @@ if __name__=="__main__":
 		lin=lin.rstrip("\r\n")
 		LINE=lin     #system var LINE
 		
+		
 		#evaluate the logic. if true, print line
 		fields=lin.split(fs)
-		logicResult=eval(compiledLogics)
-		if logicResult or lino<startRow:
+		
+		if lino>=startRow:
+			try:
+				logicResult=eval(compiledLogics)
+			except:
+				print >> stderr,"logic error at line "+str(lino)+":"+str(fields)
+				exit()
+		else:
+			logicResult=True
+				
+		if logicResult:
 			outResult=eval(compiledLineOut)
 			if type(outResult) in (ListType,TupleType):
 				outResult=fs.join(outResult)

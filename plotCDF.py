@@ -50,12 +50,16 @@ def usageExit(programName):
 	print >> stderr, "--ylim low,hi"
 	print >> stderr, "--xlabel lx"
 	print >> stderr, "--ylabel ly"
+	print >> stderr, "--no-legend"
+	print >> stderr, "--legend-pos [upper right,...]"
+	print >> stderr, "--line-styles a,b,c"
+	print >> stderr, "--line-widths 1,2,3"
 	explainColumns(stderr)	
 	exit()
 
 if __name__=="__main__":
 	programName=argv[0]
-	optlist,args=getopt(argv[1:],'t:F:d:r:s:o:',['ofs=','fs=','headerRow=','numBins=','show-pdf','out-img=','max=','min=','ylim=','xlabel=','ylabel='])
+	optlist,args=getopt(argv[1:],'t:F:d:r:s:o:',['ofs=','fs=','headerRow=','numBins=','show-pdf','out-img=','max=','min=','ylim=','xlabel=','ylabel=','no-legend','legend-pos=','line-styles=','line-widths='])
 
 	sort=False
 	headerRow=1
@@ -72,7 +76,10 @@ if __name__=="__main__":
 	YRange=False
 	_xlabel=None
 	_ylabel=None
-		
+	nolegend=False
+	legendpos="upper right"
+	linestyles=['-']
+	linewidths=[1]
 	try:
 		fileName,colString=args
 	except:
@@ -103,7 +110,16 @@ if __name__=="__main__":
 			_xlabel=v
 		elif a in ['--ylabel']:
 			_ylabel=v
-
+		elif a in ['--no-legend']:
+			nolegend=True
+		elif a in ['--legend-pos']:
+			legendpos=v
+		elif a in ['--line-styles']:
+			linestyles=v.split(",")
+		elif a in ["--line-widths"]:
+			linewidths=v.split(",")
+			for i in range(0,len(linewidths)):
+				linewidths[i] = int(linewidths[i])
 	if outputFile=="":
 		outputFile=fileName+".png"
 
@@ -157,6 +173,8 @@ if __name__=="__main__":
 	plots=[]
 	labels=[]
 
+	linestyleselector=0
+
 	for plotName,plotData in toPlots:
 		numDataPoints=len(plotData)
 		k=plotData+binthreshold
@@ -174,10 +192,12 @@ if __name__=="__main__":
 
 			del k[loct]			
 		
-		plots.append(plot(binthreshold,CDF,label=plotName))
+		plots.append(plot(binthreshold,CDF,linestyles[linestyleselector%len(linestyles)],label=plotName,linewidth=linewidths[linestyleselector%len(linewidths)]))
+		linestyleselector+=1
 		labels.append(plotName)
-
-	figlegend(plots,labels,'upper right')
+	
+	if not nolegend:
+		figlegend(plots,labels,legendpos)
 	
 	
 	if YRangeFixed:
