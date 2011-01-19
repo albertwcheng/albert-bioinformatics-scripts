@@ -128,11 +128,11 @@ mwt=MWTOnSubMatrix(mwt.input,grp,(logit==1))
 if(differential=="ratio")
 {
 	rats=RatioOnSubMatrix(mwt.input,grp)
-	dataOutput=cbind(data.raw,"$$$MWT"=mwt$MWT,"$$$FDR"=mwt$FDR,rats)
+	dataOutput=cbind(data.raw,rats,"$$$MWT"=mwt$MWT,"$$$FDR"=mwt$FDR)
 	
 } else {
 	dif=DiffOnSubMatrix(mwt.input,grp)
-	dataOutput=cbind(data.raw,"$$$MWT"=mwt$MWT,"$$$FDR"=mwt$FDR,dif)
+	dataOutput=cbind(data.raw,dif,"$$$MWT"=mwt$MWT,"$$$FDR"=mwt$FDR)
 	
 }
 
