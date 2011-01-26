@@ -33,14 +33,14 @@ from getopt import getopt
 #-1	Xkr4.cSep07	chr1	-	3195863	3205824	3204882	3205110	2	3195863,3203519,	3197398,3205824, 	0 	Xkr4	cmpl 	cmpl 	-1,0,
 
 programName=argv[0]
-opt,args=getopt(argv[1:],'',['source=','element-separator=','replace=','with=','expand-parents','input-is-gene-pred'])
+opt,args=getopt(argv[1:],'',['source=','element-separator=','replace=','with=','expand-parents','input-is-gene-pred','output-rename-list='])
 
 source="."
 elementSeparator="@"
 replaceWith=["",""]
 expandParents=False
 GenePredFormatInput=False
-
+outputRenameList=None
 for o,v in opt:
 	if o=="--source":
 		source=v
@@ -54,7 +54,8 @@ for o,v in opt:
 		expandParents=True
 	elif o=='--input-is-gene-pred':
 		GenePredFormatInput=True
-
+	elif o=='--output-rename-list':
+		outputRenameList=v
 try:
 	filename,=args
 except:
@@ -65,6 +66,7 @@ except:
 	print >> stderr,"--replace x --with y. Defaut: No replacement. for example, x=_ , y=@,  Transposase_14 => Transposase@14"
 	print >> stderr,"--expand-parents. Allow only one parent per exon"
 	print >> stderr,"--input-is-gene-pred. No bin info, only nine columns (http://genome.ucsc.edu/FAQ/FAQformat#format9). Default is RefGene Table Schema"
+	print >> stderr,"--output-rename-list filename. Output the mapping from original name to renamed due to --replace x --with y option"
 	exit()
 
 print >> stdout,"##gff-version 3"
@@ -88,6 +90,8 @@ def formAttributeList(D):
 orderedGenes=[]
 
 
+if outputRenameList:
+	outputRenameList=open(outputRenameList,"w")
 
 for lin in fil:
 	lino+=1	
@@ -101,9 +105,14 @@ for lin in fil:
 		else:
 			dummy,transcriptname,chrom,strand,start,end,cdsstart,cdsend,numexons,exonstarts,exonends,score,genename,dum2,dum3,frames=fields
 		if replaceWith[0]!="":
+			origGeneName=genename
+			origTranscriptName=transcriptname
 			for r,t in zip(replaceWith[0],replaceWith[1]):
 				genename=genename.replace(r,t)
 				transcriptname=transcriptname.replace(r,t)
+			print >> outputRenameList,origGeneName+"\t"+genename
+			print >> outputRenameList,origTranscriptName+"\t"+transcriptname
+			
 	except:
 		print >> stderr,"error parsing line",lino,":",fields
 		exit()
@@ -210,7 +219,8 @@ for lin in fil:
 		exonAttributes=exonRecord[8]
 		exonAttributes["Parent"].append(transcriptname)
 
-		
+if outputRenameList:
+	outputRenameList.close()		
 		
 fil.close()
 
