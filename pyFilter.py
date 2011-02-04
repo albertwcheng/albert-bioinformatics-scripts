@@ -15,7 +15,8 @@ def printUsageAndExit(programName):
 	print >> stderr,"force conversion to type T by T([x]). T = [float|int|str] see --autoconv"
 	print >> stderr,"Options:"
 	print >> stderr,"--autoconv [float*|int|str|off] automatic attempt to convert into a type for each field"
-	print >> stderr,"--line-out pythoncode .specify what to output ,can use tuple e.g., [2],[3],[5] would be fields 2 3 and 5. Default is LINE, i.e., the whole line"
+	print >> stderr,"--line-out pythoncode .specify what to output for data rows,can use tuple e.g., [2],[3],[5] would be fields 2 3 and 5. Default is LINE, i.e., the whole line"
+	print >> stderr,"--prestart-line-out pythoncode. specify what to output for prestart rows. Default is the same as line-out"
 	print >> stderr,"--print-compiled-logics. print out the compiled logics to stderr"
 	print >> stderr,"SYSTEMVAR:"
 	print >> stderr,"FNR current line number"
@@ -31,6 +32,12 @@ def autoconv(x,conversion):
 		return x
 
 
+def toStrList(L):
+	sL=[]
+	for x in L:
+		sL.append(str(x))
+	return sL
+	
 def compileLogics(logics,header,autoconvertor):
 	#find all [p]
 	colSelectorOpen=False
@@ -59,13 +66,14 @@ def compileLogics(logics,header,autoconvertor):
 
 if __name__=="__main__":
 	programName=argv[0]
-	opts,args=getopt(argv[1:],'',['fs=','header-row=','start-row=','autoconv=','line-out=','print-compiled-logics'])
+	opts,args=getopt(argv[1:],'',['fs=','header-row=','start-row=','autoconv=','line-out=','print-compiled-logics','prestart-line-out='])
 	
 	fs="\t"
 	headerRow=1
 	startRow=2
 	autoconvertor="float"
 	lineOut="LINE"
+	preStartLineOut=None
 	printCompiledLogics=False
 	
 	for o,v in opts:
@@ -81,18 +89,22 @@ if __name__=="__main__":
 			lineOut=v
 		elif o=='--print-compiled-logics':
 			printCompiledLogics=True
-			
+		elif o=='--prestart-line-out':
+			preStartLineOut=v	
 	try:
 		filename,logics=args
 	except:
 		printUsageAndExit(programName)
 	
+	if not preStartLineOut:
+		preStartLineOut=lineOut
 	
 	header,prestarts=getHeader(filename,headerRow,startRow,fs)
 	
 	
 	compiledLogics=compileLogics(logics,header,autoconvertor)
-	compiledLineOut=compileLogics("("+lineOut+")",header,"str")
+	compiledLineOut=compileLogics("("+lineOut+")",header,autoconvertor)
+	compiledPreStartLineOut=compileLogics("("+preStartLineOut+")",header,autoconvertor)
 	
 	if printCompiledLogics:
 		print >> stderr, compiledLogics
@@ -120,13 +132,18 @@ if __name__=="__main__":
 				print >> stderr,"logic error at line "+str(lino)+":"+str(fields)
 				exit()
 		else:
-			logicResult=True
+			#logicResult=True
+			outResult=eval(compiledPreStartLineOut)
+			if type(outResult) in (ListType,TupleType):
+				outResult=fs.join(toStrList(outResult))
+			print >> stdout,str(outResult)
+			continue
 				
 		if logicResult:
 			outResult=eval(compiledLineOut)
 			if type(outResult) in (ListType,TupleType):
-				outResult=fs.join(outResult)
+				outResult=fs.join(toStrList(outResult))
 			
-			print >> stdout,outResult
+			print >> stdout,str(outResult)
 		
 	fil.close()
