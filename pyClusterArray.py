@@ -44,7 +44,9 @@ THE SOFTWARE.
 from Bio.Cluster.cluster import *
 from Bio.Cluster import *
 from numpy import std
+import numpy
 from math import sqrt,log
+from cluster_init import *
 
 import shutil
 import sys
@@ -300,6 +302,7 @@ def absArray(L):
 	return absL	
 
 
+
 if __name__=="__main__":
 
 	####MAIN ENTRY POINT
@@ -463,8 +466,8 @@ if __name__=="__main__":
 	#now fill in gene record
 	#seems faster than the Record(file_handle) provided by PyCluster
 	record=Record()
-	record.data=M
-	record.mask=MASK
+	record.data=numpy.array(M)
+	record.mask=numpy.array(MASK)
 	record.geneid=Genes
 	record.genename=Genes
 	record.expid=Arrays
@@ -481,8 +484,10 @@ if __name__=="__main__":
 	ComArrayMatrix=makeCompleteMatrix(Darray)
 	complementDistanceMatrixInPlace(ComArrayMatrix)
 	print >> stderr,"saving files"
+	#record.data=from2DArrayToTupleMap(data)
+	#record.mask=from2DArrayToTupleMap(MASK)
 	record.save(jobname,expclusters=ArrayTree)
-
+	#biopython_cluster_savedata(jobname,expclusters=ArrayTree)
 
 
 
