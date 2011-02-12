@@ -11,5 +11,11 @@ scale=$3
 contrast=$4
 
 
-echo JAVATREEVIEW at  $JAVATREEVIEWPATH
+#echo JAVATREEVIEW at  $JAVATREEVIEWPATH
+
+if [[ $JAVATREEVIEWPATH == "" ]; then
+	echo "\$JAVATREEVIEWPATH not set. abort"
+	exit
+fi
+
 java -jar $JAVATREEVIEWPATH -r $cdtFile -x Dendrogram -- -o $outFile -s $scale -a 0 -c $contrast
