@@ -13,6 +13,7 @@ evidenceDir=`abspath.py $outputDir/evidence`
 workingsDir=`abspath.py $outputDir/workings`
 
 mkdir $outputDir
+outputDir=`abspath.py $outputDir`
 
 mkdir $splitsDir
 mkdir $evidenceDir

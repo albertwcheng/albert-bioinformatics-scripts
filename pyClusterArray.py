@@ -26,6 +26,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 
 '''
+
 ####
 #
 #  pyClusterArray.py version 1.1 <20100420>
@@ -47,6 +48,8 @@ from numpy import std
 import numpy
 from math import sqrt,log
 from cluster_init import *
+from os.path import dirname,exists
+from os import mkdir
 
 import shutil
 import sys
@@ -75,15 +78,19 @@ def printUsage(programName):
 	print >> stderr, "           method=='a': Average pairwise linkage"
 	print >> stderr, "Options:"
 	print >> stderr,"--prefix outputprefix"
-	print >> stderr, "-j jobname specify the jobname such that outputs are prefixed by jobname"
+	print >> stderr, "-j jobname specify the jobname such that outputs are prefixed by jobname"	
+	print >> stderr, "-f,--folder specify the folder to put outputs"
+	print >> stderr, "-p,--attach-param attach run parameters to output filenames"
 	print >> stderr, "-s seperator specify the separator used in the expression data file"
 	print >> stderr, "-l base  log transform to log(base)" 
 	print >> stderr, "-n NA left lower portion of matrix"
 	print >> stderr, "-N NA right upper portion of matrix"
 	print >> stderr, "--center-gene m=median,a=mean center gene prior to clustering"
 	print >> stderr, "--normalize-gene normalize gene prior to clustering"
+ 	print >> stderr, "--sd-threshold filter items >= sdt"	
 	print >> stderr, "--top-sd rank select only the top rank sd (all items >= top rank sd)"
 	print >> stderr, "--ignore-NA-rows ignore rows with at least one NA value"
+	print >> stderr, "--ignore-NA-rows ignore rows with at least one NA value"		
 	print >> stderr, "Input Format:"
 	print >> stderr, "First line: GeneID<tab>ArrayName1<tab>ArrayName2<tab>...ArrayNameN"
 	print >> stderr, "Other lines: GeneID<tab>Data1<tab>Data2<tab>...DataN"			
@@ -307,7 +314,7 @@ if __name__=="__main__":
 
 	####MAIN ENTRY POINT
 	programName=sys.argv[0]
-	opts,args=getopt(sys.argv[1:],'s:j:nNl:',['center-gene=','normalize-gene','prefix','top-sd=','ignore-NA-rows','filled-threshold=','sd-threshold=','at-least-x-data-with-abs-val-ge-y=','max-min='])
+	opts,args=getopt(sys.argv[1:],'s:j:nNl:pf:',['center-gene=','normalize-gene','prefix','top-sd=','ignore-NA-rows','filled-threshold=','sd-threshold=','at-least-x-data-with-abs-val-ge-y=','max-min=','attach-param','folder='])
 	CenterGene=""
 	NormalizeGene=False
 	NALowerLeft=False
@@ -320,6 +327,9 @@ if __name__=="__main__":
 	filledThreshold=0.0
 	atLeastXDataWithAbsValGEY=[0,0] #[X,Y]
 	maxMin=0.0
+	attachParam=False
+	folder=""
+	
 	try:
 		filename,distance,clustermethod=args
 
@@ -349,24 +359,53 @@ if __name__=="__main__":
 				#ignoreNARows=True
 				filledThreshold=1
 			elif o=='--filled-threshold':
-				filledThreshold=float(v)
+				filledThreshold=float(a)
 			elif o=='--sd-threshold':
-				SDThreshold=float(v)
+				SDThreshold=float(a)
 			elif o=='--at-least-x-data-with-abs-val-ge-y':
 				try:
-					x,y=v.split(",")
+					x,y=a.split(",")
 					atLeastXDataWithAbsValGEY=[int(x),float(y)]
 				except:
 					print >> stderr,"incorrect format for this option, got",v,".Use --at-least-x-data-with-abs-val-ge-y x:int,y:float"
 					printUsageAndExit(programName)
 			elif o=='--max-min':
-				maxMin=float(v)
+				maxMin=float(a)
+			elif o in ["-p","--attach-param"]:
+				attachParam=True
+			elif o in ['-f','--folder']:
+				folder=a
 
 				
 	except:
 		printUsage(programName)
 		sys.exit()
 
+	if attachParam:
+		attachParam=[]
+		if logbase!=0:
+			attachParam.append("log"+str(logbase))
+		if filledThreshold!=0:
+			attachParam.append("filled"+str(filledThreshold))
+		if topSD!=0:
+			attachParam.append("topsd"+str(topSD))     
+		if SDThreshold!=0:
+			attachParam.append("sdt"+str(SDThreshold))
+		if CenterGene!="":
+			attachParam.append("cg"+CenterGene)
+		if NormalizeGene:
+			attachParam.append("ng")
+		attachParam.append(distance+clustermethod)
+		jobname+="."+".".join(attachParam)
+		
+	if folder!="":
+		jobname=folder+"/"+jobname
+		
+	absfolder=dirname(jobname)
+	if absfolder!="" and not exists(absfolder):
+		print >> stderr,"jobname:",jobname
+		print >> stderr,"folder",absfolder,"does not exist. mkdir"
+		mkdir(absfolder)
 
 	M=[]
 	MASK=[]

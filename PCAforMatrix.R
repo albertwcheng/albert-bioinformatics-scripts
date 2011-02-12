@@ -141,6 +141,8 @@ sink()
 #now plots
 #print(ncol(drawcomponents))
 
+
+
 for(prequestI in 2:ncol(drawcomponents)){
 	compv=drawcomponents[,prequestI]
 	#print(compv)
@@ -169,7 +171,16 @@ for(prequestI in 2:ncol(drawcomponents)){
 	png(filename=paste(outputDir,"/","loading.",c1,",",c2,".png",sep=""))
 	minL=min(loadings[,c(c1,c2)])
 	maxL=max(loadings[,c(c1,c2)])
-	plot(loadings[,c1],loadings[,c2],xlab=paste("PCA",c1),ylab=paste("PCA",c2),type="n",xlim=c(minL,maxL),ylim=c(minL,maxL))
+	xmin=min(loadings[,c1])
+	xmax=max(loadings[,c1])
+	ymin=min(loadings[,c2])
+	ymax=max(loadings[,c2])
+	xrange=xmax-xmin
+	yrange=ymax-ymin
+	xadd=xrange/5
+	yadd=yrange/5
+	
+	plot(loadings[,c1],loadings[,c2],xlab=paste("PCA",c1),ylab=paste("PCA",c2),type="n",xlim=c(xmin-xadd,xmax+xadd),ylim=c(ymin-yadd,ymax+yadd))
 	text(loadings[,c1],loadings[,c2],rownames(loadings),col="blue",cex=0.7)
 	abline(h=0,lty=2)
 	abline(v=0,lty=2)
