@@ -13,7 +13,7 @@ contrast=$4
 
 #echo JAVATREEVIEW at  $JAVATREEVIEWPATH
 
-if [[ $JAVATREEVIEWPATH == "" ]; then
+if [[ $JAVATREEVIEWPATH == "" ]]; then
 	echo "\$JAVATREEVIEWPATH not set. abort"
 	exit
 fi
