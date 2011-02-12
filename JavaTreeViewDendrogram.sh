@@ -12,4 +12,4 @@ contrast=$4
 
 
 echo JAVATREEVIEW at  $JAVATREEVIEWPATH
-java -jar $JAVATREEVIEWPATH -r $cdtFile -- -o $outFile -s $scale -a 0 -c $contrast
+java -jar $JAVATREEVIEWPATH -r $cdtFile -x Dendrogram -- -o $outFile -s $scale -a 0 -c $contrast
