@@ -40,7 +40,7 @@ if __name__=='__main__':
 		print >> stderr,"recursively make a directory"
 		exit()
 	
-	
-	makedirs(pathName)
+	if not exists(pathName):
+		makedirs(pathName)
 	
 		
