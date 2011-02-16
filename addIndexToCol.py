@@ -55,6 +55,7 @@ Add in index for values in specified column
 	parser.add_option("--lowercase",default=False,dest="excelStyleLowercase",action="store_true",help="use lower case for excel style. only valid when --excel-style is set")
 	parser.add_option("--prepend",default="",dest="prefix",help="prepend value with a prefix. Default no prepending")
 	parser.add_option("--append",default="",dest="suffix",help="append value with a suffix. Default no appending")
+	parser.add_option("--only-idx-to-dup",default=False,action="store_true",dest="onlyIdxDup",help="only append a index to duplicates")
 	(options,args)=parser.parse_args()
 
 	if options.help:
@@ -109,8 +110,13 @@ Add in index for values in specified column
 			if options.excelStyleLowercase:
 				indxToDisplay=indxToDisplay.lower()
 		
-	
-		fields[col]=options.prefix+thisName+options.nameIndexSeparator+str(indxToDisplay)+options.suffix
+		
+		
+		if options.onlyIdxDup and thisItemCount==0:
+			sindxToDisplay=""
+		else:
+			sindxToDisplay=options.nameIndexSeparator+str(indxToDisplay)
+		fields[col]=options.prefix+thisName+sindxToDisplay+options.suffix
 		print >> stdout,fs.join(fields)
 
 	fil.close()

@@ -6,6 +6,20 @@ from sys import *
 from math import *
 from types import *
 
+def mean( *arguments ):
+	_count=0
+	_sum=0.0
+	for argument in arguments:
+		if type(argument)==ListType or type(argument)==TupleType:
+			_sum+=sum(argument)
+			_count+=len(argument)
+		else:
+			_sum+=argument
+			_count+=1
+		
+	return _sum/_count
+
+
 def printUsageAndExit(programName):
 	print >> stderr,"Usage:",programName,"[Options] filename logics"
 	print >> stderr,"Open file and evaluate logic per line, print line if logic is true"

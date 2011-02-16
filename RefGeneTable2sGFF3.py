@@ -100,10 +100,10 @@ for lin in fil:
 	fields=lin.rstrip("\r\n").split("\t")
 	try:
 		if GenePredFormatInput:
-			transcriptname,chrom,strand,start,end,cdsstart,cdsend,numexons,exonstarts,exonends=fields
+			transcriptname,chrom,strand,start,end,cdsstart,cdsend,numexons,exonstarts,exonends=fields[:10]
 			genename=".".join(transcriptname.split(".")[:-1])
 		else:
-			dummy,transcriptname,chrom,strand,start,end,cdsstart,cdsend,numexons,exonstarts,exonends,score,genename,dum2,dum3,frames=fields
+			dummy,transcriptname,chrom,strand,start,end,cdsstart,cdsend,numexons,exonstarts,exonends,score,genename,dum2,dum3,frames=fields[:16]
 		if replaceWith[0]!="":
 			origGeneName=genename
 			origTranscriptName=transcriptname
