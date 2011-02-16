@@ -41,7 +41,15 @@ from random import *
 from scipy.stats import gaussian_kde
 from numpy import arange
 
-def plotExpBox(data,xtickLabels,showIndPoints,mark,markMean,showMean,notch,whisker,outliers,xlegendrotation,xlabe,ylabe,titl,showSampleSizes,showViolin,showBox):
+def plotExpBox(data,xtickLabels,showIndPoints,mark,markMean,showMean,notch,whisker,outliers,xlegendrotation,xlabe,ylabe,titl,showSampleSizes,showViolin,showBox,annot,trendData,plotItemLegend):
+	
+	#fig=plt.figure()
+	if plotItemLegend:
+		ax2=subplot(122)
+		ax=subplot(121)
+	else:
+		ax=gca()
+	
 	prevHoldState=ishold()	
 	hold(True)
 	
@@ -59,7 +67,7 @@ def plotExpBox(data,xtickLabels,showIndPoints,mark,markMean,showMean,notch,whisk
 		print >> stderr,len(data[i])
 
 	if showBox:
-		boxplot(data,notch,widths=0.5,sym=fliers,whis=whisValue)
+		ax.boxplot(data,notch,widths=0.5,sym=fliers,whis=whisValue)
 	#print >> stderr,resultD
 	
 	maxMax=-10000000.0
@@ -67,6 +75,26 @@ def plotExpBox(data,xtickLabels,showIndPoints,mark,markMean,showMean,notch,whisk
 	
 	violinw=min(0.15*max(len(data)-1,1.0),0.5)
 
+	if trendData:
+		#print >> stderr,"plot"
+		for trendDataStartIdx,trendDataForThisStartIdx in trendData.items():
+			#print >> stderr,"plot",len(trendDataForThisStartIdx)
+			trendcurves=[]
+			legendlabels=[]
+			if annot:
+				annotForThisStartIdx=annot[trendDataStartIdx]
+			for i in range(0,len(trendDataForThisStartIdx)):
+				trendDataPerItem=trendDataForThisStartIdx[i]
+				if annot:
+					annotThisItem=annotForThisStartIdx[i]
+				if trendDataPerItem:
+					#print >> stderr,"plot"
+					thisTrend=ax.plot(range(trendDataStartIdx+1,trendDataStartIdx+len(trendDataPerItem)+1),trendDataPerItem,"-")
+					if annot and plotItemLegend:
+						trendcurves.append(thisTrend)
+						legendlabels.append(annotThisItem)
+	
+		
 	for i in range(0,len(data)):
 		curCol=data[i]
 #		datasorted=data[:]
@@ -80,7 +108,10 @@ def plotExpBox(data,xtickLabels,showIndPoints,mark,markMean,showMean,notch,whisk
 		maxMax=max(maxMax,max(curCol))
 		minMin=min(minMin,min(curCol))
 		if showMean:
-			plot([i+0.75,i+1.25],[mean(curCol)]*2,markMean)
+			ax.plot([i+0.75,i+1.25],[mean(curCol)]*2,markMean)
+		
+		
+				
 		if showIndPoints:
 			plot([i+1]*len(curCol),curCol,mark)
 		if showViolin:
@@ -107,6 +138,23 @@ def plotExpBox(data,xtickLabels,showIndPoints,mark,markMean,showMean,notch,whisk
 	ylabel(ylabe)
 	title(titl)
 	ylim([minMin-maxMax*0.1,maxMax*1.1])
+	
+	if plotItemLegend:
+		box=ax.get_position()
+		#gcf().set_figwidth(gcf().get_figwidth()*2)
+		#ax.set_position([box.x0, box.y0, box.width * 0.8, box.height])
+		#subplots_adjust(top=0.8,bottom=0.1,left=0,right=0.8)
+		
+		#box2=ax2.get_position()
+		#ax2.set_position([box2.x0,box2.y0, box.width * 0.1,box.height])
+		subplots_adjust(top=0.8, bottom=0.1, left=0, right=0.8)
+		leg=ax.legend(trendcurves,legendlabels,bbox_to_anchor=(1,0),loc="center left")
+		#leg = gcf().get_legend()
+		ltext  = leg.get_texts()
+		
+		
+		plt.setp(ltext, fontsize=10)
+	
 	hold(prevHoldState)
 
 def findIndices(needles,haystack):
@@ -297,7 +345,7 @@ def drawHistogram(outfilename,plotData,xtickLabels,nbins=50):
 
 	fig.savefig(outfilename,bbox_inches="tight")
 	
-def plotExpBox_Main(inputFiles,headers,valcols,outputFile,sep,startRow,showIndPoints,mark,markMean,showMean,notch,whisker,outliers,plotPvalueCluster,outputClusterPrefix,methodCluster,xlegendrotation,xlabe,ylabe,figsz,titl,showSampleSizes,trimToMinSize,relabels,logb,plotHistogramToFile,plotMedianForGroups,botta,showViolin,showBox):
+def plotExpBox_Main(inputFiles,headers,valcols,outputFile,sep,startRow,showIndPoints,mark,markMean,showMean,notch,whisker,outliers,plotPvalueCluster,outputClusterPrefix,methodCluster,xlegendrotation,xlabe,ylabe,figsz,titl,showSampleSizes,trimToMinSize,relabels,logb,plotHistogramToFile,plotMedianForGroups,botta,showViolin,showBox,firstColAnnot,plotTrend,showLegend):
 
 	#if plotPvalueCluster:
 		#if pvalue cluster is needed:
@@ -306,11 +354,13 @@ def plotExpBox_Main(inputFiles,headers,valcols,outputFile,sep,startRow,showIndPo
 		#endif
 
 
-
+	
 	#the real deal!
 	plotData=[]	
 	xtickLabels=[]
 	
+	trendData={}
+	annot={}
 	
 	minSize=-1
 
@@ -318,23 +368,50 @@ def plotExpBox_Main(inputFiles,headers,valcols,outputFile,sep,startRow,showIndPo
 		fin=generic_istream(inputFile)
 		
 		startIdx=len(plotData)
-
+		
+		if firstColAnnot:
+			colAnnot=cols[0]
+			cols=cols[1:]
+			annotThisFile=[]
+			annot[startIdx]=annotThisFile
+		else:
+			colAnnot=-1
+			annotThisFile=None
+			
 		for col in cols:
 			plotData.append([])
 			xtickLabels.append(header[col])
 
 		colIndices=range(startIdx,startIdx+len(cols))
-
+		
+		if plotTrend:
+			#print >> stderr,"plotTrend"
+			trendDataThisFile=[]
+			trendData[startIdx]=trendDataThisFile
+		else:
+			trendDataThisFile=None
+			
+			
 		lino=0
 		for lin in fin:
 			lino+=1
 			if lino<startRow:
 				continue		
 			fields=lin.rstrip("\r\n").split(sep)
-		
+			
+			if plotTrend:
+				#print >> stderr,"a"
+				trendDataThisLine=[]
+			else:
+				trendDataThisLine=None
+			
+			allDataOKThisLine=True
+			
+			if colAnnot>=0:
+				annotThisFile.append(fields[colAnnot])
+			
 			for idx,col in zip(colIndices,cols):
 				try:
-					
 					value=float(fields[col])
 					if logb!=0:
 						if value==0.0:
@@ -342,8 +419,19 @@ def plotExpBox_Main(inputFiles,headers,valcols,outputFile,sep,startRow,showIndPo
 						value=log(value)/logb							
 					plotData[idx].append(value)
 					
+					if plotTrend:
+						trendDataThisLine.append(value)
+						#print >> stderr,"value:",value
+					
 				except:
-					pass		
+					allDataOKThisLine=False	
+				
+			if plotTrend:
+				if allDataOKThisLine:
+					trendDataThisFile.append(trendDataThisLine)
+				else:
+					trendDataThisFile.append(None)
+			
 		fin.close()
 	
 		
@@ -519,7 +607,7 @@ def plotExpBox_Main(inputFiles,headers,valcols,outputFile,sep,startRow,showIndPo
 		titl=outputFile
 
 
-	plotExpBox(plotData,xtickLabels,showIndPoints,mark,markMean,showMean,notch,whisker,outliers,xlegendrotation,xlabe,ylabe,titl,showSampleSizes,showViolin,showBox)
+	plotExpBox(plotData,xtickLabels,showIndPoints,mark,markMean,showMean,notch,whisker,outliers,xlegendrotation,xlabe,ylabe,titl,showSampleSizes,showViolin,showBox,annot,trendData,showLegend)
 	
 	#ylim([0,200])
 	for m in medianToDraw:
@@ -547,6 +635,8 @@ def usageExit(programName):
 	print >> stderr,"-p --showIndPoints"
 	print >> stderr,"-m --showMean"
 	print >> stderr,"-n --notch"
+	print >> stderr,"--first-col-annot first column of each valCol is annotation"
+	print >> stderr,"--plot-trend draw trend curves per file"	
 	print >> stderr,"--xtick-rotation degree"
 	print >> stderr,"--offWhisker"
 	print >> stderr,"--offOutliers"
@@ -561,6 +651,7 @@ def usageExit(programName):
 	print >> stderr,"--plot-hist filename"
 	print >> stderr,"--plot-median-for-group cols"
 	print >> stderr,"--log base"
+	print >> stderr,"--show-legend"
 	print >> stderr, "from PyCluster (see http://www.biopython.org/DIST/docs/api/Bio.Cluster.Record-class.html#treecluster)"
 	print >> stderr, "method   : specifies which linkage method is used:"
 	print >> stderr, "           method=='s': Single pairwise linkage"
@@ -573,7 +664,7 @@ def usageExit(programName):
 
 if __name__=='__main__':
 	programName=argv[0]
-	optlist,args=getopt(argv[1:],'t:F:d:r:s:pmn',['fs=','headerRow=','startRow=','showIndPoints','showMean','notch','offWhisker','offOutliers','pvalue-cluster-as=','pvalue-cluster-method=','xtick-rotation=','xlabel=','ylabel=','figsize=','title=','show-sample-sizes','trim-to-min-size','relabel-as=','plot-hist=','plot-median-for-group=','log=','bottom=','hide-violin','hide-box'])
+	optlist,args=getopt(argv[1:],'t:F:d:r:s:pmn',['fs=','headerRow=','startRow=','showIndPoints','showMean','notch','offWhisker','offOutliers','pvalue-cluster-as=','pvalue-cluster-method=','xtick-rotation=','xlabel=','ylabel=','figsize=','title=','show-sample-sizes','trim-to-min-size','relabel-as=','plot-hist=','plot-median-for-group=','log=','bottom=','hide-violin','hide-box','plot-trend','first-col-annot','show-legend'])
 
 	headerRow=1
 	startRow=2
@@ -600,11 +691,12 @@ if __name__=='__main__':
 	valcols=[]
 	headers=[]
 	relabels=[]
-
+	firstColAnnot=False
+	plotTrend=False
 	trimToMinSize=False
 	showViolin=True
 	showBox=True
-	
+	showLegend=False
 	#if len(args)!=3:
 		
 	#else:
@@ -664,6 +756,12 @@ if __name__=='__main__':
 				showViolin=False
 			elif a in ['--hide-box']:
 				showBox=False
+			elif a in ['--first-col-annot']:
+				firstColAnnot=True
+			elif a in ['--plot-trend']:
+				plotTrend=True
+			elif a in ['--show-legend']:
+				showLegend=True
 	except:
 		usageExit(programName)
 	
@@ -684,6 +782,9 @@ if __name__=='__main__':
 		from Bio.Cluster import *
 	
 	
-	plotExpBox_Main(filenames,headers,valcols,outputFile,fs,startRow,showIndPoints,'b,','g--',showMean,notch,whisker,outliers,makePvalueClusters,pvalueClusterOutputPrefix,pvalueClusterMethod,xlegendrotation,xlabe,ylabe,figsz,titl,showSampleSizes,trimToMinSize,relabels,logb,plotHistogramToFile,plotMedianForGroups,botta,showViolin,showBox)	
+	if showLegend:
+		figsz=(figsz[0]*2,figsz[1])
+	
+	plotExpBox_Main(filenames,headers,valcols,outputFile,fs,startRow,showIndPoints,'b,','g--',showMean,notch,whisker,outliers,makePvalueClusters,pvalueClusterOutputPrefix,pvalueClusterMethod,xlegendrotation,xlabe,ylabe,figsz,titl,showSampleSizes,trimToMinSize,relabels,logb,plotHistogramToFile,plotMedianForGroups,botta,showViolin,showBox,firstColAnnot,plotTrend,showLegend)	
 		
 		
