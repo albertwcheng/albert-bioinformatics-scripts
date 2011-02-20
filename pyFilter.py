@@ -22,6 +22,9 @@ def mean( *arguments ):
 	return _sum/_count
 '''
 
+def stdN_1(L):
+	return std(L,ddof=1)
+
 
 def printUsageAndExit(programName):
 	print >> stderr,"Usage:",programName,"[Options] filename logics"
