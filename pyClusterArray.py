@@ -47,7 +47,7 @@ from Bio.Cluster import *
 from numpy import std
 import numpy
 from math import sqrt,log
-from cluster_init import *
+#from cluster_init import *
 from os.path import dirname,exists
 from os import mkdir
 
