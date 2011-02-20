@@ -90,7 +90,8 @@ def printUsage(programName):
  	print >> stderr, "--sd-threshold filter items >= sdt"	
 	print >> stderr, "--top-sd rank select only the top rank sd (all items >= top rank sd)"
 	print >> stderr, "--ignore-NA-rows ignore rows with at least one NA value"
-	print >> stderr, "--ignore-NA-rows ignore rows with at least one NA value"		
+	print >> stderr, "--ignore-NA-rows ignore rows with at least one NA value"
+	print >> stderr, "--copy-array-tree-for-orig  copy the atr to _orig.atr as well"		
 	print >> stderr, "Input Format:"
 	print >> stderr, "First line: GeneID<tab>ArrayName1<tab>ArrayName2<tab>...ArrayNameN"
 	print >> stderr, "Other lines: GeneID<tab>Data1<tab>Data2<tab>...DataN"			
@@ -314,7 +315,7 @@ if __name__=="__main__":
 
 	####MAIN ENTRY POINT
 	programName=sys.argv[0]
-	opts,args=getopt(sys.argv[1:],'s:j:nNl:pf:',['center-gene=','normalize-gene','prefix','top-sd=','ignore-NA-rows','filled-threshold=','sd-threshold=','at-least-x-data-with-abs-val-ge-y=','max-min=','attach-param','folder='])
+	opts,args=getopt(sys.argv[1:],'s:j:nNl:pf:',['center-gene=','normalize-gene','prefix','top-sd=','ignore-NA-rows','filled-threshold=','sd-threshold=','at-least-x-data-with-abs-val-ge-y=','max-min=','attach-param','folder=',"copy-array-tree-for-orig"])
 	CenterGene=""
 	NormalizeGene=False
 	NALowerLeft=False
@@ -329,7 +330,7 @@ if __name__=="__main__":
 	maxMin=0.0
 	attachParam=False
 	folder=""
-	
+	copyArrayTreeForOrig=False
 	try:
 		filename,distance,clustermethod=args
 
@@ -375,6 +376,8 @@ if __name__=="__main__":
 				attachParam=True
 			elif o in ['-f','--folder']:
 				folder=a
+			elif o in ['--copy-array-tree-for-orig']:
+				copyArrayTreeForOrig=True
 
 				
 	except:
@@ -552,6 +555,10 @@ if __name__=="__main__":
 
 	#move the original cdt to a new name
 	shutil.move(jobname+".cdt",jobname+"_orig.cdt")
+	#also copy the array tree data to orig
+	if copyArrayTreeForOrig:
+		shutil.copyfile(jobname+".atr", jobname+"_orig.atr")
+	
 	#now rewrite
 
 	fil=open(jobname+".cdt","w")

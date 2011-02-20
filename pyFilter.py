@@ -61,11 +61,18 @@ def compileLogics(logics,header,autoconvertor):
 			if s==']':
 				colSelectorOpen=False
 				selectedCols=getCol0ListFromCol1ListStringAdv(header,selectorStr)
-				selectedCol=selectedCols[0]
+				
 				if len(selectedCols)>1:
 					#warn
-					print >> stderr,"Warning:",selectorStr," selects multiple columns. Use only the first one @",selectedCol,":",header[selectedCol]
-				compiledLogics+="autoconv(fields["+str(selectedCol)+"],'"+autoconvertor+"')"
+					logicComponent=[]
+					for selectedCol in selectedCols:
+						logicComponent.append("autoconv(fields["+str(selectedCol)+"],'"+autoconvertor+"')")
+					
+					compiledLogics+="["+",".join(logicComponent)+"]"
+				else:
+					selectedCol=selectedCols[0]
+					#print >> stderr,"Warning:",selectorStr," selects multiple columns. Use only the first one @",selectedCol,":",header[selectedCol]
+					compiledLogics+="autoconv(fields["+str(selectedCol)+"],'"+autoconvertor+"')"
 					
 			else:
 				selectorStr+=s
