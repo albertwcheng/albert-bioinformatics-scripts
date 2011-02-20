@@ -5,7 +5,9 @@ from getopt import getopt
 from sys import *
 from math import *
 from types import *
+from numpy import *
 
+'''
 def mean( *arguments ):
 	_count=0
 	_sum=0.0
@@ -18,6 +20,7 @@ def mean( *arguments ):
 			_count+=1
 		
 	return _sum/_count
+'''
 
 
 def printUsageAndExit(programName):
