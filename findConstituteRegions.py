@@ -88,12 +88,23 @@ def getNonOverlappingBlocks(intervals):
 	return chrom,blockBounds,blockCounts
 
 
+def toStrArray(L):
+	sL=[]
+	for x in L:
+		sL.append(str(x))
+	return sL
+
 def printUsageAndExit(programName):
 	print >> stderr,"Usage",programName,"[options] inbed"
 	print >> stderr,"from a bed file of chr start0 end1, find regions that are represented at least a number of times"
 	print >> stderr,"Options:"
 	print >> stderr,"--block-count-min [default:1]. set block count min threshold to be retained in output"
 	print >> stderr,"--append-count. append a column of block count"
+	print >> stderr,"--out-one-line. output as one line transcript bed entry"
+	print >> stderr,"--ool-strand [default:.]. set strand for one line output"
+	print >> stderr,"--ool-name [default:.]. set name for one line output"
+	print >> stderr,"--ool-score [default: 0]. set score for one line output"
+	print >> stderr,"--ool-itemRgb [defualt: 0,0,0]. set itemRgb for one line output"
 	exit()
 
 if __name__=='__main__':
@@ -102,12 +113,27 @@ if __name__=='__main__':
 	programName=argv[0]
 	blockCountMin=1
 	appendCount=False
-	opts,args=getopt(argv[1:],'',['--block-count-min=','append-count'])
+	onelineBedOut=False
+	oolscore='0'
+	oolname='.'
+	oolstrand='.'
+	oolitemrgb="0,0,0"
+	opts,args=getopt(argv[1:],'',['block-count-min=','append-count','out-one-line','ool-score=','ool-name=','ool-strand=','ool-itemRgb='])
 	for o,v in opts:
 		if o=='--block-count-min':
 			blockCountMin=int(v)
 		elif o=='--append-count':
 			appendCount=True
+		elif o=='--out-one-line':
+			onelineBedOut=True
+		elif o=='--ool-score':
+			oolscore=v
+		elif o=='--ool-name':
+			oolname=v
+		elif o=='--ool-strand':
+			oolstrand=v	
+		elif o=='--ool-itemRgb':
+			oolitemrgb=v
 			
 	try:
 		inbed,=args
@@ -133,14 +159,38 @@ if __name__=='__main__':
 	#now getNonOverlappingBlocks
 	
 	chrom,blockBounds,blockCounts=getNonOverlappingBlocks(intervals)
+	
+	oneLineStarts0=[]
+	oneLineLengths=[]
+	
+	lastBlockEnd1=-1
+	firstBlockStart0=-1
+	
 	for i in range(0,len(blockCounts)):
 		blockStart0=blockBounds[i]
 		blockEnd1=blockBounds[i+1]
 		blockCount=blockCounts[i]
 		if blockCount>=blockCountMin:
 			#output!
-			outputV=[chrom,str(blockStart0),str(blockEnd1)]
-			if appendCount:
-				outputV.append(str(blockCount))
-			
-			print >> stdout,"\t".join(outputV)
+			if onelineBedOut:
+				if firstBlockStart0==-1:
+					firstBlockStart0=blockStart0
+				lastBlockEnd1=blockEnd1
+				
+				oneLineStarts0.append(blockStart0-firstBlockStart0)
+				oneLineLengths.append(blockEnd1-blockStart0)
+				
+			else:
+				outputV=[chrom,str(blockStart0),str(blockEnd1)]
+				if appendCount:
+					outputV.append(str(blockCount))
+				
+				print >> stdout,"\t".join(outputV)
+				
+	
+	if onelineBedOut and len(oneLineStarts0)>0:
+		oneLineStarts0=toStrArray(oneLineStarts0)
+		oneLineLengths=toStrArray(oneLineLengths)
+		outputV=[chrom,str(firstBlockStart0),str(lastBlockEnd1),oolname,oolscore,oolstrand,str(firstBlockStart0),str(lastBlockEnd1),str(oolitemrgb),str(len(oneLineStarts0)),",".join(oneLineLengths),",".join(oneLineStarts0)]
+		print >> stdout,"\t".join(outputV)
+		
