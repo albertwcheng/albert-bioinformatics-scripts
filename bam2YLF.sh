@@ -10,6 +10,7 @@ inbam=$1
 
 outdir=`absdirname.py $inbam`
 inbambn=`basename $inbam`
+inbambnNoExt=${inbambn/.bam/}
 
 tmpfile=`tempfile`
 tfbn=`basename $tmpfile`
@@ -20,7 +21,8 @@ bamtools convert -format bed -in $inbam -out $tmpfile
 echo "converting bed to ylf"
 BED2YoungLabFormat.py $tmpfile $outdir ylf
 
-mv $outdir/$tfbn.ylf $outdir/$inbambn.ylf
+echo "rename $tfbn.ylf $inbambnNoExt.ylf"
+mv $outdir/$tfbn.ylf $outdir/$inbambnNoExt.ylf
 
 echo "clean up"
 rm $tmpfile
