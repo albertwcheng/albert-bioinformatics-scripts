@@ -1,6 +1,6 @@
 #!/bin/bash
 
-if [ $# -lt 2 ]; then
+if [ $# -lt 4 ]; then
 	echo $0 "CPCOutputDir SummaryDir isoformIdx[-1] [ [ bedFiles ] ... ]"
 	exit
 fi
@@ -25,7 +25,8 @@ shift
 CPCOutputDir=`abspath.py $CPCOutputDir`
 SummaryDir=`abspath.py $SummaryDir`
 
-
+echo CPCOutputDir=$CPCOutputDir
+echo SummaryDir=$SummaryDir
 
 mkdir.py $SummaryDir
 
@@ -40,7 +41,7 @@ chr1:753322-778790_adipose.1.HBM	662	coding	0.507055
 chr1:753322-778790_adipose.1.HBM(revcomp)	662	noncoding	-1.05842
 chr1:779076-779321_adipose.1.HBM	245	noncoding	-1.25563
 chr1:779076-779321_adipose.1.HBM(revcomp)	245	noncoding	-1.40245
-
+COMMENT
 
 cat $CPCOutputDir/*.resultTab > $SummaryDir/merged.cpc.resultTab
 cat $CPCOutputDir/evidence/*/*.homo > $SummaryDir/merged.cpc.evidence.homo
@@ -73,7 +74,7 @@ for i in $SummaryDir/merged.cpc.resultTab.colgene $SummaryDir/merged.sense.cpc.r
 	awk -v FS="\t" -v OFS="\t" '$2=="noncoding"' $i.simp > $i.noncoding
 done
 
-COMMENT
+
 mkdir $SummaryDir/bisense_gl_coding
 mkdir $SummaryDir/bisense_gl_noncoding
 mkdir $SummaryDir/sense_gl_coding
