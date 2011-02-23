@@ -43,11 +43,17 @@ def zeros(n):
 def getNonOverlappingBlocks(intervals):
 	blockBounds=set()
 	
-	chrom=""
-	
+	if len(intervals)==0:
+		print >> stderr,"no intervals provided"
+		raise ValueError
+		
+	chrom=intervals[0][0]
 	#first pass:add all coords into blockBounds
 	for interval in intervals:
-		chrom,start0,end1=interval[:3]
+		tchrom,start0,end1=interval[:3]
+		if tchrom!=chrom:
+			print >> stderr,"inconsistent chromosomes. was",chrom,"now",tchrom
+			raise ValueError
 		blockBounds.add(start0)
 		blockBounds.add(end1)
 	
@@ -67,13 +73,14 @@ def getNonOverlappingBlocks(intervals):
 		except:
 			print >> stderr,"error start0=",start0,"not indexed"
 			print >> stderr,"blockBounds=",blockBounds
-			exit()
+			raise ValueError
+			
 		try:
 			eI=blockBounds.index(end1)
 		except:
 			print >> stderr,"error end1=",end1,"not indexed"
 			print >> stderr,"blockBounds=",blockBounds
-			exit()
+			raise ValueError
 		
 		for i in range(sI,eI):
 			blockCounts[i]+=1
