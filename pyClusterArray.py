@@ -51,6 +51,7 @@ from math import sqrt,log
 from os.path import dirname,exists
 from os import mkdir
 from scipy.stats.stats import *
+from matrixTranspose import *
 
 import shutil
 import sys
@@ -588,9 +589,9 @@ if __name__=="__main__":
 	for i in range(0,len(arrayOrdered)): #row
 		print >> fil, arrayOrdered[i]+"\t"+arrayOrdered[i]+"\t"+"1.000000",
 		for j in range(0,len(arrayOrdered)): #col
-			if NALowerLeft and i>j:
+			if NALowerLeft and i>=j:
 				print >> fil, "\t"+"NA",
-			elif NAUpperRight and j>i:
+			elif NAUpperRight and j>=i:
 				print >> fil, "\t"+"NA",
 			else:
 				print >> fil,"\t"+str(rearrangedCorrMatrix[i][j]),
@@ -602,19 +603,19 @@ if __name__=="__main__":
 	
 	
 	if pvalueMatrix:
-		Mt=matrix_transpose(M,len(M),len(M[0]))
-		Maskt=matrix_Transpose(Mask,len(Mask),len(Mask[0]))
+		Mt,MtRow,MtCol=matrix_transpose(M,len(M),len(M[0]))
+		Maskt,MasktRow,MasktCol=matrix_transpose(MASK,len(MASK),len(MASK[0]))
 		pvalueM=[]
-		for i in range(0,len(Mt)):
+		for i in range(0,MtRow):
 			pvalueMRow=[]
 			pvalueM.append(pvalueMRow)
-			for j in range(0,len(Mt)):
-				if j<i:
-					pvalueMRow.append("NA")
-				elif j==i:
-					pvalueMRow.append(0.0)
+			for j in range(0,MtRow):
+				#if j<i:
+					#pvalueMRow.append("NA")
+				if j==i:
+					pvalueMRow.append(1.0)
 				else:
-					Mi,Mj=getNonMaskedRowValuePairs(M[i],Maskt[i],M[j],Maskt[j])
+					Mi,Mj=getNonMaskedRowValuePairs(Mt[i],Maskt[i],Mt[j],Maskt[j])
 					if distance=="c":
 						cor,pvalue=pearsonr(Mi,Mj)
 					elif distance=="s":
@@ -636,9 +637,9 @@ if __name__=="__main__":
 		for i in range(0,len(arrayOrdered)): #row
 			print >> fil, arrayOrdered[i]+"\t"+arrayOrdered[i]+"\t"+"1.000000",
 			for j in range(0,len(arrayOrdered)): #col
-				if NALowerLeft and i>j:
+				if NALowerLeft and i>=j:
 					print >> fil, "\t"+"NA",
-				elif NAUpperRight and j>i:
+				elif NAUpperRight and j>=i:
 					print >> fil, "\t"+"NA",
 				else:
 					print >> fil,"\t"+str(rearrangedpvalueM[i][j]),
