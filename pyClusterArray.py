@@ -50,6 +50,7 @@ from math import sqrt,log
 #from cluster_init import *
 from os.path import dirname,exists
 from os import mkdir
+from scipy.stats.stats import *
 
 import shutil
 import sys
@@ -91,7 +92,8 @@ def printUsage(programName):
 	print >> stderr, "--top-sd rank select only the top rank sd (all items >= top rank sd)"
 	print >> stderr, "--ignore-NA-rows ignore rows with at least one NA value"
 	print >> stderr, "--ignore-NA-rows ignore rows with at least one NA value"
-	print >> stderr, "--copy-array-tree-for-orig  copy the atr to _orig.atr as well"		
+	print >> stderr, "--copy-array-tree-for-orig  copy the atr to _orig.atr as well"
+	print >> stderr, "--out-pvalue-matrix  output also p-value matrix (for pearson and spearman correlation)"		
 	print >> stderr, "Input Format:"
 	print >> stderr, "First line: GeneID<tab>ArrayName1<tab>ArrayName2<tab>...ArrayNameN"
 	print >> stderr, "Other lines: GeneID<tab>Data1<tab>Data2<tab>...DataN"			
@@ -309,13 +311,26 @@ def absArray(L):
 	
 	return absL	
 
+def getNonMaskedRowValuePairs(tM1,tMask1,tM2,tMask2):
+	tM1nm=[]
+	tM2nm=[]
+	for tM1v,tMask1v,tM2v,tMask2v in zip(tM1,tMask1,tM2,tMask2):
+		if tMask1v!=0 and tMask2v!=0:
+			tM1nm.append(tM1v)
+			tM2nm.append(tM2v)
+	return (tM1nm,tM2nm)
 
+def getSign(x):
+	if x>=0:
+		return 1
+	else:
+		return -1
 
 if __name__=="__main__":
 
 	####MAIN ENTRY POINT
 	programName=sys.argv[0]
-	opts,args=getopt(sys.argv[1:],'s:j:nNl:pf:',['center-gene=','normalize-gene','prefix','top-sd=','ignore-NA-rows','filled-threshold=','sd-threshold=','at-least-x-data-with-abs-val-ge-y=','max-min=','attach-param','folder=',"copy-array-tree-for-orig"])
+	opts,args=getopt(sys.argv[1:],'s:j:nNl:pf:',['center-gene=','normalize-gene','prefix','top-sd=','ignore-NA-rows','filled-threshold=','sd-threshold=','at-least-x-data-with-abs-val-ge-y=','max-min=','attach-param','folder=',"copy-array-tree-for-orig","out-pvalue-matrix"])
 	CenterGene=""
 	NormalizeGene=False
 	NALowerLeft=False
@@ -331,6 +346,8 @@ if __name__=="__main__":
 	attachParam=False
 	folder=""
 	copyArrayTreeForOrig=False
+	pvalueMatrix=False
+	
 	try:
 		filename,distance,clustermethod=args
 
@@ -378,7 +395,8 @@ if __name__=="__main__":
 				folder=a
 			elif o in ['--copy-array-tree-for-orig']:
 				copyArrayTreeForOrig=True
-
+			elif o in ['--out-pvalue-matrix']:
+				pvalueMatrix=True
 				
 	except:
 		printUsage(programName)
@@ -566,7 +584,7 @@ if __name__=="__main__":
 		print >> fil, lin
 
 	rearrangedCorrMatrix=rearrangeColAndRowSqMatrix(ComArrayMatrix,findIndices(arrayOrdered,Arrays))
-
+	
 	for i in range(0,len(arrayOrdered)): #row
 		print >> fil, arrayOrdered[i]+"\t"+arrayOrdered[i]+"\t"+"1.000000",
 		for j in range(0,len(arrayOrdered)): #col
@@ -580,7 +598,57 @@ if __name__=="__main__":
 		print >> fil,""
 
 	fil.close()
-
+	
+	
+	
+	if pvalueMatrix:
+		Mt=matrix_transpose(M,len(M),len(M[0]))
+		Maskt=matrix_Transpose(Mask,len(Mask),len(Mask[0]))
+		pvalueM=[]
+		for i in range(0,len(Mt)):
+			pvalueMRow=[]
+			pvalueM.append(pvalueMRow)
+			for j in range(0,len(Mt)):
+				if j<i:
+					pvalueMRow.append("NA")
+				elif j==i:
+					pvalueMRow.append(0.0)
+				else:
+					Mi,Mj=getNonMaskedRowValuePairs(M[i],Maskt[i],M[j],Maskt[j])
+					if distance=="c":
+						cor,pvalue=pearsonr(Mi,Mj)
+					elif distance=="s":
+						cor,pvalue=spearmanr(Mi,Mj)
+					else:
+						print >> stderr,"pvalue matrix not supported for distance method",distance
+					
+					pvalueMRow.append(getSign(cor)*(1-pvalue))
+		
+		rearrangedpvalueM=rearrangeColAndRowSqMatrix(pvalueM,findIndices(arrayOrdered,Arrays))
+		
+		#now output
+		fil=open(jobname+"_pvalueM.cdt","w")
+		shutil.copyfile(jobname+".atr", jobname+"_pvalueM.atr")
+		
+		for lin in firstthreelines:
+			print >> fil, lin
+			
+		for i in range(0,len(arrayOrdered)): #row
+			print >> fil, arrayOrdered[i]+"\t"+arrayOrdered[i]+"\t"+"1.000000",
+			for j in range(0,len(arrayOrdered)): #col
+				if NALowerLeft and i>j:
+					print >> fil, "\t"+"NA",
+				elif NAUpperRight and j>i:
+					print >> fil, "\t"+"NA",
+				else:
+					print >> fil,"\t"+str(rearrangedpvalueM[i][j]),
+	
+			print >> fil,""
+	
+		fil.close()
+			
+		
+		
 
 	print >> stderr,"Outputting Matrix"
 	fil=open(jobname+".mat.txt","w")
