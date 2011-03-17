@@ -141,15 +141,23 @@ def dfsGetList(adjList,visited,source):
 			
 
 from sys import *
+from getopt import getopt
 
 if __name__=='__main__':
 	programName=argv[0]
-	args=argv[1:]
+	opts,args=getopt(argv[1:],'',['out-top-correl='])
+	
+	outTopCorrel=""
+	
+	for o,v in opts:
+		if o=='--out-top-correl':
+			outTopCorrel=v
 	
 	try:
 		cdtfile,atrfile=args
 	except:
-		print >> stderr,"Usage:",programName,"cdtfile atrfile > group1 2> group2"
+		print >> stderr,"Usage:",programName,"[options] cdtfile atrfile > group1 2> group2"
+		print >> stderr,"--out-top-correl ofile. Output the top correlation into ofile"
 		exit()
 
 	
@@ -178,13 +186,14 @@ if __name__=='__main__':
 
 	InDeg=dict()
 	ChildrenLists=dict()
+	Correlations=dict()
 	uparents=set()
 
 	#read in atr file
 	fil=open(atrfile)
 	for lin in fil:
 		fields=lin.rstrip().split("\t")
-		if len(fields)<3:
+		if len(fields)<4:
 			print >> stderr,"bad formatting of atr file",lin
 			exit()
 				
@@ -212,6 +221,7 @@ if __name__=='__main__':
 		except KeyError:
 			pass
 		ChildrenLists[parent]=[child1,child2]
+		Correlations[parent]=float(fields[3])
 		uparents.add(parent)
 	
 	fil.close()
@@ -225,6 +235,14 @@ if __name__=='__main__':
 
 	uparent=uparents[0]
 
+	#print >> stderr,ChildrenLists
+	#print >> stderr,ChildrenLists[uparent]
+	#print >> stderr,Correlations[uparent]
+	if outTopCorrel!="":
+		fout=open(outTopCorrel,"w")
+		print >> fout,Correlations[uparent]
+		fout.close()
+	
 	visited=set()
 	#now dfs in the left child of parent to stdout
 	leftList=dfsGetList(ChildrenLists,visited,ChildrenLists[uparent][0])
