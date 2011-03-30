@@ -44,7 +44,7 @@ THE SOFTWARE.
 
 from Bio.Cluster.cluster import *
 from Bio.Cluster import *
-from numpy import std
+
 import numpy
 from math import sqrt,log
 #from cluster_init import *
@@ -52,6 +52,7 @@ from os.path import dirname,exists
 from os import mkdir
 from scipy.stats.stats import *
 from matrixTranspose import *
+from numpy import std
 
 import shutil
 import sys
@@ -234,12 +235,12 @@ def cluster3_NormalizeInPlace(values):
 	
 
 def cluster3_CenterInPlaceByMedian(values):
-	Med=median(values)
+	Med=numpy.median(values)
 	for k in range(0,len(values)):
 		values[k]-=Med
 
 def cluster3_CenterInPlaceByMean(values):
-	Mean=mean(values)
+	Mean=numpy.mean(values)
 	for k in range(0,len(values)):
 		values[k]-=Mean
 	
@@ -284,7 +285,7 @@ def topSDSubM(M,Msk,k):
 	
 	for Mrow,MskRow in zip(M,Msk):
 		nonmasked=getNonMaskedRowValues(Mrow,MskRow)
-		sd=std(nonmasked)
+		sd=numpy.std(nonmasked)
 		if str(sd)=="nan":
 			print >> stderr,"nan sd=",nonmasked
 		SDs.append(sd)
@@ -483,7 +484,7 @@ if __name__=="__main__":
 					continue #Max-Min not passed
 			
 			if SDThreshold>0.0:
-				sd=std(nonmasked)
+				sd=numpy.std(nonmasked)
 				if sd<SDThreshold:
 					continue #SD Threshold not passed
 
