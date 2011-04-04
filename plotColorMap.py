@@ -166,6 +166,9 @@ def plotColorMatrix(infile,figFileName,options):
 				gca().add_patch(Rectangle((x,y),1,1,facecolor=options.NAColor,linewidth=0.0))
 				plot([x,x+1],[y,y+1],color="black")
 				plot([x,x+1],[y+1,y],color="black")
+			else:
+				if options.labelZ:
+					text(x+0.5,y+0.5,str(values[r][c]),verticalalignment="center",horizontalalignment="center")
 				
 	for r in range(1,nrows):
 		axhline(y=r-0.5,color="white",linewidth=1.5)
@@ -200,6 +203,7 @@ if __name__=='__main__':
 	parser.add_option("--data-range",dest="dataRange",default=None,nargs=2,help="set data range --data-range min max [default: None: Auto]")
 	parser.add_option("--fs",dest="fs",default="\t",help="set field separator [tab]")
 	parser.add_option('--fig-size',dest='figSize',default=None,nargs=2,help="set figure dimension --fig-size w h [default: None: Auto]")
+	parser.add_option('--label-z',dest='labelZ',default=False,action="store_true",help="display data label")
 	(options, args) = parser.parse_args(argv)
 	
 
