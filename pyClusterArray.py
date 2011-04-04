@@ -46,7 +46,7 @@ from Bio.Cluster.cluster import *
 from Bio.Cluster import *
 
 import numpy
-from math import sqrt,log
+from math import sqrt,log,fabs
 #from cluster_init import *
 from os.path import dirname,exists
 from os import mkdir
@@ -92,6 +92,7 @@ def printUsage(programName):
 	print >> stderr, "--normalize-gene normalize gene prior to clustering"
  	print >> stderr, "--sd-threshold filter items >= sdt"	
 	print >> stderr, "--top-sd rank select only the top rank sd (all items >= top rank sd)"
+	print >> stderr, "--top-cv rank select only the top rank CV [=sd/absmean] (all items >= top rank cv)"
 	print >> stderr, "--ignore-NA-rows ignore rows with at least one NA value"
 	print >> stderr, "--ignore-NA-rows ignore rows with at least one NA value"
 	print >> stderr, "--copy-array-tree-for-orig  copy the atr to _orig.atr as well"
@@ -306,6 +307,38 @@ def topSDSubM(M,Msk,k):
 
 	return (newM,newMsk)
 	
+	
+def topCVSubM(M,Msk,k):
+	SDs=[]
+
+	if k>=len(M):
+		return (M[:],Msk[:])
+	
+	for Mrow,MskRow in zip(M,Msk):
+		nonmasked=getNonMaskedRowValues(Mrow,MskRow)
+		sd=numpy.std(nonmasked)
+		absmean=fabs(numpy.mean(nonmasked))
+		CV=sd/absmean
+		if str(sd)=="nan":
+			print >> stderr,"nan sd=",nonmasked
+		SDs.append(CV)
+
+	
+	SDs.sort(reverse=True)
+	
+	SDThreshold=SDs[k-1]
+
+	print >> stderr,"CVThreshold=",SDThreshold
+	
+	newM=[]
+	newMsk=[]
+	for Mrow,MskRow,sd in zip(M,Msk,SDs):
+		if sd>=SDThreshold:
+			newM.append(Mrow)
+			newMsk.append(MskRow)
+
+	return (newM,newMsk)
+	
 def absArray(L):
 	absL=[]
 	for x in L:
@@ -332,7 +365,7 @@ if __name__=="__main__":
 
 	####MAIN ENTRY POINT
 	programName=sys.argv[0]
-	opts,args=getopt(sys.argv[1:],'s:j:nNl:pf:',['center-gene=','normalize-gene','prefix','top-sd=','ignore-NA-rows','filled-threshold=','sd-threshold=','at-least-x-data-with-abs-val-ge-y=','max-min=','attach-param','folder=',"copy-array-tree-for-orig","out-pvalue-matrix"])
+	opts,args=getopt(sys.argv[1:],'s:j:nNl:pf:',['center-gene=','normalize-gene','prefix','top-sd=','top-cv=','ignore-NA-rows','filled-threshold=','sd-threshold=','at-least-x-data-with-abs-val-ge-y=','max-min=','attach-param','folder=',"copy-array-tree-for-orig","out-pvalue-matrix"])
 	CenterGene=""
 	NormalizeGene=False
 	NALowerLeft=False
@@ -340,8 +373,10 @@ if __name__=="__main__":
 	logbase=0
 	prefix=""
 	topSD=0
+	topCV=0
 	#ignoreNARows=False
 	SDThreshold=0.0
+	CVThreshold=0.0
 	filledThreshold=0.0
 	atLeastXDataWithAbsValGEY=[0,0] #[X,Y]
 	maxMin=0.0
@@ -349,6 +384,7 @@ if __name__=="__main__":
 	folder=""
 	copyArrayTreeForOrig=False
 	pvalueMatrix=False
+	logbaseDisplay=""
 	
 	try:
 		filename,distance,clustermethod=args
@@ -366,6 +402,7 @@ if __name__=="__main__":
 			elif o=='-N':
 				NAUpperRight=True
 			elif o=='-l':
+				logbaseDisplay=a
 				logbase=log(float(a))
 			elif o=="--center-gene":
 				CenterGene=a
@@ -375,6 +412,8 @@ if __name__=="__main__":
 				prefix=a
 			elif o=="--top-sd":
 				topSD=int(a)
+			elif o=='--top-cv':
+				topCV=int(a)
 			elif o=='--ignore-NA-rows':
 				#ignoreNARows=True
 				filledThreshold=1
@@ -382,6 +421,8 @@ if __name__=="__main__":
 				filledThreshold=float(a)
 			elif o=='--sd-threshold':
 				SDThreshold=float(a)
+			elif o=='--cv-threshold':
+				CVThreshold=float(a)
 			elif o=='--at-least-x-data-with-abs-val-ge-y':
 				try:
 					x,y=a.split(",")
@@ -407,13 +448,17 @@ if __name__=="__main__":
 	if attachParam:
 		attachParam=[]
 		if logbase!=0:
-			attachParam.append("log"+str(logbase))
+			attachParam.append("log"+logbaseDisplay)
 		if filledThreshold!=0:
 			attachParam.append("filled"+str(filledThreshold))
 		if topSD!=0:
-			attachParam.append("topsd"+str(topSD))     
+			attachParam.append("topsd"+str(topSD))
+		if topCV!=0:
+			attachParam.append("topcv"+str(topCV))  
 		if SDThreshold!=0:
 			attachParam.append("sdt"+str(SDThreshold))
+		if CVThreshold!=0:
+			attachParam.append("cvt"+str(CVThreshold))
 		if CenterGene!="":
 			attachParam.append("cg"+CenterGene)
 		if NormalizeGene:
@@ -489,6 +534,12 @@ if __name__=="__main__":
 					continue #SD Threshold not passed
 
 			
+			if CVThreshold>0.0:
+				sd=numpy.std(nonmasked)
+				absmean=abs(numpy.mean(nonmasked))
+				CV=sd/absmean
+				if CV<CVThreshold:
+					continue #CV Threshold not passed
 			
 				
 			
@@ -503,7 +554,9 @@ if __name__=="__main__":
 
 	if topSD>0:
 		M,MASK=topSDSubM(M,MASK,topSD)	
-
+	
+	if topCV>0:
+		M,MASK=topCVSubM(M,MASK,topCV)	
 	
 
 	if CenterGene=="m":
