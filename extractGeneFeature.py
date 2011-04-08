@@ -110,7 +110,7 @@ def makeListOfTuples(listOfL):
 
 def transcriptToGeneStruct(genePredFields,options):
 	try:
-		name,chrom,strand,txStartG0,txEndG1,cdsStartG0,cdsEndG1,exonCount,exonStartsG0,exonEndsG1=fields
+		name,chrom,strand,txStartG0,txEndG1,cdsStartG0,cdsEndG1,exonCount,exonStartsG0,exonEndsG1=genePredFields
 		txStartG0=int(txStartG0)
 		txEndG1=int(txEndG1)
 		cdsStartG0=int(cdsStartG0)
@@ -274,7 +274,9 @@ all\treturn all features
 	parser.add_option("--utr-name-string",dest="utrNameString",default="utr",help="set the name of an utr [utr]")
 	parser.add_option("--5utr-name-string",dest="fiveUTRNameString",default="5utr",help="set the name of a 5' utr [5utr]")
 	parser.add_option("--3utr-name-string",dest="threeUTRNameString",default="3utr",help="set the name of a 3' utr [3utr]")
-	
+	parser.add_option("--upstream-name-string",dest="upstreamNameString",default="upstream",help="set the name of an upstream region [upstream]")
+	parser.add_option("--downstream-name-string",dest="downstreamNameString",default="downstream",help="set the name of a downstream region [downstream]")
+		
 	parser.add_option("--score",dest="bedScore",default="0",help="set score of the out bed [0]")
 	
 	(options,args)=parser.parse_args()
@@ -319,8 +321,27 @@ all\treturn all features
 		
 		for feature in featureList:
 			if feature=="transcript":
-				toOutputObjects.add(geneStruct["transcript"])
+				toOutputObjects.add(tuple(geneStruct["transcript"]))
 				continue
+			
+			if feature[:8]=="upstream":
+				bp=int(feature[8:])
+				chrom,txStartG0,txEndG1,name=geneStruct["transcript"]
+				if not options.genomicIndex and geneStruct["strand"]=="-":
+					#genomic downstream
+					toOutputObjects.add((chrom,txEndG1,txEndG1+bp,getElementName(name,options.upstreamNameString+str(bp),options)))
+				else:
+					toOutputObjects.add((chrom,txStartG0-bp,txStartG0,getElementName(name,options.upstreamNameString+str(bp),options)))
+				continue
+				
+			if feature[:10]=="downstream":
+				bp=int(feature[10:])
+				if not options.genomicIndex and geneStruct["strand"]=="-":
+					#genomic upstream
+					toOutputObjects.add((chrom,txStartG0-bp,txStartG0,getElementName(name,options.downstreamNameString+str(bp),options)))
+				else:
+					toOutputObjects.add((chrom,txEndG1,txEndG1+bp,getElementName(name,options.downstreamNameString+str(bp),options)))
+				continue				
 			
 			for fKey in ["exon","intron","cds","utr","5utr","3utr"]:
 				param=featureIdMatchParam(feature,fKey)

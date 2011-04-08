@@ -168,7 +168,8 @@ def plotColorMatrix(infile,figFileName,options):
 				plot([x,x+1],[y+1,y],color="black")
 			else:
 				if options.labelZ:
-					text(x+0.5,y+0.5,str(values[r][c]),verticalalignment="center",horizontalalignment="center")
+					zlabel=options.formatz %(values[r][c])
+					text(x+0.5,y+0.5,str(zlabel),verticalalignment="center",horizontalalignment="center")
 				
 	for r in range(1,nrows):
 		axhline(y=r-0.5,color="white",linewidth=1.5)
@@ -204,6 +205,7 @@ if __name__=='__main__':
 	parser.add_option("--fs",dest="fs",default="\t",help="set field separator [tab]")
 	parser.add_option('--fig-size',dest='figSize',default=None,nargs=2,help="set figure dimension --fig-size w h [default: None: Auto]")
 	parser.add_option('--label-z',dest='labelZ',default=False,action="store_true",help="display data label")
+	parser.add_option('--z-label-format',dest="formatz",default="%f",help="set formatting for z label. e.g., %d. [default: %f]")
 	(options, args) = parser.parse_args(argv)
 	
 
