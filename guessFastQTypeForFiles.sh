@@ -15,7 +15,7 @@ origFileName[0]=""
 while(($#>=1)); do
 	fileToCheck=$1
 	shift
-	echo "guessFastQType.py $fileToCheck > $fileToCheck.guess" | qsub -d `pwd` #2> $fileToCheck.guess.stderr
+	bsub "guessFastQType.py $fileToCheck > $fileToCheck.guess" #| qsub -d `pwd` #2> $fileToCheck.guess.stderr
 	#guessFileReturn[${#guessFileReturn[@]}]=$fileToCheck.guess.00
 	#origFileName[${#origFileName[@]}]=$fileToCheck
 	#echo -e "$fileToCheck\t$guess"

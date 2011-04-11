@@ -31,6 +31,7 @@ from sys import *
 import numpy as np
 import matplotlib.pyplot as plt
 from pylab import *
+from os.path import *
 
 
 def showAvailableColorMapToFigure(figFileName):
@@ -182,6 +183,10 @@ def plotColorMatrix(infile,figFileName,options):
 	xlim(-0.5,ncols-0.5)
 	ylim(-0.5,nrows-0.5)	
 	
+	if options.title:
+		title(options.title,fontsize=options.titleFontSize)
+	elif options.absPathAsTitle:
+		title(abspath(figFileName),fontsize=options.titleFontSize)
 	
 	
 	if options.figSize:
@@ -206,6 +211,9 @@ if __name__=='__main__':
 	parser.add_option('--fig-size',dest='figSize',default=None,nargs=2,help="set figure dimension --fig-size w h [default: None: Auto]")
 	parser.add_option('--label-z',dest='labelZ',default=False,action="store_true",help="display data label")
 	parser.add_option('--z-label-format',dest="formatz",default="%f",help="set formatting for z label. e.g., %d. [default: %f]")
+	parser.add_option('--title',dest='title',default=None,help="set title of graph")
+	parser.add_option('--abspath-as-title',dest="absPathAsTitle",default=False,action="store_true",help="set title to abspath")
+	parser.add_option('--title-font-size',dest='titleFontSize',default='medium',help="set title font size")
 	(options, args) = parser.parse_args(argv)
 	
 
