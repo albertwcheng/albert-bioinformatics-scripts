@@ -79,6 +79,8 @@ def toFloatListWithNAMask(L):
 		
 	return (fL,Mask,vmin,vmax)
 
+
+
 def plotColorMatrix(infile,figFileName,options):
 	#load file
 	fil=open(infile)
@@ -92,6 +94,25 @@ def plotColorMatrix(infile,figFileName,options):
 	minval=None
 	maxval=None
 	
+	extraLabels=[]
+	
+	if options.extraLabel:
+		fextralabel=open(options.extraLabel)
+		lino=0
+		for lin in fextralabel:
+			lino+=1
+			if lino<2:
+				continue
+			
+			
+			fields=lin.rstrip("\r\n").split(options.fs)
+			extraLabelRows=fields[1:]
+			extraLabels.append(extraLabelRows)
+		
+		fextralabel.close()
+		extraLabels.reverse()
+		
+	lino=0
 	
 	for lin in fil:
 		fields=lin.rstrip("\r\n").split(options.fs)
@@ -156,7 +177,8 @@ def plotColorMatrix(infile,figFileName,options):
 	for r in range(0,nrows):
 		for c in range(0,ncols):
 			
-		
+			zlabel=""
+			
 			x=c-0.5
 			y=r-0.5
 			m=masks[r][c]
@@ -170,6 +192,10 @@ def plotColorMatrix(infile,figFileName,options):
 			else:
 				if options.labelZ:
 					zlabel=options.formatz %(values[r][c])
+				if options.extraLabel:
+					zlabel+="\n"+options.extraLabelFormat %(extraLabels[r][c])
+				
+				if len(zlabel)>0:
 					text(x+0.5,y+0.5,str(zlabel),verticalalignment="center",horizontalalignment="center")
 				
 	for r in range(1,nrows):
@@ -200,6 +226,156 @@ def plotColorMatrix(infile,figFileName,options):
 	savefig(figFileName)
 	
 
+def plotColorMatrixWithAllColorMaps(infile,figFileNameIn,options):
+	#load file
+	fil=open(infile)
+	lino=0
+	
+	rownames=[]
+	
+	values=[]
+	masks=[]
+	
+	minval=None
+	maxval=None
+	
+	extraLabels=[]
+	
+	if options.extraLabel:
+		fextralabel=open(options.extraLabel)
+		lino=0
+		for lin in fextralabel:
+			lino+=1
+			if lino<2:
+				continue
+			
+			
+			fields=lin.rstrip("\r\n").split(options.fs)
+			extraLabelRows=fields[1:]
+			extraLabels.append(extraLabelRows)
+		
+		fextralabel.close()
+		extraLabels.reverse()
+		
+	lino=0
+	
+	for lin in fil:
+		fields=lin.rstrip("\r\n").split(options.fs)
+		lino+=1
+		if lino==1:
+			colnames=fields[1:]
+		else:
+			rownames.append(fields[0])
+			rowvalues,rowmask,rowmin,rowmax=toFloatListWithNAMask(fields[1:])
+			if rowmin!=None:
+				if minval==None:
+					minval=rowmin
+					maxval=rowmax
+				else:
+					minval=min(rowmin,minval)
+					maxval=max(rowmax,maxval)
+			
+			values.append(rowvalues)
+			masks.append(rowmask)
+			
+	fil.close()
+	
+	#print >> stderr,masks
+	masks.reverse()
+	#print >> stderr,masks
+	values.reverse()
+	#print >> stderr,values
+	rownames.reverse()
+	
+	#now draw
+	if options.dataRange:
+		vminToDraw=float(options.dataRange[0])
+		vmaxToDraw=float(options.dataRange[1])
+	else:
+		vminToDraw=minval
+		vmaxToDraw=maxval
+	
+	maps = plt.cm.datad 
+	
+	for cri,curcm in enumerate(maps):
+		print >> stderr,"drawing using colormap",curcm
+		figure()
+		
+		figFileName=figFileNameIn+curcm+options.suffixFiles
+		im=matshow(array(values),cmap=plt.get_cmap(curcm),vmin=vminToDraw,vmax=vmaxToDraw)
+		
+	
+	
+	
+		for label in im.axes.xaxis.get_ticklabels():
+			label.set_rotation(options.xtickRotation)
+	
+		for tick in im.axes.xaxis.get_major_ticks():
+			tick.tick1On=False
+			tick.tick2On=False
+			
+		for tick in im.axes.yaxis.get_major_ticks():
+			tick.tick1On=False
+			tick.tick2On=False
+			
+		ncols=len(colnames)
+		nrows=len(rownames)
+		
+	
+		
+		#now refill the NA values with NA color
+		for r in range(0,nrows):
+			for c in range(0,ncols):
+				
+				zlabel=""
+				
+				x=c-0.5
+				y=r-0.5
+				m=masks[r][c]
+				if m==0:
+					#need to fill:
+					#print >> stderr,"NA at",r,c
+					#broken_barh([(x,1)],(y,1),facecolor=options.NAColor,linewidth=0.0,antialiased=True) #edgecolor=options.NAColor,
+					gca().add_patch(Rectangle((x,y),1,1,facecolor=options.NAColor,linewidth=0.0))
+					plot([x,x+1],[y,y+1],color="black")
+					plot([x,x+1],[y+1,y],color="black")
+				else:
+					if options.labelZ:
+						zlabel=options.formatz %(values[r][c])
+					if options.extraLabel:
+						zlabel+="\n"+options.extraLabelFormat %(extraLabels[r][c])
+					
+					if len(zlabel)>0:
+						text(x+0.5,y+0.5,str(zlabel),verticalalignment="center",horizontalalignment="center")
+					
+		for r in range(1,nrows):
+			axhline(y=r-0.5,color="white",linewidth=1.5)
+		for c in range(1,ncols):
+			axvline(x=c-0.5,color="white",linewidth=1.5)
+		
+		#now set labels:
+		xticks(arange(ncols),colnames)
+		yticks(arange(nrows),rownames)
+		xlim(-0.5,ncols-0.5)
+		ylim(-0.5,nrows-0.5)	
+		
+		if options.title:
+			title(options.title,fontsize=options.titleFontSize)
+		elif options.absPathAsTitle:
+			title(abspath(figFileName),fontsize=options.titleFontSize)
+		
+		
+		if options.figSize:
+			gcf().set_size_inches(float(options.figSize[0]),float(options.figSize[1]))
+			
+		fw,fh=gcf().get_size_inches()
+		
+		shrink=1.0/(max(fw,fh)/6.0*2.0)
+			
+		colorbar(shrink=shrink)
+		savefig(figFileName)
+	
+
 if __name__=='__main__':
 	parser=OptionParser("usage:\t%prog [options] matrixFile outputFigFilename\n\t%prog --show-available-color-maps outputFigFilename")
 	parser.add_option("--xtick-rotation",dest="xtickRotation",default=0.0,type=float,help="specify rotation of xticks in degrees [0.0]")
@@ -211,12 +387,16 @@ if __name__=='__main__':
 	parser.add_option('--fig-size',dest='figSize',default=None,nargs=2,help="set figure dimension --fig-size w h [default: None: Auto]")
 	parser.add_option('--label-z',dest='labelZ',default=False,action="store_true",help="display data label")
 	parser.add_option('--z-label-format',dest="formatz",default="%f",help="set formatting for z label. e.g., %d. [default: %f]")
+	parser.add_option('--extra-label',dest="extraLabel",default=None,help="specify extra label file after z label")
+	parser.add_option('--extra-label-format',dest="extraLabelFormat",default="%s",help="specify the format of the extra label")
 	parser.add_option('--title',dest='title',default=None,help="set title of graph")
 	parser.add_option('--abspath-as-title',dest="absPathAsTitle",default=False,action="store_true",help="set title to abspath")
 	parser.add_option('--title-font-size',dest='titleFontSize',default='medium',help="set title font size")
+	parser.add_option('--sample-all-color-maps',dest='sampleAllColorMaps',default=False,action="store_true",help="make figures using all color maps")
+	parser.add_option('--suffix-files',dest="suffixFiles",default=".pdf",help="set the suffix (including the format) of output figures when using sample all color maps option [default: pdf]")
 	(options, args) = parser.parse_args(argv)
 	
-
+	#print >> stderr,options.suffixFiles
 
 	if options.showAvailableColorMap:
 		try:
@@ -234,7 +414,11 @@ if __name__=='__main__':
 		except:
 			parser.print_help()
 			exit()
-		plotColorMatrix(inFile,outFigFile,options)
+			
+		if options.sampleAllColorMaps:
+			plotColorMatrixWithAllColorMaps(inFile,outFigFile,options)
+		else:
+			plotColorMatrix(inFile,outFigFile,options)
 		
 	
 
