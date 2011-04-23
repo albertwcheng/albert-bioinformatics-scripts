@@ -2,6 +2,7 @@
 
 from sys import *
 from getopt import getopt
+from operator import itemgetter
 
 complDict={'A':'T','a':'t','C':'G','c':'g','T':'A','t':'a','G':'C','g':'c','U':'A','u':'a'}	
 	
@@ -13,6 +14,41 @@ def complementBase(c):
 	except:
 		return c
 
+def editDistance(s1,s2):
+	if len(s1)!=len(s2):
+		return 100000
+	
+	dist=0
+	
+	for i in range(0,len(s1)):
+		x=s1[i]
+		y=s2[i]
+		if x.upper()!=y.upper():
+			dist+=1
+
+	return dist
+	
+#return None or the (barcodeMatched,ToFileString)
+def findBestBarcodeMatchedEntry(barcodeListing,code,editDistanceMax,noTie=True):
+	if editDistanceMax==0: #no mismatch allowed
+		if not barcodeListing.has_key(code):
+			return None
+		else:
+			return (code,barcodeListing[code])
+	else:
+		editDists=[]
+		for codeEntry,codeToFile in barcodeListing.items():
+			editDists.append((editDistance(code,codeEntry),codeEntry,codeToFile))
+		
+		#now sort edit Dist on first item
+		editDists.sort(key=itemgetter(0))
+		
+		#now ascending
+		#the first item is the best
+		if noTie and editDists[1][0]==editDists[0][0]: #tie arising
+			return None #no matched
+		
+		return (editDists[0][1],editDists[0][2]) #return the code matched and the toFile String
 		
 def reverse_complement(S):
 	rc=""
@@ -35,8 +71,10 @@ def printUsageAndExit(programName):
 	print >> stderr,"barCode[tab]filename"
 	print >> stderr,"[options]:"
 	print >> stderr,"--append append to file instead of creating a file"
+	print >> stderr,"--prefixOutFileName add prefix to out file name"
 	print >> stderr,"--suffixOutFileName add suffix to out file name"
 	print >> stderr,"--unclassifiedReadTo x output unclassified reads to file x"
+	print >> stderr,"--editDistanceMax mx. allow max mismatch to barcode (and no tie of the best two matched)"
 	exit(1)
 
 def loadBarCodeListing(barCodeListing,filename):
@@ -55,7 +93,7 @@ def writeToCurFile(curFile,content):
 	
 if __name__=='__main__':
 	programName=argv[0]
-	opts,args=getopt(argv[1:],'',['barcodeListing=','barcode=','tofile=','append','suffixOutFileName=','unclassifiedReadTo='])
+	opts,args=getopt(argv[1:],'',['editDistMax=','barcodeListing=','barcode=','tofile=','append','suffixOutFileName=','prefixOutFileName=','unclassifiedReadTo='])
 	
 	barCodeListing=dict() # dict[barcode]=outfile
 	appendOutFile=False
@@ -63,6 +101,9 @@ if __name__=='__main__':
 	barcodeCur=""
 	toFileCur=""
 	unclassTo=None
+	editDistanceMax=0 #default is exact match
+	noTie=True
+	prefixOutFileName=""
 	
 	for o,v in opts:
 		if o=='--barcodeListing':
@@ -85,6 +126,10 @@ if __name__=='__main__':
 			suffixOutFileName=v
 		elif o=='--unclassifiedReadTo':
 			unclassTo=v
+		elif o=='--editDistMax':
+			editDistanceMax=int(v)
+		elif o=='--prefixOutFileName':
+			prefixOutFileName=v
 	
 	if len(args)==0:
 		print >> stderr,"no in.fastq specified. Abort"
@@ -106,9 +151,9 @@ if __name__=='__main__':
 	barCodeFiles=dict()
 	for barCode,toFile in barCodeListing.items():
 		if appendOutFile:
-			barCodeFiles[barCode]=open(toFile+suffixOutFileName,"w+")
+			barCodeFiles[barCode]=open(prefixOutFileName+toFile+suffixOutFileName,"w+")
 		else:
-			barCodeFiles[barCode]=open(toFile+suffixOutFileName,"w")
+			barCodeFiles[barCode]=open(prefixOutFileName+toFile+suffixOutFileName,"w")
 			
 		writeCount[barCode]=0
 	
@@ -116,9 +161,9 @@ if __name__=='__main__':
 	
 	if unclassTo!="":
 		if appendOutFile:
-			unclassToFile=open(unclassTo+suffixOutFileName,"w+")
+			unclassToFile=open(prefixOutFileName+unclassTo+suffixOutFileName,"w+")
 		else:
-			unclassToFile=open(unclassTo+suffixOutFileName,"w")
+			unclassToFile=open(prefixOutFileName+unclassTo+suffixOutFileName,"w")
 	
 	readname=""
 	
@@ -147,12 +192,23 @@ if __name__=='__main__':
 				readname=lin[1:]
 				afterpound=readname.split("#")[1]
 				barCodeSeq=afterpound.split("/")[0]
-				if barCodeSeq not in barCodeFiles:
+				#if barCodeSeq not in barCodeFiles:
+				#	curFile=unclassToFile
+				#	writeCountUnclassified+=1
+				#else:
+				#	curFile=barCodeFiles[barCodeSeq]
+				#	writeCount[barCodeSeq]+=1
+				#
+				
+				matched=findBestBarcodeMatchedEntry(barCodeFiles,barCodeSeq,editDistanceMax,noTie)
+				
+				if not matched:
 					curFile=unclassToFile
 					writeCountUnclassified+=1
 				else:
-					curFile=barCodeFiles[barCodeSeq]
-					writeCount[barCodeSeq]+=1
+					barCodeMatched,toFileObj=matched
+					curFile=toFileObj #1 is the file
+					writeCount[barCodeMatched]+=1
 				
 				writeToCurFile(curFile,lin)
 			elif linoMod4==2: #seq line
