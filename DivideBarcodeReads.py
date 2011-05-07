@@ -3,6 +3,7 @@
 from sys import *
 from getopt import getopt
 from operator import itemgetter
+from os.path import exists
 
 complDict={'A':'T','a':'t','C':'G','c':'g','T':'A','t':'a','G':'C','g':'c','U':'A','u':'a'}	
 	
@@ -46,7 +47,10 @@ def findBestBarcodeMatchedEntry(barcodeListing,code,editDistanceMax,noTie=True):
 		#now ascending
 		#the first item is the best
 		if noTie and editDists[1][0]==editDists[0][0]: #tie arising
-			return None #no matched
+			return None #tie assume no matched
+		
+		if editDists[0][0]>editDistanceMax:
+			return None #not good match
 		
 		return (editDists[0][1],editDists[0][2]) #return the code matched and the toFile String
 		
@@ -75,6 +79,7 @@ def printUsageAndExit(programName):
 	print >> stderr,"--suffixOutFileName add suffix to out file name"
 	print >> stderr,"--unclassifiedReadTo x output unclassified reads to file x"
 	print >> stderr,"--editDistanceMax mx. allow max mismatch to barcode (and no tie of the best two matched)"
+	print >> stderr,"--outActualCodeCount suffix. write the actual barcode counts for each uniq barcode sequence to a file of the outfile name with this suffix"
 	exit(1)
 
 def loadBarCodeListing(barCodeListing,filename):
@@ -93,7 +98,7 @@ def writeToCurFile(curFile,content):
 	
 if __name__=='__main__':
 	programName=argv[0]
-	opts,args=getopt(argv[1:],'',['editDistMax=','barcodeListing=','barcode=','tofile=','append','suffixOutFileName=','prefixOutFileName=','unclassifiedReadTo='])
+	opts,args=getopt(argv[1:],'',['outActualCodeCount=','editDistMax=','barcodeListing=','barcode=','tofile=','append','suffixOutFileName=','prefixOutFileName=','unclassifiedReadTo='])
 	
 	barCodeListing=dict() # dict[barcode]=outfile
 	appendOutFile=False
@@ -104,6 +109,7 @@ if __name__=='__main__':
 	editDistanceMax=0 #default is exact match
 	noTie=True
 	prefixOutFileName=""
+	outActualCodeCount=None
 	
 	for o,v in opts:
 		if o=='--barcodeListing':
@@ -130,7 +136,9 @@ if __name__=='__main__':
 			editDistanceMax=int(v)
 		elif o=='--prefixOutFileName':
 			prefixOutFileName=v
-	
+		elif o=='--outActualCodeCount':
+			outActualCodeCount=v
+			
 	if len(args)==0:
 		print >> stderr,"no in.fastq specified. Abort"
 		printUsageAndExit(programName)
@@ -145,6 +153,7 @@ if __name__=='__main__':
 	barCodeListing=newBarCodeListing
 	
 	writeCount=dict()
+	seqBarCodeCount=dict()
 	writeCountUnclassified=0	
 	
 	#openFiles!
@@ -156,6 +165,8 @@ if __name__=='__main__':
 			barCodeFiles[barCode]=open(prefixOutFileName+toFile+suffixOutFileName,"w")
 			
 		writeCount[barCode]=0
+		if outActualCodeCount:
+			seqBarCodeCount[barCode]=dict()
 	
 	unclassToFile=None
 	
@@ -209,7 +220,12 @@ if __name__=='__main__':
 					barCodeMatched,toFileObj=matched
 					curFile=toFileObj #1 is the file
 					writeCount[barCodeMatched]+=1
-				
+					if outActualCodeCount:
+						try:
+							seqBarCodeCount[barCodeMatched][barCodeSeq]+=1
+						except:
+							seqBarCodeCount[barCodeMatched][barCodeSeq]=1
+							
 				writeToCurFile(curFile,lin)
 			elif linoMod4==2: #seq line
 				writeToCurFile(curFile,lin)
@@ -232,11 +248,37 @@ if __name__=='__main__':
 		toFile.close()
 		
 	totalProc=0
+	
+	
+		
 	#now summarize:
 	for barCode,toFile in barCodeListing.items():
 		totalProc+=writeCount[barCode]
-		print >> stderr,writeCount[barCode],"reads with barcode",reverse_complement(barCode),"labeled as",barCode,"written to",toFile+suffixOutFileName
-	
+		print >> stderr,writeCount[barCode],"reads within",editDistanceMax,"edits of barcode",reverse_complement(barCode),"read name tagged with family of",barCode,"written to",prefixOutFileName+toFile+suffixOutFileName,
+		if outActualCodeCount:
+			print >> stderr,"actual code count written to",prefixOutFileName+toFile+outActualCodeCount
+			thisActualCodeCountDict=seqBarCodeCount[barCode]
+			
+			if appendOutFile and exists(prefixOutFileName+toFile+outActualCodeCount):
+				#read in the existing code count file
+				finActualCodeCount=open(prefixOutFileName+toFile+outActualCodeCount)
+				for lin in finActualCodeCount:
+					radCode,radCount=lin.rstrip("\r\n").split("\t")
+					if radCode in thisActualCodeCountDict:
+						thisActualCodeCountDict[radCode]+=int(radCount)
+					else:
+						thisActualCodeCountDict[radCode]=int(radCount)
+						
+				finActualCodeCount.close()
+				
+			#output
+			filActualCodeCount=open(prefixOutFileName+toFile+outActualCodeCount,"w")
+			for radCode,radCount in thisActualCodeCountDict.items():
+				print >> filActualCodeCount,radCode+"\t"+str(radCount)
+			filActualCodeCount.close()
+		else:
+			print >> stderr,"" #just to complete the sentence	
+		
 	print >> stderr,totalProc,"reads classified"
 	print >> stderr,writeCountUnclassified,"reads unclassified",
 	
@@ -247,5 +289,7 @@ if __name__=='__main__':
 		print >> stderr,""
 	print >> stderr,totalProc,"reads processed"
 
+
+			
 	
 	
