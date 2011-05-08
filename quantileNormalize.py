@@ -39,6 +39,10 @@ THE SOFTWARE.
 #   :
 
 
+from sys import *
+from albertcommon import *
+from matrixTranspose import matrix_transpose
+
 def compare2ndElement(x,y):
 	xv=x[1]
 	yv=y[1]
@@ -170,3 +174,84 @@ def quantileNormalizeMiInPlace(Mi,method):
 	for MiRow in Mi:
 		for i in range(0,numvalues):
 			MiRow[i][1]=normalizer[i]
+
+
+def printUsageAndExit(programName):
+	print >> stderr,programName,"filename cols method[min mean max sum rank]"
+	exit(1)
+
+def fillVectorByIndexAsString(dst,src,I):
+	for i,v in zip(I,src):
+		dst[i]=str(v)
+
+
+
+def toFloatList(sL):
+	F=[]
+	for s in sL:
+		F.append(float(s))
+	
+	return F
+
+if __name__=='__main__':
+	programName=argv[0]
+	args=argv[1:]
+	
+	try:
+		filename,cols,method=args
+		
+		if method not in ["min","mean","max","sum","rank"]:
+			print >> stderr,"method",method,"not available"
+			raise KeyError
+	
+	except:
+		printUsageAndExit(programName)
+	
+	startRow=2
+	headerRow=1
+	fs="\t"
+	header,prestarts=getHeader(filename,headerRow,startRow,fs)
+	
+	cols=getCol0ListFromCol1ListStringAdv(header,cols)
+	
+	#now read in the matrix
+	Matrix=[]
+	
+	#two pass
+	
+	fil=open(filename)
+	lino=0
+	for lin in fil:
+		lino+=1
+		if lino<startRow:
+			continue
+		
+		fields=lin.rstrip("\r\n").split(fs)
+		Matrix.append(toFloatList(getSubvector(fields,cols)))
+	
+	fil.close()
+	
+	#now Matrix is gotten, quantile normalize
+	Matrix,MtRow,MtCol=matrix_transpose(Matrix,len(Matrix),len(Matrix[0]))
+	quantileNormalizeMInPlace(Matrix,method)
+	Matrix,MtRow,MtCol=matrix_transpose(Matrix,MtRow,MtCol)
+	
+	#print >> stderr,Matrix
+	#now second pass
+	fil=open(filename)
+	lino=0
+	for lin in fil:
+		lino+=1
+		fields=lin.rstrip("\r\n").split(fs)
+		if lino<startRow:
+			pass
+		else:
+			fillVectorByIndexAsString(fields,Matrix[lino-startRow],cols)
+		
+		print >> stdout,fs.join(fields)
+	
+	fil.close()
+	
+	
+	
+	

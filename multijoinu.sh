@@ -22,8 +22,11 @@ if [ -e $resultFile ]; then
 fi
 
 
+jtmp0=`tempfile`
+jtmp2=`tempfile`
+
 #join first two file
-cmd="joinu.py $joinparam $file1 $file2 > jtmp.00"
+cmd="joinu.py $joinparam $file1 $file2 > $jtmp0"
 echo $cmd
 eval $cmd
 
@@ -34,11 +37,14 @@ shift
 while(($#>=1)); do
 	file2=$1
 	shift
-	cmd="joinu.py $joinparam jtmp.00 $file2 > jtmp2.00"
+	cmd="joinu.py $joinparam  $jtmp0 $file2 > $jtmp2"
 	echo $cmd
 	eval $cmd
-	rm jtmp.00
-	mv jtmp2.00 jtmp.00
+	rm $jtmp0
+	mv $jtmp2 $jtmp0
 done
 
-mv jtmp.00 $resultFile
+mv $jtmp0 $resultFile
+
+rm $jtmp0
+rm $jtmp2
