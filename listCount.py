@@ -29,6 +29,7 @@ THE SOFTWARE.
 from sys import *
 from getopt import getopt
 from albertcommon import *
+from os.path import basename
 
 
 def printUsageAndExit(programName):
@@ -40,6 +41,7 @@ def printUsageAndExit(programName):
 	print >> stderr,"--remove-ext-on-stdout-labels remove the file extension on stdout header labels for filenames"
 	print >> stderr,"--name-content label   give the non-headed content a label"
 	print >> stderr,"--maxcountTo1  make counts into 1: with line, 0: without line"
+	print >> stderr,"--usebasename use basename of filenames as label and outcombination infices"
 	exit()
 
 def fillListInPlace(L,length,element):
@@ -63,8 +65,9 @@ if __name__=='__main__':
 	removeExtensionOnStdOut=False
 	fs="\t"
 	contentName="content"
+	useBaseName=False
 	try:
-		opts,args=getopt(argv[1:],'',['headerFrom1To=','outcombination=','suppress-stat','remove-ext-on-stdout-labels','name-content=','maxcountTo1'])
+		opts,args=getopt(argv[1:],'',['headerFrom1To=','outcombination=','suppress-stat','remove-ext-on-stdout-labels','name-content=','maxcountTo1','usebasename'])
 		for o,v in opts:
 			if o=='--headerFrom1To':
 				headerFrom1To=int(v)
@@ -78,6 +81,8 @@ if __name__=='__main__':
 				contentName=v
 			elif o=='--maxcountTo1':
 				maxcountTo1=True
+			elif o=='--usebasename':
+				useBaseName=True
 
 		filenames=args
 	except:
@@ -139,18 +144,30 @@ if __name__=='__main__':
 			labels.append(".".join(filename.split(".")[:-1]))
 	else:
 		labels=filenames
+		
+	if useBaseName:
+		for i in range(0,len(labels)):
+			labels[i]=basename(labels[i])
 
 	if stdoutPrint:
 		for headerline in header:
 			print >> stdout, headerline.rstrip("\r\n")+fs+(fs.join(labels))
-		else:
-			print >> stdout,contentName+fs+(fs.join(labels))
+	else:  ##tab back
+		print >> stdout,contentName+fs+(fs.join(labels))
 	
+	basenames=[]
 
 	for lin,counter in line_count.items():
 		fillListInPlace(counter,numfiles,0)
 		if outcombination!="":
-			ofilename=outcombination[0]+("_".join(getSubvectorGe1(filenames,counter)))+outcombination[1]
+			if useBaseName:
+				if len(basenames)<1:
+					for filename in filenames:
+						basenames.append(basename(filename))
+				
+				ofilename=outcombination[0]+("_".join(getSubvectorGe1(basenames,counter)))+outcombination[1]
+			else:
+				ofilename=outcombination[0]+("_".join(getSubvectorGe1(filenames,counter)))+outcombination[1]
 			if ofilename not in ofilehandles:
 				#print >> stdout,"opening ofile=",ofilename
 				ofil=open(ofilename,"w")
