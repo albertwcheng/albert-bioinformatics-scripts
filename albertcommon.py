@@ -54,7 +54,60 @@ def String_findAll(s,sub,start=0,end=-1):
 		curStart=idx+1
 	
 	return locations	
- 	
+
+def getAttrWithDefaultValue(attrMatrix,attrName,defaultValue):
+	try:
+		return attrMatrix[attrName]
+	except KeyError:
+		return defaultValue
+		
+def getLevel2AttrWithDefaultValue(attrMatrix,targetName,attrName,defaultValue):
+	try:
+		return attrMatrix[targetName][attrName]
+	except KeyError:
+		return defaultValue
+	
+def readNamedAttrMatrix(filename):
+	'''
+	!optkey1	optvalue1
+	!optkey2	optvalue2
+	Target	AttrName1	AttrName2	...
+	target1	value(1,1)   ...
+	target2   ...        ...
+	:::::
+	
+	'''
+	attrMatrix=dict()
+	
+	fil=open(filename)
+	lino=0
+	for lin in fil:
+		
+		lin=lin.rstrip("\r\n")
+		if len(lin)<1:
+			continue
+		elif lin[0]=='!':
+			key,value=lin.split("\t") #keep the exclamation mark.
+			attrMatrix[key]=value
+			continue
+		
+		lino+=1  #only if row is not empty and is not !-options, increment lino
+		
+		fields=lin.split("\t")
+	
+		if lino==1:
+			attrNames=fields[1:]
+		else:
+			targetName=fields[0]
+			targetDict=dict()
+			attrMatrix[targetName]=targetDict
+			for attrName,value in zip(attrNames,fields[1:]):
+				targetDict[attrName]=value
+		
+	fil.close()
+	
+	return attrMatrix
+	
 def RE_findOverlappingInstancesOfCompiledRegex(there, thestring):
 	#total = 0
 	start = 0

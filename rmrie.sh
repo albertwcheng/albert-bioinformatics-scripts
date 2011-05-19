@@ -7,5 +7,7 @@ fi
 while [ $# -gt 0 ]; do
 	i=$1
 	shift
-	rm -R $i
+	if [ -e $i ]; then 
+		rm -Rf $i
+	fi
 done
