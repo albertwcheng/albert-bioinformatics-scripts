@@ -27,7 +27,7 @@ def printUnknown_sub(stream,scale,curx,cury):
 	curx+=110
 	return curx,cury
 
-letterToOcarinaABCD={ "C'": (0,0,0,0), "G#,": (1,0,0,0), "A": (0,0,1,0), "Bb":(0,0,0,1), "B":(0,1,0,0), "Bb,":(1,1,0,0), "F":(1,0,1,0), "A,":(1,0,0,1), "G#":(0,1,1,0), "G,":(0,1,0,1), "G":(0,0,1,1), "B,":(1,1,0,1), "E":(1,1,1,0), "D":(1,0,1,1), "C": (1,1,1,1)}
+letterToOcarinaABCD={ "C'": (0,0,0,0), "G#,": (1,0,0,0), "A": (0,0,1,0), "Bb":(0,0,0,1), "B":(0,1,0,0), "Bb,":(1,1,0,0), "F":(1,0,1,0), "F#":(0,1,1,1), "A,":(1,0,0,1), "G#":(0,1,1,0), "G,":(0,1,0,1), "G":(0,0,1,1), "B,":(1,1,0,1), "E":(1,1,1,0), "D":(1,0,1,1), "C": (1,1,1,1)}
 
 def printOcarinon(stream,letter,scale,curx,cury,startx,lino,letterOfLine): #return new curx, cury
 	global letterToOcarinaABCD
@@ -83,7 +83,12 @@ def createSVGFromLetterScore(stream,title,tuning,letterScore,scale):
 	print >> stream, "</svg>"
 
 def printUsageAndExit(programName):
-	print >> stderr,programName,"+letterScore/file title outSVG"
+	print >> stderr,programName,"+letterScore/file title subtitle outSVG"
+	print >> stderr,"create Ocarina Tab score"
+	print >> stderr,"input a string of letter score separated by space. allowed letters listed below. Use '.' to indicate new line or '-' to indicate space"
+	print >> stderr,"directly specify letter Score by preceding with '+', or use filename"
+	print >> stderr,"allowed letter (ionian tuning):"
+	print >> stderr,"G, G#, A, Bb, B, C D E F F# G G# A Bb B C'"
 	exit(1)
 	
 if __name__=='__main__':
