@@ -86,12 +86,16 @@ def readNamedAttrMatrix(filename):
 		lin=lin.rstrip("\r\n")
 		if len(lin)<1:
 			continue
+		elif lin[0]=='#':
+			continue #commented lines
 		elif lin[0]=='!':
 			key,value=lin.split("\t") #keep the exclamation mark.
 			attrMatrix[key]=value
 			continue
 		
 		lino+=1  #only if row is not empty and is not !-options, increment lino
+		
+		
 		
 		fields=lin.split("\t")
 	

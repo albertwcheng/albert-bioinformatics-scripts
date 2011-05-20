@@ -55,4 +55,5 @@ mydata <- read.table(file=matrixFileName,header=TRUE,row.names=1,sep=separator)
 
 result <- pca(mydata, method=method, nPcs=2, center=FALSE)
 
-write.table(result@completeObs,file=outputName,sep="\t",quote=FALSE)
+cat("X\t",file=outputName)
+write.table(result@completeObs,file=outputName,sep="\t",quote=FALSE,append=TRUE)

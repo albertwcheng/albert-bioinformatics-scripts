@@ -48,7 +48,7 @@ def printOcarinon(stream,letter,scale,curx,cury,startx,lino,letterOfLine): #retu
 		
 
 def SVGText(stream,x,y,text,fontFamily,fontSize):
-	print >> stream,"<text x=\""+str(x*scale)+"\" y=\""+str(y*scale)+"\" font-family=\""+fontFamily+"\" font-size=\""+str(fontSize)+"\">"+text+"</text>"
+	print >> stream,"<text x=\""+str(x)+"\" y=\""+str(y)+"\" font-family=\""+fontFamily+"\" font-size=\""+str(fontSize)+"\">"+text+"</text>"
 
 def createSVGFromLetterScore(stream,title,tuning,letterScore,scale):
 
@@ -62,8 +62,8 @@ def createSVGFromLetterScore(stream,title,tuning,letterScore,scale):
 	
 	#print >> stream, "<g transform=\"scale("+str(_scale)+")\">"
 	
-	SVGText(stream,30*scale,120*scale,title,"Arial",60*scale)
-	SVGText(stream,30*scale,220*scale,tuning,"Arial",30*scale)
+	SVGText(stream,10*scale,60*scale,title,"Arial",60*scale)
+	SVGText(stream,10*scale,120*scale,tuning,"Arial",30*scale)
 	
 	startx=30
 	starty=30+220
@@ -83,7 +83,7 @@ def createSVGFromLetterScore(stream,title,tuning,letterScore,scale):
 	print >> stream, "</svg>"
 
 def printUsageAndExit(programName):
-	print >> stderr,programName,"+letterScore/file title subtitle outSVG"
+	print >> stderr,programName,"+letterScore/file title subtitle scale outSVG"
 	print >> stderr,"create Ocarina Tab score"
 	print >> stderr,"input a string of letter score separated by space. allowed letters listed below. Use '.' to indicate new line or '-' to indicate space"
 	print >> stderr,"directly specify letter Score by preceding with '+', or use filename"
@@ -96,11 +96,11 @@ if __name__=='__main__':
 	args=argv[1:]
 	
 	try:
-		letterScore,title,tuning,outSVG=args
+		letterScore,title,tuning,scale,outSVG=args
 	except:
 		printUsageAndExit(programName)
 		
-	scale=0.5
+	
 	
 	if letterScore[0]=="+":
 		letterScore=letterScore[1:]
