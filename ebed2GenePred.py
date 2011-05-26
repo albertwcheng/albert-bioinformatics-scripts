@@ -60,7 +60,7 @@ genePred format
 '''
 
 from sys import *
-
+from operator import itemgetter
 
 def toStrListInPlaceRecursive(L,prefix="",suffix="",sep=","):
 	emptyL=[]
@@ -325,12 +325,104 @@ def ebedToebedSeqConvert(filename,eebedseqfilename,options):
 							
 		printListOfFields(stdout,ofields)
 	fil.close()
+
+
+def exonbedToEbed(filename,options):
+	
+	store=dict() # store[geneName]=[ chrom, score, strand , (start0, end1), ... ]
+	
+	if options.splitNameComp:
+		splitter,componentDiscard=options.splitNameComp	
+		componentDiscard=int(componentDiscard)
+		
+		
+	fil=open(filename)
+	for lin in fil:
+		lin=lin.rstrip("\r\n")
+		if len(lin)<1 or lin[0]=="#":
+			continue
+			
+		strand="."
+		score="0"
+		
+		fields=lin.split(options.FS)
+		if len(fields)<4:
+			print >> stderr,"line with insufficient column, abort:",fields
+			continue
+		
+		chrom=fields[0]
+		start0=int(fields[1])
+		end1=int(fields[2])
+		name=fields[3]
+		
+		if len(fields) >= 5:
+			score=fields[4]
+		
+		if len(fields)>=6:
+			strand=fields[5]
+		
+		
+		if options.splitNameComp:
+			name=name.split(splitter)[:-componentDiscard]
+		
+		try:
+			geneStruct=store[name]
+		except KeyError:
+			geneStruct=[chrom,score,strand]
+			store[name]=geneStruct
+		
+		geneStruct.append((start0,end1))
+	
+	
+		
+			
+	
+	fil.close()
+
+	#now go to each gene
+	for geneName,geneStruct in store.items():
+		chrom=geneStruct[0]
+		score=geneStruct[1]
+		strand=geneStruct[2]
+		exons=geneStruct[3:]
+		exons.sort(key=itemgetter(0))
+	
+		chromStart0=exons[0][0]
+		chromEnd1=exons[-1][1]
+		fields=[chrom,str(chromStart0),str(chromEnd1),geneName,score,strand,str(chromStart0),str(chromEnd1),options.itemRgb,str(len(exons))]
+		
+		blockSizes=[]
+		blockStarts=[]
+		for exonStart0,exonEnd1 in exons:
+			blockSizes.append(str(exonEnd1-exonStart0))
+			blockStarts.append(str(exonStart0-chromStart0))
+		
+		fields.append(",".join(blockSizes))
+		fields.append(",".join(blockStarts))
+		
+		print >> stdout,options.FS.join(fields)
+	
+'''	
+1) chrom
+2) chrom start g0
+3) chrom end g1
+4) name
+5) score
+6) strand
+7) thickStart = CDS Start g0
+8) thickEnd = CDS End g1
+9) itemRGB
+10) blockCount = exonCount
+11) blockSizes (,)
+12) blockStarts (,) relative to Chom Start in 0-based	
+'''
+	
 	
 	
 if __name__=='__main__':
 	from optparse import OptionParser
 	
-	usage="usage: %prog  [other options] filename [ebed2genePred*|--genePred2ebed|--genePred2exonebed|--ebed2exonebed|--ebed2ebedseq eebedseq]"
+	usage="usage: %prog  [other options] filename [ebed2genePred*|--genePred2ebed|--genePred2exonebed|--ebed2exonebed|--ebed2ebedseq eebedseq|--exonbed2ebed]"
 	parser=OptionParser(usage)
 	#parser.add_option("--genePred2ebed",dest="genePred2ebed",default=False,action="store_true",help="convert genePred to ebed format")
 	#parser.add_option("--genePred2exonebed",dest="genePred2exonebed",default=False,action="store_true",help="convert genePred to exon expanded ebed format")
@@ -346,10 +438,11 @@ if __name__=='__main__':
 	parser.add_option("--replace-Start-End-With-Transcript-Start-End",dest="replaceCDSPosWithTranscriptStartEnd",default=False,action="store_true",help="replace the CDS start end end field with transcript start and end field (valid for --ebed2exonbed)")
 	parser.add_option("--abort-on-error",default=False,dest="AbortOnError",action="store_true",help="aborts on error parsing a line of input")
 	parser.add_option("--fs",default="\t",dest="FS",help="set fields separator. default [tab]")
-	(options,args)=parser.parse_args()
 	
+	parser.add_option("--split-name-component-for-exonbed",dest="splitNameComp",default=None,nargs=2,help="set splitting of if component, e.g., '.' 1 means that the last component from .-split are to be removed for the ebed ID, default none")
+	parser.add_option("--exonbed2ebed",dest="exonBed2EBed",default=False,action="store_true",help="convert exon bed using gene name (see --split-name-component-for-exonbed option) to ebed")
 	
-
+	(options, args) = parser.parse_args()
 		
 	try:
 		filename,=args
@@ -362,6 +455,8 @@ if __name__=='__main__':
 	if options.ebedseq:
 		eebedseqfilename=options.ebedseq
 		ebedToebedSeqConvert(filename,eebedseqfilename,options)
+	elif options.exonBed2EBed:
+		exonbedToEbed(filename,options)
 	else:
 		convertFormat(filename,options.conversion,options.score,options.itemRgb,options)
 	

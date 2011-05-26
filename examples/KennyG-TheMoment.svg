@@ -3,470 +3,2606 @@
 "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
 <svg width="100%" height="100%" version="1.1"
 xmlns="http://www.w3.org/2000/svg">
-<text x="5.0" y="30.0" font-family="Arial" font-size="30.0">KennyG-TheMoment</text>
-<text x="5.0" y="60.0" font-family="Arial" font-size="15.0">Tuning:F Ionian</text>
-<circle cx="15.0" cy="125.0" r="10.0" stroke="black" stroke-width="1.0" 
+<text x="2.5" y="15.0" font-family="Arial" font-size="15.0">KennyG-The Moment</text>
+<text x="2.5" y="30.0" font-family="Arial" font-size="7.5">F Ionian</text>
+<circle cx="7.5" cy="62.5" r="5.0" stroke="black" stroke-width="0.5" 
 fill="black"/>
-<circle cx="40.0" cy="125.0" r="10.0" stroke="black" stroke-width="1.0" 
+<circle cx="20.0" cy="62.5" r="5.0" stroke="black" stroke-width="0.5" 
 fill="black"/>
-<circle cx="15.0" cy="150.0" r="10.0" stroke="black" stroke-width="1.0" 
+<circle cx="7.5" cy="75.0" r="5.0" stroke="black" stroke-width="0.5" 
 fill="black"/>
-<circle cx="40.0" cy="150.0" r="10.0" stroke="black" stroke-width="1.0" 
+<circle cx="20.0" cy="75.0" r="5.0" stroke="black" stroke-width="0.5" 
 fill="black"/>
-<circle cx="70.0" cy="125.0" r="10.0" stroke="black" stroke-width="1.0" 
+<circle cx="35.0" cy="62.5" r="5.0" stroke="black" stroke-width="0.5" 
 fill="white"/>
-<circle cx="95.0" cy="125.0" r="10.0" stroke="black" stroke-width="1.0" 
+<circle cx="47.5" cy="62.5" r="5.0" stroke="black" stroke-width="0.5" 
 fill="white"/>
-<circle cx="70.0" cy="150.0" r="10.0" stroke="black" stroke-width="1.0" 
+<circle cx="35.0" cy="75.0" r="5.0" stroke="black" stroke-width="0.5" 
 fill="white"/>
-<circle cx="95.0" cy="150.0" r="10.0" stroke="black" stroke-width="1.0" 
+<circle cx="47.5" cy="75.0" r="5.0" stroke="black" stroke-width="0.5" 
 fill="black"/>
-<circle cx="125.0" cy="125.0" r="10.0" stroke="black" stroke-width="1.0" 
+<circle cx="62.5" cy="62.5" r="5.0" stroke="black" stroke-width="0.5" 
 fill="white"/>
-<circle cx="150.0" cy="125.0" r="10.0" stroke="black" stroke-width="1.0" 
+<circle cx="75.0" cy="62.5" r="5.0" stroke="black" stroke-width="0.5" 
 fill="white"/>
-<circle cx="125.0" cy="150.0" r="10.0" stroke="black" stroke-width="1.0" 
+<circle cx="62.5" cy="75.0" r="5.0" stroke="black" stroke-width="0.5" 
 fill="black"/>
-<circle cx="150.0" cy="150.0" r="10.0" stroke="black" stroke-width="1.0" 
+<circle cx="75.0" cy="75.0" r="5.0" stroke="black" stroke-width="0.5" 
 fill="white"/>
-<circle cx="180.0" cy="125.0" r="10.0" stroke="black" stroke-width="1.0" 
+<circle cx="90.0" cy="62.5" r="5.0" stroke="black" stroke-width="0.5" 
 fill="black"/>
-<circle cx="205.0" cy="125.0" r="10.0" stroke="black" stroke-width="1.0" 
+<circle cx="102.5" cy="62.5" r="5.0" stroke="black" stroke-width="0.5" 
 fill="black"/>
-<circle cx="180.0" cy="150.0" r="10.0" stroke="black" stroke-width="1.0" 
+<circle cx="90.0" cy="75.0" r="5.0" stroke="black" stroke-width="0.5" 
 fill="black"/>
-<circle cx="205.0" cy="150.0" r="10.0" stroke="black" stroke-width="1.0" 
+<circle cx="102.5" cy="75.0" r="5.0" stroke="black" stroke-width="0.5" 
 fill="black"/>
-<circle cx="235.0" cy="125.0" r="10.0" stroke="black" stroke-width="1.0" 
+<circle cx="117.5" cy="62.5" r="5.0" stroke="black" stroke-width="0.5" 
 fill="white"/>
-<circle cx="260.0" cy="125.0" r="10.0" stroke="black" stroke-width="1.0" 
+<circle cx="130.0" cy="62.5" r="5.0" stroke="black" stroke-width="0.5" 
 fill="white"/>
-<circle cx="235.0" cy="150.0" r="10.0" stroke="black" stroke-width="1.0" 
+<circle cx="117.5" cy="75.0" r="5.0" stroke="black" stroke-width="0.5" 
 fill="black"/>
-<circle cx="260.0" cy="150.0" r="10.0" stroke="black" stroke-width="1.0" 
+<circle cx="130.0" cy="75.0" r="5.0" stroke="black" stroke-width="0.5" 
 fill="black"/>
-<circle cx="290.0" cy="125.0" r="10.0" stroke="black" stroke-width="1.0" 
+<circle cx="145.0" cy="62.5" r="5.0" stroke="black" stroke-width="0.5" 
 fill="black"/>
-<circle cx="315.0" cy="125.0" r="10.0" stroke="black" stroke-width="1.0" 
+<circle cx="157.5" cy="62.5" r="5.0" stroke="black" stroke-width="0.5" 
 fill="white"/>
-<circle cx="290.0" cy="150.0" r="10.0" stroke="black" stroke-width="1.0" 
+<circle cx="145.0" cy="75.0" r="5.0" stroke="black" stroke-width="0.5" 
 fill="black"/>
-<circle cx="315.0" cy="150.0" r="10.0" stroke="black" stroke-width="1.0" 
+<circle cx="157.5" cy="75.0" r="5.0" stroke="black" stroke-width="0.5" 
 fill="white"/>
-<circle cx="15.0" cy="180.0" r="10.0" stroke="black" stroke-width="1.0" 
+<circle cx="7.5" cy="90.0" r="5.0" stroke="black" stroke-width="0.5" 
 fill="black"/>
-<circle cx="40.0" cy="180.0" r="10.0" stroke="black" stroke-width="1.0" 
+<circle cx="20.0" cy="90.0" r="5.0" stroke="black" stroke-width="0.5" 
 fill="white"/>
-<circle cx="15.0" cy="205.0" r="10.0" stroke="black" stroke-width="1.0" 
+<circle cx="7.5" cy="102.5" r="5.0" stroke="black" stroke-width="0.5" 
 fill="black"/>
-<circle cx="40.0" cy="205.0" r="10.0" stroke="black" stroke-width="1.0" 
+<circle cx="20.0" cy="102.5" r="5.0" stroke="black" stroke-width="0.5" 
 fill="white"/>
-<circle cx="70.0" cy="180.0" r="10.0" stroke="black" stroke-width="1.0" 
+<circle cx="35.0" cy="90.0" r="5.0" stroke="black" stroke-width="0.5" 
 fill="black"/>
-<circle cx="95.0" cy="180.0" r="10.0" stroke="black" stroke-width="1.0" 
+<circle cx="47.5" cy="90.0" r="5.0" stroke="black" stroke-width="0.5" 
 fill="black"/>
-<circle cx="70.0" cy="205.0" r="10.0" stroke="black" stroke-width="1.0" 
+<circle cx="35.0" cy="102.5" r="5.0" stroke="black" stroke-width="0.5" 
 fill="black"/>
-<circle cx="95.0" cy="205.0" r="10.0" stroke="black" stroke-width="1.0" 
+<circle cx="47.5" cy="102.5" r="5.0" stroke="black" stroke-width="0.5" 
 fill="white"/>
-<circle cx="125.0" cy="180.0" r="10.0" stroke="black" stroke-width="1.0" 
+<circle cx="62.5" cy="90.0" r="5.0" stroke="black" stroke-width="0.5" 
 fill="black"/>
-<circle cx="150.0" cy="180.0" r="10.0" stroke="black" stroke-width="1.0" 
+<circle cx="75.0" cy="90.0" r="5.0" stroke="black" stroke-width="0.5" 
 fill="white"/>
-<circle cx="125.0" cy="205.0" r="10.0" stroke="black" stroke-width="1.0" 
+<circle cx="62.5" cy="102.5" r="5.0" stroke="black" stroke-width="0.5" 
 fill="black"/>
-<circle cx="150.0" cy="205.0" r="10.0" stroke="black" stroke-width="1.0" 
+<circle cx="75.0" cy="102.5" r="5.0" stroke="black" stroke-width="0.5" 
 fill="black"/>
-<circle cx="180.0" cy="180.0" r="10.0" stroke="black" stroke-width="1.0" 
+<circle cx="90.0" cy="90.0" r="5.0" stroke="black" stroke-width="0.5" 
 fill="black"/>
-<circle cx="205.0" cy="180.0" r="10.0" stroke="black" stroke-width="1.0" 
+<circle cx="102.5" cy="90.0" r="5.0" stroke="black" stroke-width="0.5" 
 fill="white"/>
-<circle cx="180.0" cy="205.0" r="10.0" stroke="black" stroke-width="1.0" 
+<circle cx="90.0" cy="102.5" r="5.0" stroke="black" stroke-width="0.5" 
 fill="black"/>
-<circle cx="205.0" cy="205.0" r="10.0" stroke="black" stroke-width="1.0" 
+<circle cx="102.5" cy="102.5" r="5.0" stroke="black" stroke-width="0.5" 
 fill="black"/>
-<circle cx="235.0" cy="180.0" r="10.0" stroke="black" stroke-width="1.0" 
+<circle cx="117.5" cy="90.0" r="5.0" stroke="black" stroke-width="0.5" 
 fill="black"/>
-<circle cx="260.0" cy="180.0" r="10.0" stroke="black" stroke-width="1.0" 
+<circle cx="130.0" cy="90.0" r="5.0" stroke="black" stroke-width="0.5" 
 fill="white"/>
-<circle cx="235.0" cy="205.0" r="10.0" stroke="black" stroke-width="1.0" 
+<circle cx="117.5" cy="102.5" r="5.0" stroke="black" stroke-width="0.5" 
 fill="black"/>
-<circle cx="260.0" cy="205.0" r="10.0" stroke="black" stroke-width="1.0" 
+<circle cx="130.0" cy="102.5" r="5.0" stroke="black" stroke-width="0.5" 
 fill="white"/>
-<circle cx="290.0" cy="180.0" r="10.0" stroke="black" stroke-width="1.0" 
+<circle cx="145.0" cy="90.0" r="5.0" stroke="black" stroke-width="0.5" 
 fill="black"/>
-<circle cx="315.0" cy="180.0" r="10.0" stroke="black" stroke-width="1.0" 
+<circle cx="157.5" cy="90.0" r="5.0" stroke="black" stroke-width="0.5" 
 fill="black"/>
-<circle cx="290.0" cy="205.0" r="10.0" stroke="black" stroke-width="1.0" 
+<circle cx="145.0" cy="102.5" r="5.0" stroke="black" stroke-width="0.5" 
 fill="black"/>
-<circle cx="315.0" cy="205.0" r="10.0" stroke="black" stroke-width="1.0" 
+<circle cx="157.5" cy="102.5" r="5.0" stroke="black" stroke-width="0.5" 
 fill="white"/>
-<circle cx="345.0" cy="180.0" r="10.0" stroke="black" stroke-width="1.0" 
+<circle cx="172.5" cy="90.0" r="5.0" stroke="black" stroke-width="0.5" 
 fill="black"/>
-<circle cx="370.0" cy="180.0" r="10.0" stroke="black" stroke-width="1.0" 
+<circle cx="185.0" cy="90.0" r="5.0" stroke="black" stroke-width="0.5" 
 fill="white"/>
-<circle cx="345.0" cy="205.0" r="10.0" stroke="black" stroke-width="1.0" 
+<circle cx="172.5" cy="102.5" r="5.0" stroke="black" stroke-width="0.5" 
 fill="black"/>
-<circle cx="370.0" cy="205.0" r="10.0" stroke="black" stroke-width="1.0" 
+<circle cx="185.0" cy="102.5" r="5.0" stroke="black" stroke-width="0.5" 
 fill="white"/>
-<circle cx="400.0" cy="180.0" r="10.0" stroke="black" stroke-width="1.0" 
+<circle cx="200.0" cy="90.0" r="5.0" stroke="black" stroke-width="0.5" 
 fill="white"/>
-<circle cx="425.0" cy="180.0" r="10.0" stroke="black" stroke-width="1.0" 
+<circle cx="212.5" cy="90.0" r="5.0" stroke="black" stroke-width="0.5" 
 fill="white"/>
-<circle cx="400.0" cy="205.0" r="10.0" stroke="black" stroke-width="1.0" 
+<circle cx="200.0" cy="102.5" r="5.0" stroke="black" stroke-width="0.5" 
 fill="black"/>
-<circle cx="425.0" cy="205.0" r="10.0" stroke="black" stroke-width="1.0" 
+<circle cx="212.5" cy="102.5" r="5.0" stroke="black" stroke-width="0.5" 
 fill="black"/>
-<circle cx="15.0" cy="235.0" r="10.0" stroke="black" stroke-width="1.0" 
+<circle cx="7.5" cy="117.5" r="5.0" stroke="black" stroke-width="0.5" 
 fill="black"/>
-<circle cx="40.0" cy="235.0" r="10.0" stroke="black" stroke-width="1.0" 
+<circle cx="20.0" cy="117.5" r="5.0" stroke="black" stroke-width="0.5" 
 fill="black"/>
-<circle cx="15.0" cy="260.0" r="10.0" stroke="black" stroke-width="1.0" 
+<circle cx="7.5" cy="130.0" r="5.0" stroke="black" stroke-width="0.5" 
 fill="black"/>
-<circle cx="40.0" cy="260.0" r="10.0" stroke="black" stroke-width="1.0" 
+<circle cx="20.0" cy="130.0" r="5.0" stroke="black" stroke-width="0.5" 
 fill="black"/>
-<circle cx="70.0" cy="235.0" r="10.0" stroke="black" stroke-width="1.0" 
+<circle cx="35.0" cy="117.5" r="5.0" stroke="black" stroke-width="0.5" 
 fill="white"/>
-<circle cx="95.0" cy="235.0" r="10.0" stroke="black" stroke-width="1.0" 
+<circle cx="47.5" cy="117.5" r="5.0" stroke="black" stroke-width="0.5" 
 fill="white"/>
-<circle cx="70.0" cy="260.0" r="10.0" stroke="black" stroke-width="1.0" 
+<circle cx="35.0" cy="130.0" r="5.0" stroke="black" stroke-width="0.5" 
 fill="white"/>
-<circle cx="95.0" cy="260.0" r="10.0" stroke="black" stroke-width="1.0" 
+<circle cx="47.5" cy="130.0" r="5.0" stroke="black" stroke-width="0.5" 
 fill="black"/>
-<circle cx="125.0" cy="235.0" r="10.0" stroke="black" stroke-width="1.0" 
+<circle cx="62.5" cy="117.5" r="5.0" stroke="black" stroke-width="0.5" 
 fill="white"/>
-<circle cx="150.0" cy="235.0" r="10.0" stroke="black" stroke-width="1.0" 
+<circle cx="75.0" cy="117.5" r="5.0" stroke="black" stroke-width="0.5" 
 fill="white"/>
-<circle cx="125.0" cy="260.0" r="10.0" stroke="black" stroke-width="1.0" 
+<circle cx="62.5" cy="130.0" r="5.0" stroke="black" stroke-width="0.5" 
 fill="black"/>
-<circle cx="150.0" cy="260.0" r="10.0" stroke="black" stroke-width="1.0" 
+<circle cx="75.0" cy="130.0" r="5.0" stroke="black" stroke-width="0.5" 
 fill="white"/>
-<circle cx="180.0" cy="235.0" r="10.0" stroke="black" stroke-width="1.0" 
+<circle cx="90.0" cy="117.5" r="5.0" stroke="black" stroke-width="0.5" 
 fill="black"/>
-<circle cx="205.0" cy="235.0" r="10.0" stroke="black" stroke-width="1.0" 
+<circle cx="102.5" cy="117.5" r="5.0" stroke="black" stroke-width="0.5" 
 fill="black"/>
-<circle cx="180.0" cy="260.0" r="10.0" stroke="black" stroke-width="1.0" 
+<circle cx="90.0" cy="130.0" r="5.0" stroke="black" stroke-width="0.5" 
 fill="black"/>
-<circle cx="205.0" cy="260.0" r="10.0" stroke="black" stroke-width="1.0" 
+<circle cx="102.5" cy="130.0" r="5.0" stroke="black" stroke-width="0.5" 
 fill="black"/>
-<circle cx="235.0" cy="235.0" r="10.0" stroke="black" stroke-width="1.0" 
+<circle cx="117.5" cy="117.5" r="5.0" stroke="black" stroke-width="0.5" 
 fill="white"/>
-<circle cx="260.0" cy="235.0" r="10.0" stroke="black" stroke-width="1.0" 
+<circle cx="130.0" cy="117.5" r="5.0" stroke="black" stroke-width="0.5" 
 fill="white"/>
-<circle cx="235.0" cy="260.0" r="10.0" stroke="black" stroke-width="1.0" 
+<circle cx="117.5" cy="130.0" r="5.0" stroke="black" stroke-width="0.5" 
 fill="black"/>
-<circle cx="260.0" cy="260.0" r="10.0" stroke="black" stroke-width="1.0" 
+<circle cx="130.0" cy="130.0" r="5.0" stroke="black" stroke-width="0.5" 
 fill="black"/>
-<circle cx="290.0" cy="235.0" r="10.0" stroke="black" stroke-width="1.0" 
+<circle cx="145.0" cy="117.5" r="5.0" stroke="black" stroke-width="0.5" 
 fill="black"/>
-<circle cx="315.0" cy="235.0" r="10.0" stroke="black" stroke-width="1.0" 
+<circle cx="157.5" cy="117.5" r="5.0" stroke="black" stroke-width="0.5" 
 fill="white"/>
-<circle cx="290.0" cy="260.0" r="10.0" stroke="black" stroke-width="1.0" 
+<circle cx="145.0" cy="130.0" r="5.0" stroke="black" stroke-width="0.5" 
 fill="black"/>
-<circle cx="315.0" cy="260.0" r="10.0" stroke="black" stroke-width="1.0" 
+<circle cx="157.5" cy="130.0" r="5.0" stroke="black" stroke-width="0.5" 
 fill="white"/>
-<circle cx="15.0" cy="290.0" r="10.0" stroke="black" stroke-width="1.0" 
+<circle cx="7.5" cy="145.0" r="5.0" stroke="black" stroke-width="0.5" 
 fill="black"/>
-<circle cx="40.0" cy="290.0" r="10.0" stroke="black" stroke-width="1.0" 
+<circle cx="20.0" cy="145.0" r="5.0" stroke="black" stroke-width="0.5" 
 fill="white"/>
-<circle cx="15.0" cy="315.0" r="10.0" stroke="black" stroke-width="1.0" 
+<circle cx="7.5" cy="157.5" r="5.0" stroke="black" stroke-width="0.5" 
 fill="black"/>
-<circle cx="40.0" cy="315.0" r="10.0" stroke="black" stroke-width="1.0" 
+<circle cx="20.0" cy="157.5" r="5.0" stroke="black" stroke-width="0.5" 
 fill="white"/>
-<circle cx="70.0" cy="290.0" r="10.0" stroke="black" stroke-width="1.0" 
+<circle cx="35.0" cy="145.0" r="5.0" stroke="black" stroke-width="0.5" 
 fill="black"/>
-<circle cx="95.0" cy="290.0" r="10.0" stroke="black" stroke-width="1.0" 
+<circle cx="47.5" cy="145.0" r="5.0" stroke="black" stroke-width="0.5" 
 fill="black"/>
-<circle cx="70.0" cy="315.0" r="10.0" stroke="black" stroke-width="1.0" 
+<circle cx="35.0" cy="157.5" r="5.0" stroke="black" stroke-width="0.5" 
 fill="black"/>
-<circle cx="95.0" cy="315.0" r="10.0" stroke="black" stroke-width="1.0" 
+<circle cx="47.5" cy="157.5" r="5.0" stroke="black" stroke-width="0.5" 
 fill="white"/>
-<circle cx="125.0" cy="290.0" r="10.0" stroke="black" stroke-width="1.0" 
+<circle cx="62.5" cy="145.0" r="5.0" stroke="black" stroke-width="0.5" 
 fill="black"/>
-<circle cx="150.0" cy="290.0" r="10.0" stroke="black" stroke-width="1.0" 
+<circle cx="75.0" cy="145.0" r="5.0" stroke="black" stroke-width="0.5" 
 fill="white"/>
-<circle cx="125.0" cy="315.0" r="10.0" stroke="black" stroke-width="1.0" 
+<circle cx="62.5" cy="157.5" r="5.0" stroke="black" stroke-width="0.5" 
 fill="black"/>
-<circle cx="150.0" cy="315.0" r="10.0" stroke="black" stroke-width="1.0" 
+<circle cx="75.0" cy="157.5" r="5.0" stroke="black" stroke-width="0.5" 
 fill="black"/>
-<circle cx="180.0" cy="290.0" r="10.0" stroke="black" stroke-width="1.0" 
+<circle cx="90.0" cy="145.0" r="5.0" stroke="black" stroke-width="0.5" 
 fill="black"/>
-<circle cx="205.0" cy="290.0" r="10.0" stroke="black" stroke-width="1.0" 
+<circle cx="102.5" cy="145.0" r="5.0" stroke="black" stroke-width="0.5" 
 fill="white"/>
-<circle cx="180.0" cy="315.0" r="10.0" stroke="black" stroke-width="1.0" 
+<circle cx="90.0" cy="157.5" r="5.0" stroke="black" stroke-width="0.5" 
 fill="black"/>
-<circle cx="205.0" cy="315.0" r="10.0" stroke="black" stroke-width="1.0" 
+<circle cx="102.5" cy="157.5" r="5.0" stroke="black" stroke-width="0.5" 
 fill="black"/>
-<circle cx="235.0" cy="290.0" r="10.0" stroke="black" stroke-width="1.0" 
+<circle cx="117.5" cy="145.0" r="5.0" stroke="black" stroke-width="0.5" 
 fill="black"/>
-<circle cx="260.0" cy="290.0" r="10.0" stroke="black" stroke-width="1.0" 
+<circle cx="130.0" cy="145.0" r="5.0" stroke="black" stroke-width="0.5" 
 fill="white"/>
-<circle cx="235.0" cy="315.0" r="10.0" stroke="black" stroke-width="1.0" 
+<circle cx="117.5" cy="157.5" r="5.0" stroke="black" stroke-width="0.5" 
 fill="black"/>
-<circle cx="260.0" cy="315.0" r="10.0" stroke="black" stroke-width="1.0" 
+<circle cx="130.0" cy="157.5" r="5.0" stroke="black" stroke-width="0.5" 
 fill="white"/>
-<circle cx="290.0" cy="290.0" r="10.0" stroke="black" stroke-width="1.0" 
+<circle cx="145.0" cy="145.0" r="5.0" stroke="black" stroke-width="0.5" 
 fill="white"/>
-<circle cx="315.0" cy="290.0" r="10.0" stroke="black" stroke-width="1.0" 
+<circle cx="157.5" cy="145.0" r="5.0" stroke="black" stroke-width="0.5" 
 fill="white"/>
-<circle cx="290.0" cy="315.0" r="10.0" stroke="black" stroke-width="1.0" 
+<circle cx="145.0" cy="157.5" r="5.0" stroke="black" stroke-width="0.5" 
 fill="black"/>
-<circle cx="315.0" cy="315.0" r="10.0" stroke="black" stroke-width="1.0" 
+<circle cx="157.5" cy="157.5" r="5.0" stroke="black" stroke-width="0.5" 
 fill="black"/>
-<circle cx="15.0" cy="345.0" r="10.0" stroke="black" stroke-width="1.0" 
+<circle cx="7.5" cy="172.5" r="5.0" stroke="black" stroke-width="0.5" 
 fill="black"/>
-<circle cx="40.0" cy="345.0" r="10.0" stroke="black" stroke-width="1.0" 
+<circle cx="20.0" cy="172.5" r="5.0" stroke="black" stroke-width="0.5" 
 fill="black"/>
-<circle cx="15.0" cy="370.0" r="10.0" stroke="black" stroke-width="1.0" 
+<circle cx="7.5" cy="185.0" r="5.0" stroke="black" stroke-width="0.5" 
 fill="black"/>
-<circle cx="40.0" cy="370.0" r="10.0" stroke="black" stroke-width="1.0" 
+<circle cx="20.0" cy="185.0" r="5.0" stroke="black" stroke-width="0.5" 
 fill="black"/>
-<circle cx="70.0" cy="345.0" r="10.0" stroke="black" stroke-width="1.0" 
+<circle cx="35.0" cy="172.5" r="5.0" stroke="black" stroke-width="0.5" 
 fill="white"/>
-<circle cx="95.0" cy="345.0" r="10.0" stroke="black" stroke-width="1.0" 
+<circle cx="47.5" cy="172.5" r="5.0" stroke="black" stroke-width="0.5" 
 fill="white"/>
-<circle cx="70.0" cy="370.0" r="10.0" stroke="black" stroke-width="1.0" 
+<circle cx="35.0" cy="185.0" r="5.0" stroke="black" stroke-width="0.5" 
 fill="black"/>
-<circle cx="95.0" cy="370.0" r="10.0" stroke="black" stroke-width="1.0" 
+<circle cx="47.5" cy="185.0" r="5.0" stroke="black" stroke-width="0.5" 
 fill="white"/>
-<circle cx="125.0" cy="345.0" r="10.0" stroke="black" stroke-width="1.0" 
+<circle cx="62.5" cy="172.5" r="5.0" stroke="black" stroke-width="0.5" 
 fill="white"/>
-<circle cx="150.0" cy="345.0" r="10.0" stroke="black" stroke-width="1.0" 
+<circle cx="75.0" cy="172.5" r="5.0" stroke="black" stroke-width="0.5" 
 fill="white"/>
-<circle cx="125.0" cy="370.0" r="10.0" stroke="black" stroke-width="1.0" 
+<circle cx="62.5" cy="185.0" r="5.0" stroke="black" stroke-width="0.5" 
 fill="white"/>
-<circle cx="150.0" cy="370.0" r="10.0" stroke="black" stroke-width="1.0" 
+<circle cx="75.0" cy="185.0" r="5.0" stroke="black" stroke-width="0.5" 
 fill="black"/>
-<circle cx="180.0" cy="345.0" r="10.0" stroke="black" stroke-width="1.0" 
+<circle cx="90.0" cy="172.5" r="5.0" stroke="black" stroke-width="0.5" 
 fill="white"/>
-<circle cx="205.0" cy="345.0" r="10.0" stroke="black" stroke-width="1.0" 
+<circle cx="102.5" cy="172.5" r="5.0" stroke="black" stroke-width="0.5" 
 fill="white"/>
-<circle cx="180.0" cy="370.0" r="10.0" stroke="black" stroke-width="1.0" 
+<circle cx="90.0" cy="185.0" r="5.0" stroke="black" stroke-width="0.5" 
 fill="black"/>
-<circle cx="205.0" cy="370.0" r="10.0" stroke="black" stroke-width="1.0" 
+<circle cx="102.5" cy="185.0" r="5.0" stroke="black" stroke-width="0.5" 
 fill="white"/>
-<circle cx="235.0" cy="345.0" r="10.0" stroke="black" stroke-width="1.0" 
+<circle cx="117.5" cy="172.5" r="5.0" stroke="black" stroke-width="0.5" 
 fill="white"/>
-<circle cx="260.0" cy="345.0" r="10.0" stroke="black" stroke-width="1.0" 
+<circle cx="130.0" cy="172.5" r="5.0" stroke="black" stroke-width="0.5" 
 fill="white"/>
-<circle cx="235.0" cy="370.0" r="10.0" stroke="black" stroke-width="1.0" 
+<circle cx="117.5" cy="185.0" r="5.0" stroke="black" stroke-width="0.5" 
 fill="black"/>
-<circle cx="260.0" cy="370.0" r="10.0" stroke="black" stroke-width="1.0" 
+<circle cx="130.0" cy="185.0" r="5.0" stroke="black" stroke-width="0.5" 
 fill="black"/>
-<circle cx="290.0" cy="345.0" r="10.0" stroke="black" stroke-width="1.0" 
+<circle cx="145.0" cy="172.5" r="5.0" stroke="black" stroke-width="0.5" 
 fill="white"/>
-<circle cx="315.0" cy="345.0" r="10.0" stroke="black" stroke-width="1.0" 
+<circle cx="157.5" cy="172.5" r="5.0" stroke="black" stroke-width="0.5" 
 fill="white"/>
-<circle cx="290.0" cy="370.0" r="10.0" stroke="black" stroke-width="1.0" 
+<circle cx="145.0" cy="185.0" r="5.0" stroke="black" stroke-width="0.5" 
 fill="black"/>
-<circle cx="315.0" cy="370.0" r="10.0" stroke="black" stroke-width="1.0" 
+<circle cx="157.5" cy="185.0" r="5.0" stroke="black" stroke-width="0.5" 
 fill="white"/>
-<circle cx="15.0" cy="400.0" r="10.0" stroke="black" stroke-width="1.0" 
+<circle cx="7.5" cy="200.0" r="5.0" stroke="black" stroke-width="0.5" 
 fill="white"/>
-<circle cx="40.0" cy="400.0" r="10.0" stroke="black" stroke-width="1.0" 
+<circle cx="20.0" cy="200.0" r="5.0" stroke="black" stroke-width="0.5" 
 fill="white"/>
-<circle cx="15.0" cy="425.0" r="10.0" stroke="black" stroke-width="1.0" 
+<circle cx="7.5" cy="212.5" r="5.0" stroke="black" stroke-width="0.5" 
 fill="black"/>
-<circle cx="40.0" cy="425.0" r="10.0" stroke="black" stroke-width="1.0" 
+<circle cx="20.0" cy="212.5" r="5.0" stroke="black" stroke-width="0.5" 
 fill="white"/>
-<circle cx="70.0" cy="400.0" r="10.0" stroke="black" stroke-width="1.0" 
+<circle cx="35.0" cy="200.0" r="5.0" stroke="black" stroke-width="0.5" 
 fill="white"/>
-<circle cx="95.0" cy="400.0" r="10.0" stroke="black" stroke-width="1.0" 
+<circle cx="47.5" cy="200.0" r="5.0" stroke="black" stroke-width="0.5" 
 fill="white"/>
-<circle cx="70.0" cy="425.0" r="10.0" stroke="black" stroke-width="1.0" 
+<circle cx="35.0" cy="212.5" r="5.0" stroke="black" stroke-width="0.5" 
 fill="black"/>
-<circle cx="95.0" cy="425.0" r="10.0" stroke="black" stroke-width="1.0" 
+<circle cx="47.5" cy="212.5" r="5.0" stroke="black" stroke-width="0.5" 
 fill="black"/>
-<circle cx="125.0" cy="400.0" r="10.0" stroke="black" stroke-width="1.0" 
+<circle cx="62.5" cy="200.0" r="5.0" stroke="black" stroke-width="0.5" 
 fill="black"/>
-<circle cx="150.0" cy="400.0" r="10.0" stroke="black" stroke-width="1.0" 
+<circle cx="75.0" cy="200.0" r="5.0" stroke="black" stroke-width="0.5" 
 fill="white"/>
-<circle cx="125.0" cy="425.0" r="10.0" stroke="black" stroke-width="1.0" 
+<circle cx="62.5" cy="212.5" r="5.0" stroke="black" stroke-width="0.5" 
 fill="black"/>
-<circle cx="150.0" cy="425.0" r="10.0" stroke="black" stroke-width="1.0" 
+<circle cx="75.0" cy="212.5" r="5.0" stroke="black" stroke-width="0.5" 
 fill="white"/>
-<circle cx="180.0" cy="400.0" r="10.0" stroke="black" stroke-width="1.0" 
+<circle cx="90.0" cy="200.0" r="5.0" stroke="black" stroke-width="0.5" 
 fill="white"/>
-<circle cx="205.0" cy="400.0" r="10.0" stroke="black" stroke-width="1.0" 
+<circle cx="102.5" cy="200.0" r="5.0" stroke="black" stroke-width="0.5" 
 fill="white"/>
-<circle cx="180.0" cy="425.0" r="10.0" stroke="black" stroke-width="1.0" 
+<circle cx="90.0" cy="212.5" r="5.0" stroke="black" stroke-width="0.5" 
 fill="black"/>
-<circle cx="205.0" cy="425.0" r="10.0" stroke="black" stroke-width="1.0" 
+<circle cx="102.5" cy="212.5" r="5.0" stroke="black" stroke-width="0.5" 
 fill="black"/>
-<circle cx="235.0" cy="400.0" r="10.0" stroke="black" stroke-width="1.0" 
+<circle cx="117.5" cy="200.0" r="5.0" stroke="black" stroke-width="0.5" 
 fill="white"/>
-<circle cx="260.0" cy="400.0" r="10.0" stroke="black" stroke-width="1.0" 
+<circle cx="130.0" cy="200.0" r="5.0" stroke="black" stroke-width="0.5" 
 fill="white"/>
-<circle cx="235.0" cy="425.0" r="10.0" stroke="black" stroke-width="1.0" 
+<circle cx="117.5" cy="212.5" r="5.0" stroke="black" stroke-width="0.5" 
 fill="black"/>
-<circle cx="260.0" cy="425.0" r="10.0" stroke="black" stroke-width="1.0" 
+<circle cx="130.0" cy="212.5" r="5.0" stroke="black" stroke-width="0.5" 
 fill="white"/>
-<circle cx="290.0" cy="400.0" r="10.0" stroke="black" stroke-width="1.0" 
+<circle cx="145.0" cy="200.0" r="5.0" stroke="black" stroke-width="0.5" 
 fill="black"/>
-<circle cx="315.0" cy="400.0" r="10.0" stroke="black" stroke-width="1.0" 
+<circle cx="157.5" cy="200.0" r="5.0" stroke="black" stroke-width="0.5" 
 fill="white"/>
-<circle cx="290.0" cy="425.0" r="10.0" stroke="black" stroke-width="1.0" 
+<circle cx="145.0" cy="212.5" r="5.0" stroke="black" stroke-width="0.5" 
 fill="black"/>
-<circle cx="315.0" cy="425.0" r="10.0" stroke="black" stroke-width="1.0" 
+<circle cx="157.5" cy="212.5" r="5.0" stroke="black" stroke-width="0.5" 
 fill="white"/>
-<circle cx="345.0" cy="400.0" r="10.0" stroke="black" stroke-width="1.0" 
+<circle cx="172.5" cy="200.0" r="5.0" stroke="black" stroke-width="0.5" 
 fill="white"/>
-<circle cx="370.0" cy="400.0" r="10.0" stroke="black" stroke-width="1.0" 
+<circle cx="185.0" cy="200.0" r="5.0" stroke="black" stroke-width="0.5" 
 fill="white"/>
-<circle cx="345.0" cy="425.0" r="10.0" stroke="black" stroke-width="1.0" 
+<circle cx="172.5" cy="212.5" r="5.0" stroke="black" stroke-width="0.5" 
 fill="black"/>
-<circle cx="370.0" cy="425.0" r="10.0" stroke="black" stroke-width="1.0" 
+<circle cx="185.0" cy="212.5" r="5.0" stroke="black" stroke-width="0.5" 
 fill="black"/>
-<circle cx="400.0" cy="400.0" r="10.0" stroke="black" stroke-width="1.0" 
+<circle cx="200.0" cy="200.0" r="5.0" stroke="black" stroke-width="0.5" 
 fill="white"/>
-<circle cx="425.0" cy="400.0" r="10.0" stroke="black" stroke-width="1.0" 
+<circle cx="212.5" cy="200.0" r="5.0" stroke="black" stroke-width="0.5" 
 fill="white"/>
-<circle cx="400.0" cy="425.0" r="10.0" stroke="black" stroke-width="1.0" 
+<circle cx="200.0" cy="212.5" r="5.0" stroke="black" stroke-width="0.5" 
 fill="black"/>
-<circle cx="425.0" cy="425.0" r="10.0" stroke="black" stroke-width="1.0" 
+<circle cx="212.5" cy="212.5" r="5.0" stroke="black" stroke-width="0.5" 
 fill="white"/>
-<circle cx="455.0" cy="400.0" r="10.0" stroke="black" stroke-width="1.0" 
+<circle cx="227.5" cy="200.0" r="5.0" stroke="black" stroke-width="0.5" 
 fill="black"/>
-<circle cx="480.0" cy="400.0" r="10.0" stroke="black" stroke-width="1.0" 
+<circle cx="240.0" cy="200.0" r="5.0" stroke="black" stroke-width="0.5" 
 fill="white"/>
-<circle cx="455.0" cy="425.0" r="10.0" stroke="black" stroke-width="1.0" 
+<circle cx="227.5" cy="212.5" r="5.0" stroke="black" stroke-width="0.5" 
 fill="black"/>
-<circle cx="480.0" cy="425.0" r="10.0" stroke="black" stroke-width="1.0" 
+<circle cx="240.0" cy="212.5" r="5.0" stroke="black" stroke-width="0.5" 
 fill="white"/>
-<circle cx="510.0" cy="400.0" r="10.0" stroke="black" stroke-width="1.0" 
+<circle cx="255.0" cy="200.0" r="5.0" stroke="black" stroke-width="0.5" 
 fill="white"/>
-<circle cx="535.0" cy="400.0" r="10.0" stroke="black" stroke-width="1.0" 
+<circle cx="267.5" cy="200.0" r="5.0" stroke="black" stroke-width="0.5" 
 fill="white"/>
-<circle cx="510.0" cy="425.0" r="10.0" stroke="black" stroke-width="1.0" 
+<circle cx="255.0" cy="212.5" r="5.0" stroke="black" stroke-width="0.5" 
 fill="black"/>
-<circle cx="535.0" cy="425.0" r="10.0" stroke="black" stroke-width="1.0" 
+<circle cx="267.5" cy="212.5" r="5.0" stroke="black" stroke-width="0.5" 
 fill="black"/>
-<circle cx="15.0" cy="455.0" r="10.0" stroke="black" stroke-width="1.0" 
+<circle cx="7.5" cy="227.5" r="5.0" stroke="black" stroke-width="0.5" 
 fill="black"/>
-<circle cx="40.0" cy="455.0" r="10.0" stroke="black" stroke-width="1.0" 
+<circle cx="20.0" cy="227.5" r="5.0" stroke="black" stroke-width="0.5" 
 fill="black"/>
-<circle cx="15.0" cy="480.0" r="10.0" stroke="black" stroke-width="1.0" 
+<circle cx="7.5" cy="240.0" r="5.0" stroke="black" stroke-width="0.5" 
 fill="black"/>
-<circle cx="40.0" cy="480.0" r="10.0" stroke="black" stroke-width="1.0" 
+<circle cx="20.0" cy="240.0" r="5.0" stroke="black" stroke-width="0.5" 
 fill="black"/>
-<circle cx="70.0" cy="455.0" r="10.0" stroke="black" stroke-width="1.0" 
+<circle cx="35.0" cy="227.5" r="5.0" stroke="black" stroke-width="0.5" 
 fill="white"/>
-<circle cx="95.0" cy="455.0" r="10.0" stroke="black" stroke-width="1.0" 
+<circle cx="47.5" cy="227.5" r="5.0" stroke="black" stroke-width="0.5" 
 fill="white"/>
-<circle cx="70.0" cy="480.0" r="10.0" stroke="black" stroke-width="1.0" 
+<circle cx="35.0" cy="240.0" r="5.0" stroke="black" stroke-width="0.5" 
 fill="white"/>
-<circle cx="95.0" cy="480.0" r="10.0" stroke="black" stroke-width="1.0" 
+<circle cx="47.5" cy="240.0" r="5.0" stroke="black" stroke-width="0.5" 
 fill="white"/>
-<circle cx="125.0" cy="455.0" r="10.0" stroke="black" stroke-width="1.0" 
+<circle cx="62.5" cy="227.5" r="5.0" stroke="black" stroke-width="0.5" 
 fill="white"/>
-<circle cx="150.0" cy="455.0" r="10.0" stroke="black" stroke-width="1.0" 
+<circle cx="75.0" cy="227.5" r="5.0" stroke="black" stroke-width="0.5" 
 fill="white"/>
-<circle cx="125.0" cy="480.0" r="10.0" stroke="black" stroke-width="1.0" 
+<circle cx="62.5" cy="240.0" r="5.0" stroke="black" stroke-width="0.5" 
 fill="white"/>
-<circle cx="150.0" cy="480.0" r="10.0" stroke="black" stroke-width="1.0" 
+<circle cx="75.0" cy="240.0" r="5.0" stroke="black" stroke-width="0.5" 
 fill="black"/>
-<circle cx="180.0" cy="455.0" r="10.0" stroke="black" stroke-width="1.0" 
+<circle cx="90.0" cy="227.5" r="5.0" stroke="black" stroke-width="0.5" 
 fill="white"/>
-<circle cx="205.0" cy="455.0" r="10.0" stroke="black" stroke-width="1.0" 
+<circle cx="102.5" cy="227.5" r="5.0" stroke="black" stroke-width="0.5" 
 fill="white"/>
-<circle cx="180.0" cy="480.0" r="10.0" stroke="black" stroke-width="1.0" 
+<circle cx="90.0" cy="240.0" r="5.0" stroke="black" stroke-width="0.5" 
 fill="black"/>
-<circle cx="205.0" cy="480.0" r="10.0" stroke="black" stroke-width="1.0" 
+<circle cx="102.5" cy="240.0" r="5.0" stroke="black" stroke-width="0.5" 
 fill="white"/>
-<circle cx="15.0" cy="510.0" r="10.0" stroke="black" stroke-width="1.0" 
+<circle cx="7.5" cy="255.0" r="5.0" stroke="black" stroke-width="0.5" 
 fill="white"/>
-<circle cx="40.0" cy="510.0" r="10.0" stroke="black" stroke-width="1.0" 
+<circle cx="20.0" cy="255.0" r="5.0" stroke="black" stroke-width="0.5" 
 fill="white"/>
-<circle cx="15.0" cy="535.0" r="10.0" stroke="black" stroke-width="1.0" 
+<circle cx="7.5" cy="267.5" r="5.0" stroke="black" stroke-width="0.5" 
 fill="white"/>
-<circle cx="40.0" cy="535.0" r="10.0" stroke="black" stroke-width="1.0" 
+<circle cx="20.0" cy="267.5" r="5.0" stroke="black" stroke-width="0.5" 
 fill="black"/>
-<circle cx="70.0" cy="510.0" r="10.0" stroke="black" stroke-width="1.0" 
+<circle cx="35.0" cy="255.0" r="5.0" stroke="black" stroke-width="0.5" 
 fill="white"/>
-<circle cx="95.0" cy="510.0" r="10.0" stroke="black" stroke-width="1.0" 
+<circle cx="47.5" cy="255.0" r="5.0" stroke="black" stroke-width="0.5" 
 fill="white"/>
-<circle cx="70.0" cy="535.0" r="10.0" stroke="black" stroke-width="1.0" 
+<circle cx="35.0" cy="267.5" r="5.0" stroke="black" stroke-width="0.5" 
 fill="black"/>
-<circle cx="95.0" cy="535.0" r="10.0" stroke="black" stroke-width="1.0" 
+<circle cx="47.5" cy="267.5" r="5.0" stroke="black" stroke-width="0.5" 
 fill="white"/>
-<circle cx="125.0" cy="510.0" r="10.0" stroke="black" stroke-width="1.0" 
+<circle cx="62.5" cy="255.0" r="5.0" stroke="black" stroke-width="0.5" 
 fill="white"/>
-<circle cx="150.0" cy="510.0" r="10.0" stroke="black" stroke-width="1.0" 
+<circle cx="75.0" cy="255.0" r="5.0" stroke="black" stroke-width="0.5" 
 fill="white"/>
-<circle cx="125.0" cy="535.0" r="10.0" stroke="black" stroke-width="1.0" 
+<circle cx="62.5" cy="267.5" r="5.0" stroke="black" stroke-width="0.5" 
 fill="black"/>
-<circle cx="150.0" cy="535.0" r="10.0" stroke="black" stroke-width="1.0" 
+<circle cx="75.0" cy="267.5" r="5.0" stroke="black" stroke-width="0.5" 
 fill="black"/>
-<circle cx="180.0" cy="510.0" r="10.0" stroke="black" stroke-width="1.0" 
+<circle cx="90.0" cy="255.0" r="5.0" stroke="black" stroke-width="0.5" 
 fill="white"/>
-<circle cx="205.0" cy="510.0" r="10.0" stroke="black" stroke-width="1.0" 
+<circle cx="102.5" cy="255.0" r="5.0" stroke="black" stroke-width="0.5" 
 fill="white"/>
-<circle cx="180.0" cy="535.0" r="10.0" stroke="black" stroke-width="1.0" 
+<circle cx="90.0" cy="267.5" r="5.0" stroke="black" stroke-width="0.5" 
 fill="black"/>
-<circle cx="205.0" cy="535.0" r="10.0" stroke="black" stroke-width="1.0" 
+<circle cx="102.5" cy="267.5" r="5.0" stroke="black" stroke-width="0.5" 
 fill="white"/>
-<circle cx="235.0" cy="510.0" r="10.0" stroke="black" stroke-width="1.0" 
+<circle cx="117.5" cy="255.0" r="5.0" stroke="black" stroke-width="0.5" 
 fill="white"/>
-<circle cx="260.0" cy="510.0" r="10.0" stroke="black" stroke-width="1.0" 
+<circle cx="130.0" cy="255.0" r="5.0" stroke="black" stroke-width="0.5" 
 fill="white"/>
-<circle cx="235.0" cy="535.0" r="10.0" stroke="black" stroke-width="1.0" 
+<circle cx="117.5" cy="267.5" r="5.0" stroke="black" stroke-width="0.5" 
 fill="black"/>
-<circle cx="260.0" cy="535.0" r="10.0" stroke="black" stroke-width="1.0" 
+<circle cx="130.0" cy="267.5" r="5.0" stroke="black" stroke-width="0.5" 
 fill="white"/>
-<circle cx="290.0" cy="510.0" r="10.0" stroke="black" stroke-width="1.0" 
+<circle cx="145.0" cy="255.0" r="5.0" stroke="black" stroke-width="0.5" 
 fill="white"/>
-<circle cx="315.0" cy="510.0" r="10.0" stroke="black" stroke-width="1.0" 
+<circle cx="157.5" cy="255.0" r="5.0" stroke="black" stroke-width="0.5" 
 fill="white"/>
-<circle cx="290.0" cy="535.0" r="10.0" stroke="black" stroke-width="1.0" 
+<circle cx="145.0" cy="267.5" r="5.0" stroke="black" stroke-width="0.5" 
 fill="black"/>
-<circle cx="315.0" cy="535.0" r="10.0" stroke="black" stroke-width="1.0" 
+<circle cx="157.5" cy="267.5" r="5.0" stroke="black" stroke-width="0.5" 
 fill="black"/>
-<circle cx="345.0" cy="510.0" r="10.0" stroke="black" stroke-width="1.0" 
+<circle cx="172.5" cy="255.0" r="5.0" stroke="black" stroke-width="0.5" 
 fill="black"/>
-<circle cx="370.0" cy="510.0" r="10.0" stroke="black" stroke-width="1.0" 
+<circle cx="185.0" cy="255.0" r="5.0" stroke="black" stroke-width="0.5" 
 fill="white"/>
-<circle cx="345.0" cy="535.0" r="10.0" stroke="black" stroke-width="1.0" 
+<circle cx="172.5" cy="267.5" r="5.0" stroke="black" stroke-width="0.5" 
 fill="black"/>
-<circle cx="370.0" cy="535.0" r="10.0" stroke="black" stroke-width="1.0" 
+<circle cx="185.0" cy="267.5" r="5.0" stroke="black" stroke-width="0.5" 
 fill="white"/>
-<circle cx="400.0" cy="510.0" r="10.0" stroke="black" stroke-width="1.0" 
+<circle cx="200.0" cy="255.0" r="5.0" stroke="black" stroke-width="0.5" 
 fill="white"/>
-<circle cx="425.0" cy="510.0" r="10.0" stroke="black" stroke-width="1.0" 
+<circle cx="212.5" cy="255.0" r="5.0" stroke="black" stroke-width="0.5" 
 fill="white"/>
-<circle cx="400.0" cy="535.0" r="10.0" stroke="black" stroke-width="1.0" 
+<circle cx="200.0" cy="267.5" r="5.0" stroke="black" stroke-width="0.5" 
 fill="black"/>
-<circle cx="425.0" cy="535.0" r="10.0" stroke="black" stroke-width="1.0" 
+<circle cx="212.5" cy="267.5" r="5.0" stroke="black" stroke-width="0.5" 
 fill="black"/>
-<circle cx="455.0" cy="510.0" r="10.0" stroke="black" stroke-width="1.0" 
+<circle cx="227.5" cy="255.0" r="5.0" stroke="black" stroke-width="0.5" 
 fill="white"/>
-<circle cx="480.0" cy="510.0" r="10.0" stroke="black" stroke-width="1.0" 
+<circle cx="240.0" cy="255.0" r="5.0" stroke="black" stroke-width="0.5" 
 fill="white"/>
-<circle cx="455.0" cy="535.0" r="10.0" stroke="black" stroke-width="1.0" 
+<circle cx="227.5" cy="267.5" r="5.0" stroke="black" stroke-width="0.5" 
 fill="black"/>
-<circle cx="480.0" cy="535.0" r="10.0" stroke="black" stroke-width="1.0" 
+<circle cx="240.0" cy="267.5" r="5.0" stroke="black" stroke-width="0.5" 
 fill="white"/>
-<circle cx="510.0" cy="510.0" r="10.0" stroke="black" stroke-width="1.0" 
+<circle cx="255.0" cy="255.0" r="5.0" stroke="black" stroke-width="0.5" 
 fill="white"/>
-<circle cx="535.0" cy="510.0" r="10.0" stroke="black" stroke-width="1.0" 
+<circle cx="267.5" cy="255.0" r="5.0" stroke="black" stroke-width="0.5" 
 fill="white"/>
-<circle cx="510.0" cy="535.0" r="10.0" stroke="black" stroke-width="1.0" 
+<circle cx="255.0" cy="267.5" r="5.0" stroke="black" stroke-width="0.5" 
 fill="white"/>
-<circle cx="535.0" cy="535.0" r="10.0" stroke="black" stroke-width="1.0" 
+<circle cx="267.5" cy="267.5" r="5.0" stroke="black" stroke-width="0.5" 
 fill="black"/>
-<circle cx="565.0" cy="510.0" r="10.0" stroke="black" stroke-width="1.0" 
+<circle cx="282.5" cy="255.0" r="5.0" stroke="black" stroke-width="0.5" 
 fill="white"/>
-<circle cx="590.0" cy="510.0" r="10.0" stroke="black" stroke-width="1.0" 
+<circle cx="295.0" cy="255.0" r="5.0" stroke="black" stroke-width="0.5" 
 fill="white"/>
-<circle cx="565.0" cy="535.0" r="10.0" stroke="black" stroke-width="1.0" 
+<circle cx="282.5" cy="267.5" r="5.0" stroke="black" stroke-width="0.5" 
 fill="black"/>
-<circle cx="590.0" cy="535.0" r="10.0" stroke="black" stroke-width="1.0" 
+<circle cx="295.0" cy="267.5" r="5.0" stroke="black" stroke-width="0.5" 
 fill="white"/>
-<circle cx="620.0" cy="510.0" r="10.0" stroke="black" stroke-width="1.0" 
+<circle cx="310.0" cy="255.0" r="5.0" stroke="black" stroke-width="0.5" 
 fill="white"/>
-<circle cx="645.0" cy="510.0" r="10.0" stroke="black" stroke-width="1.0" 
+<circle cx="322.5" cy="255.0" r="5.0" stroke="black" stroke-width="0.5" 
 fill="white"/>
-<circle cx="620.0" cy="535.0" r="10.0" stroke="black" stroke-width="1.0" 
+<circle cx="310.0" cy="267.5" r="5.0" stroke="black" stroke-width="0.5" 
 fill="black"/>
-<circle cx="645.0" cy="535.0" r="10.0" stroke="black" stroke-width="1.0" 
+<circle cx="322.5" cy="267.5" r="5.0" stroke="black" stroke-width="0.5" 
 fill="black"/>
+<circle cx="7.5" cy="282.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="20.0" cy="282.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="7.5" cy="295.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="20.0" cy="295.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="35.0" cy="282.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="47.5" cy="282.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="35.0" cy="295.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="47.5" cy="295.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="62.5" cy="282.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="75.0" cy="282.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="62.5" cy="295.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="75.0" cy="295.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="90.0" cy="282.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="102.5" cy="282.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="90.0" cy="295.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="102.5" cy="295.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="117.5" cy="282.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="130.0" cy="282.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="117.5" cy="295.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="130.0" cy="295.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="145.0" cy="282.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="157.5" cy="282.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="145.0" cy="295.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="157.5" cy="295.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="7.5" cy="310.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="20.0" cy="310.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="7.5" cy="322.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="20.0" cy="322.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="35.0" cy="310.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="47.5" cy="310.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="35.0" cy="322.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="47.5" cy="322.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="62.5" cy="310.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="75.0" cy="310.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="62.5" cy="322.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="75.0" cy="322.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="90.0" cy="310.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="102.5" cy="310.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="90.0" cy="322.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="102.5" cy="322.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="117.5" cy="310.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="130.0" cy="310.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="117.5" cy="322.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="130.0" cy="322.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="145.0" cy="310.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="157.5" cy="310.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="145.0" cy="322.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="157.5" cy="322.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="172.5" cy="310.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="185.0" cy="310.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="172.5" cy="322.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="185.0" cy="322.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="200.0" cy="310.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="212.5" cy="310.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="200.0" cy="322.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="212.5" cy="322.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="227.5" cy="310.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="240.0" cy="310.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="227.5" cy="322.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="240.0" cy="322.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="255.0" cy="310.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="267.5" cy="310.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="255.0" cy="322.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="267.5" cy="322.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="282.5" cy="310.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="295.0" cy="310.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="282.5" cy="322.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="295.0" cy="322.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="7.5" cy="337.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="20.0" cy="337.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="7.5" cy="350.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="20.0" cy="350.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="35.0" cy="337.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="47.5" cy="337.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="35.0" cy="350.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="47.5" cy="350.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="62.5" cy="337.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="75.0" cy="337.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="62.5" cy="350.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="75.0" cy="350.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="90.0" cy="337.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="102.5" cy="337.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="90.0" cy="350.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="102.5" cy="350.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="117.5" cy="337.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="130.0" cy="337.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="117.5" cy="350.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="130.0" cy="350.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="145.0" cy="337.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="157.5" cy="337.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="145.0" cy="350.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="157.5" cy="350.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="7.5" cy="365.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="20.0" cy="365.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="7.5" cy="377.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="20.0" cy="377.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="35.0" cy="365.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="47.5" cy="365.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="35.0" cy="377.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="47.5" cy="377.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="62.5" cy="365.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="75.0" cy="365.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="62.5" cy="377.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="75.0" cy="377.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="90.0" cy="365.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="102.5" cy="365.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="90.0" cy="377.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="102.5" cy="377.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="117.5" cy="365.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="130.0" cy="365.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="117.5" cy="377.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="130.0" cy="377.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="145.0" cy="365.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="157.5" cy="365.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="145.0" cy="377.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="157.5" cy="377.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="172.5" cy="365.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="185.0" cy="365.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="172.5" cy="377.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="185.0" cy="377.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="200.0" cy="365.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="212.5" cy="365.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="200.0" cy="377.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="212.5" cy="377.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="7.5" cy="392.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="20.0" cy="392.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="7.5" cy="405.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="20.0" cy="405.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="35.0" cy="392.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="47.5" cy="392.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="35.0" cy="405.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="47.5" cy="405.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="62.5" cy="392.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="75.0" cy="392.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="62.5" cy="405.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="75.0" cy="405.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="90.0" cy="392.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="102.5" cy="392.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="90.0" cy="405.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="102.5" cy="405.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="117.5" cy="392.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="130.0" cy="392.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="117.5" cy="405.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="130.0" cy="405.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="145.0" cy="392.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="157.5" cy="392.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="145.0" cy="405.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="157.5" cy="405.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="7.5" cy="420.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="20.0" cy="420.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="7.5" cy="432.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="20.0" cy="432.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="35.0" cy="420.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="47.5" cy="420.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="35.0" cy="432.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="47.5" cy="432.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="62.5" cy="420.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="75.0" cy="420.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="62.5" cy="432.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="75.0" cy="432.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="90.0" cy="420.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="102.5" cy="420.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="90.0" cy="432.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="102.5" cy="432.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="117.5" cy="420.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="130.0" cy="420.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="117.5" cy="432.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="130.0" cy="432.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="145.0" cy="420.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="157.5" cy="420.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="145.0" cy="432.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="157.5" cy="432.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="172.5" cy="420.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="185.0" cy="420.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="172.5" cy="432.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="185.0" cy="432.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="200.0" cy="420.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="212.5" cy="420.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="200.0" cy="432.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="212.5" cy="432.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="227.5" cy="420.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="240.0" cy="420.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="227.5" cy="432.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="240.0" cy="432.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="255.0" cy="420.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="267.5" cy="420.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="255.0" cy="432.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="267.5" cy="432.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="7.5" cy="447.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="20.0" cy="447.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="7.5" cy="460.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="20.0" cy="460.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="35.0" cy="447.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="47.5" cy="447.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="35.0" cy="460.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="47.5" cy="460.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="62.5" cy="447.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="75.0" cy="447.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="62.5" cy="460.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="75.0" cy="460.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="90.0" cy="447.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="102.5" cy="447.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="90.0" cy="460.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="102.5" cy="460.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="117.5" cy="447.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="130.0" cy="447.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="117.5" cy="460.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="130.0" cy="460.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="145.0" cy="447.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="157.5" cy="447.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="145.0" cy="460.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="157.5" cy="460.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="172.5" cy="447.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="185.0" cy="447.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="172.5" cy="460.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="185.0" cy="460.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="7.5" cy="475.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="20.0" cy="475.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="7.5" cy="487.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="20.0" cy="487.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="35.0" cy="475.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="47.5" cy="475.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="35.0" cy="487.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="47.5" cy="487.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="62.5" cy="475.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="75.0" cy="475.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="62.5" cy="487.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="75.0" cy="487.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="90.0" cy="475.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="102.5" cy="475.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="90.0" cy="487.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="102.5" cy="487.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="117.5" cy="475.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="130.0" cy="475.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="117.5" cy="487.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="130.0" cy="487.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="145.0" cy="475.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="157.5" cy="475.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="145.0" cy="487.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="157.5" cy="487.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="7.5" cy="502.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="20.0" cy="502.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="7.5" cy="515.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="20.0" cy="515.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="35.0" cy="502.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="47.5" cy="502.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="35.0" cy="515.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="47.5" cy="515.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="62.5" cy="502.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="75.0" cy="502.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="62.5" cy="515.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="75.0" cy="515.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="90.0" cy="502.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="102.5" cy="502.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="90.0" cy="515.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="102.5" cy="515.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="117.5" cy="502.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="130.0" cy="502.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="117.5" cy="515.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="130.0" cy="515.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="145.0" cy="502.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="157.5" cy="502.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="145.0" cy="515.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="157.5" cy="515.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="7.5" cy="530.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="20.0" cy="530.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="7.5" cy="542.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="20.0" cy="542.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="35.0" cy="530.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="47.5" cy="530.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="35.0" cy="542.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="47.5" cy="542.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="62.5" cy="530.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="75.0" cy="530.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="62.5" cy="542.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="75.0" cy="542.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="90.0" cy="530.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="102.5" cy="530.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="90.0" cy="542.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="102.5" cy="542.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="117.5" cy="530.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="130.0" cy="530.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="117.5" cy="542.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="130.0" cy="542.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="145.0" cy="530.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="157.5" cy="530.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="145.0" cy="542.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="157.5" cy="542.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="172.5" cy="530.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="185.0" cy="530.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="172.5" cy="542.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="185.0" cy="542.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="200.0" cy="530.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="212.5" cy="530.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="200.0" cy="542.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="212.5" cy="542.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="227.5" cy="530.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="240.0" cy="530.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="227.5" cy="542.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="240.0" cy="542.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="255.0" cy="530.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="267.5" cy="530.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="255.0" cy="542.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="267.5" cy="542.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="7.5" cy="557.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="20.0" cy="557.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="7.5" cy="570.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="20.0" cy="570.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="35.0" cy="557.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="47.5" cy="557.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="35.0" cy="570.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="47.5" cy="570.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="62.5" cy="557.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="75.0" cy="557.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="62.5" cy="570.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="75.0" cy="570.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="90.0" cy="557.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="102.5" cy="557.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="90.0" cy="570.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="102.5" cy="570.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="7.5" cy="585.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="20.0" cy="585.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="7.5" cy="597.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="20.0" cy="597.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="35.0" cy="585.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="47.5" cy="585.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="35.0" cy="597.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="47.5" cy="597.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="62.5" cy="585.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="75.0" cy="585.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="62.5" cy="597.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="75.0" cy="597.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="90.0" cy="585.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="102.5" cy="585.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="90.0" cy="597.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="102.5" cy="597.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="117.5" cy="585.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="130.0" cy="585.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="117.5" cy="597.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="130.0" cy="597.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="145.0" cy="585.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="157.5" cy="585.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="145.0" cy="597.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="157.5" cy="597.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="7.5" cy="612.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="20.0" cy="612.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="7.5" cy="625.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="20.0" cy="625.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="35.0" cy="612.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="47.5" cy="612.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="35.0" cy="625.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="47.5" cy="625.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="62.5" cy="612.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="75.0" cy="612.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="62.5" cy="625.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="75.0" cy="625.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="90.0" cy="612.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="102.5" cy="612.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="90.0" cy="625.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="102.5" cy="625.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="117.5" cy="612.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="130.0" cy="612.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="117.5" cy="625.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="130.0" cy="625.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="145.0" cy="612.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="157.5" cy="612.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="145.0" cy="625.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="157.5" cy="625.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="172.5" cy="612.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="185.0" cy="612.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="172.5" cy="625.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="185.0" cy="625.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="200.0" cy="612.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="212.5" cy="612.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="200.0" cy="625.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="212.5" cy="625.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="227.5" cy="612.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="240.0" cy="612.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="227.5" cy="625.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="240.0" cy="625.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="7.5" cy="640.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="20.0" cy="640.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="7.5" cy="652.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="20.0" cy="652.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="35.0" cy="640.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="47.5" cy="640.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="35.0" cy="652.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="47.5" cy="652.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="62.5" cy="640.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="75.0" cy="640.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="62.5" cy="652.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="75.0" cy="652.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="90.0" cy="640.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="102.5" cy="640.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="90.0" cy="652.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="102.5" cy="652.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="117.5" cy="640.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="130.0" cy="640.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="117.5" cy="652.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="130.0" cy="652.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="145.0" cy="640.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="157.5" cy="640.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="145.0" cy="652.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="157.5" cy="652.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="7.5" cy="667.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="20.0" cy="667.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="7.5" cy="680.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="20.0" cy="680.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="35.0" cy="667.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="47.5" cy="667.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="35.0" cy="680.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="47.5" cy="680.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="62.5" cy="667.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="75.0" cy="667.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="62.5" cy="680.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="75.0" cy="680.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="90.0" cy="667.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="102.5" cy="667.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="90.0" cy="680.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="102.5" cy="680.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="117.5" cy="667.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="130.0" cy="667.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="117.5" cy="680.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="130.0" cy="680.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="145.0" cy="667.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="157.5" cy="667.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="145.0" cy="680.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="157.5" cy="680.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="172.5" cy="667.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="185.0" cy="667.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="172.5" cy="680.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="185.0" cy="680.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="200.0" cy="667.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="212.5" cy="667.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="200.0" cy="680.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="212.5" cy="680.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="227.5" cy="667.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="240.0" cy="667.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="227.5" cy="680.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="240.0" cy="680.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="255.0" cy="667.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="267.5" cy="667.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="255.0" cy="680.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="267.5" cy="680.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="282.5" cy="667.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="295.0" cy="667.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="282.5" cy="680.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="295.0" cy="680.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="310.0" cy="667.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="322.5" cy="667.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="310.0" cy="680.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="322.5" cy="680.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="7.5" cy="695.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="20.0" cy="695.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="7.5" cy="707.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="20.0" cy="707.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="35.0" cy="695.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="47.5" cy="695.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="35.0" cy="707.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="47.5" cy="707.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="62.5" cy="695.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="75.0" cy="695.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="62.5" cy="707.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="75.0" cy="707.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="90.0" cy="695.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="102.5" cy="695.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="90.0" cy="707.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="102.5" cy="707.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="117.5" cy="695.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="130.0" cy="695.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="117.5" cy="707.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="130.0" cy="707.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="145.0" cy="695.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="157.5" cy="695.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="145.0" cy="707.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="157.5" cy="707.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="7.5" cy="722.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="20.0" cy="722.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="7.5" cy="735.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="20.0" cy="735.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="35.0" cy="722.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="47.5" cy="722.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="35.0" cy="735.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="47.5" cy="735.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="62.5" cy="722.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="75.0" cy="722.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="62.5" cy="735.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="75.0" cy="735.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="90.0" cy="722.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="102.5" cy="722.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="90.0" cy="735.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="102.5" cy="735.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="117.5" cy="722.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="130.0" cy="722.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="117.5" cy="735.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="130.0" cy="735.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="145.0" cy="722.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="157.5" cy="722.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="145.0" cy="735.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="157.5" cy="735.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="172.5" cy="722.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="185.0" cy="722.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="172.5" cy="735.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="185.0" cy="735.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="200.0" cy="722.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="212.5" cy="722.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="200.0" cy="735.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="212.5" cy="735.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="7.5" cy="750.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="20.0" cy="750.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="7.5" cy="762.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="20.0" cy="762.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="35.0" cy="750.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="47.5" cy="750.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="35.0" cy="762.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="47.5" cy="762.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="62.5" cy="750.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="75.0" cy="750.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="62.5" cy="762.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="75.0" cy="762.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="7.5" cy="777.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="20.0" cy="777.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="7.5" cy="790.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="20.0" cy="790.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="35.0" cy="777.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="47.5" cy="777.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="35.0" cy="790.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="47.5" cy="790.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="62.5" cy="777.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="75.0" cy="777.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="62.5" cy="790.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="75.0" cy="790.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="7.5" cy="805.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="20.0" cy="805.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="7.5" cy="817.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="20.0" cy="817.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="35.0" cy="805.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="47.5" cy="805.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="35.0" cy="817.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="47.5" cy="817.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="62.5" cy="805.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="75.0" cy="805.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="62.5" cy="817.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="75.0" cy="817.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="90.0" cy="805.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="102.5" cy="805.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="90.0" cy="817.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="102.5" cy="817.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="117.5" cy="805.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="130.0" cy="805.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="117.5" cy="817.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="130.0" cy="817.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="7.5" cy="832.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="20.0" cy="832.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="7.5" cy="845.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="20.0" cy="845.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="35.0" cy="832.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="47.5" cy="832.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="35.0" cy="845.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="47.5" cy="845.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="62.5" cy="832.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="75.0" cy="832.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="62.5" cy="845.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="75.0" cy="845.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="90.0" cy="832.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="102.5" cy="832.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="90.0" cy="845.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="102.5" cy="845.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="117.5" cy="832.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="130.0" cy="832.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="117.5" cy="845.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="130.0" cy="845.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="145.0" cy="832.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="157.5" cy="832.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="145.0" cy="845.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="157.5" cy="845.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="7.5" cy="860.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="20.0" cy="860.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="7.5" cy="872.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="20.0" cy="872.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="35.0" cy="860.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="47.5" cy="860.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="35.0" cy="872.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="47.5" cy="872.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="62.5" cy="860.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="75.0" cy="860.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="62.5" cy="872.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="75.0" cy="872.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="90.0" cy="860.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="102.5" cy="860.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="90.0" cy="872.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="102.5" cy="872.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="117.5" cy="860.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="130.0" cy="860.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="117.5" cy="872.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="130.0" cy="872.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="145.0" cy="860.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="157.5" cy="860.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="145.0" cy="872.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="157.5" cy="872.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="172.5" cy="860.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="185.0" cy="860.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="172.5" cy="872.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="185.0" cy="872.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="7.5" cy="887.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="20.0" cy="887.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="7.5" cy="900.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="20.0" cy="900.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="35.0" cy="887.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="47.5" cy="887.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="35.0" cy="900.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="47.5" cy="900.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="62.5" cy="887.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="75.0" cy="887.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="62.5" cy="900.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="75.0" cy="900.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="90.0" cy="887.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="102.5" cy="887.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="90.0" cy="900.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="102.5" cy="900.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="7.5" cy="915.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="20.0" cy="915.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="7.5" cy="927.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="20.0" cy="927.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="35.0" cy="915.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="47.5" cy="915.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="35.0" cy="927.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="47.5" cy="927.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="62.5" cy="915.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="75.0" cy="915.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="62.5" cy="927.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="75.0" cy="927.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="90.0" cy="915.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="102.5" cy="915.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="90.0" cy="927.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="102.5" cy="927.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="117.5" cy="915.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="130.0" cy="915.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="117.5" cy="927.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="130.0" cy="927.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="145.0" cy="915.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="157.5" cy="915.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="145.0" cy="927.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="157.5" cy="927.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="172.5" cy="915.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="185.0" cy="915.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="172.5" cy="927.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="185.0" cy="927.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="200.0" cy="915.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="212.5" cy="915.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="200.0" cy="927.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="212.5" cy="927.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="7.5" cy="942.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="20.0" cy="942.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="7.5" cy="955.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="20.0" cy="955.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="35.0" cy="942.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="47.5" cy="942.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="35.0" cy="955.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="47.5" cy="955.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="62.5" cy="942.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="75.0" cy="942.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="62.5" cy="955.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="75.0" cy="955.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="90.0" cy="942.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="102.5" cy="942.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="90.0" cy="955.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="102.5" cy="955.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="117.5" cy="942.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="130.0" cy="942.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="117.5" cy="955.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="130.0" cy="955.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="145.0" cy="942.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="157.5" cy="942.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="145.0" cy="955.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="157.5" cy="955.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="172.5" cy="942.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="185.0" cy="942.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="172.5" cy="955.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="185.0" cy="955.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="200.0" cy="942.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="212.5" cy="942.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="200.0" cy="955.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="212.5" cy="955.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="227.5" cy="942.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="240.0" cy="942.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="227.5" cy="955.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="240.0" cy="955.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="255.0" cy="942.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="267.5" cy="942.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="255.0" cy="955.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="267.5" cy="955.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="282.5" cy="942.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="295.0" cy="942.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="282.5" cy="955.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="295.0" cy="955.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="310.0" cy="942.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="322.5" cy="942.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="310.0" cy="955.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="322.5" cy="955.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="7.5" cy="970.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="20.0" cy="970.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="7.5" cy="982.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="20.0" cy="982.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="35.0" cy="970.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="47.5" cy="970.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="35.0" cy="982.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="47.5" cy="982.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="62.5" cy="970.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="75.0" cy="970.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="62.5" cy="982.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="75.0" cy="982.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="90.0" cy="970.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="102.5" cy="970.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="90.0" cy="982.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="102.5" cy="982.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="117.5" cy="970.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="130.0" cy="970.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="117.5" cy="982.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="130.0" cy="982.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="145.0" cy="970.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="157.5" cy="970.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="145.0" cy="982.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="157.5" cy="982.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="7.5" cy="997.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="20.0" cy="997.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="7.5" cy="1010.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="20.0" cy="1010.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="35.0" cy="997.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="47.5" cy="997.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="35.0" cy="1010.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="47.5" cy="1010.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="62.5" cy="997.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="75.0" cy="997.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="62.5" cy="1010.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="75.0" cy="1010.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="90.0" cy="997.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="102.5" cy="997.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="90.0" cy="1010.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="102.5" cy="1010.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="117.5" cy="997.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="130.0" cy="997.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="117.5" cy="1010.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="130.0" cy="1010.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="145.0" cy="997.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="157.5" cy="997.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="145.0" cy="1010.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="157.5" cy="1010.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="172.5" cy="997.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="185.0" cy="997.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="172.5" cy="1010.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="185.0" cy="1010.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="200.0" cy="997.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="212.5" cy="997.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="200.0" cy="1010.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="212.5" cy="1010.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="7.5" cy="1025.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="20.0" cy="1025.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="7.5" cy="1037.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="20.0" cy="1037.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="35.0" cy="1025.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="47.5" cy="1025.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="35.0" cy="1037.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="47.5" cy="1037.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="62.5" cy="1025.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="75.0" cy="1025.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="62.5" cy="1037.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="75.0" cy="1037.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="90.0" cy="1025.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="102.5" cy="1025.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="90.0" cy="1037.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="102.5" cy="1037.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="117.5" cy="1025.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="130.0" cy="1025.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="117.5" cy="1037.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="130.0" cy="1037.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="145.0" cy="1025.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="157.5" cy="1025.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="145.0" cy="1037.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="157.5" cy="1037.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="7.5" cy="1052.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="20.0" cy="1052.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="7.5" cy="1065.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="20.0" cy="1065.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="35.0" cy="1052.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="47.5" cy="1052.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="35.0" cy="1065.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="47.5" cy="1065.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="62.5" cy="1052.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="75.0" cy="1052.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="62.5" cy="1065.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="75.0" cy="1065.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="90.0" cy="1052.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="102.5" cy="1052.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="90.0" cy="1065.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="102.5" cy="1065.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="117.5" cy="1052.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="130.0" cy="1052.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="117.5" cy="1065.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="130.0" cy="1065.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="145.0" cy="1052.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="157.5" cy="1052.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="145.0" cy="1065.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="157.5" cy="1065.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="7.5" cy="1080.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="20.0" cy="1080.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="7.5" cy="1092.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="20.0" cy="1092.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="35.0" cy="1080.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="47.5" cy="1080.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="35.0" cy="1092.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="47.5" cy="1092.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="62.5" cy="1080.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="75.0" cy="1080.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="62.5" cy="1092.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="75.0" cy="1092.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="90.0" cy="1080.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="102.5" cy="1080.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="90.0" cy="1092.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="102.5" cy="1092.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="117.5" cy="1080.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="130.0" cy="1080.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="117.5" cy="1092.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="130.0" cy="1092.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="145.0" cy="1080.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="157.5" cy="1080.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="145.0" cy="1092.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="157.5" cy="1092.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="7.5" cy="1107.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="20.0" cy="1107.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="7.5" cy="1120.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="20.0" cy="1120.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="35.0" cy="1107.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="47.5" cy="1107.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="35.0" cy="1120.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="47.5" cy="1120.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="62.5" cy="1107.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="75.0" cy="1107.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="62.5" cy="1120.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="75.0" cy="1120.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="90.0" cy="1107.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="102.5" cy="1107.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="90.0" cy="1120.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="102.5" cy="1120.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="117.5" cy="1107.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="130.0" cy="1107.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="117.5" cy="1120.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="130.0" cy="1120.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="145.0" cy="1107.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="157.5" cy="1107.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="145.0" cy="1120.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="157.5" cy="1120.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="172.5" cy="1107.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="185.0" cy="1107.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="172.5" cy="1120.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="185.0" cy="1120.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="200.0" cy="1107.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="212.5" cy="1107.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="200.0" cy="1120.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="212.5" cy="1120.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="227.5" cy="1107.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="240.0" cy="1107.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="227.5" cy="1120.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="240.0" cy="1120.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="255.0" cy="1107.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="267.5" cy="1107.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="255.0" cy="1120.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="267.5" cy="1120.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="7.5" cy="1135.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="20.0" cy="1135.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="7.5" cy="1147.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="20.0" cy="1147.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="35.0" cy="1135.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="47.5" cy="1135.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="35.0" cy="1147.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="47.5" cy="1147.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="62.5" cy="1135.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="75.0" cy="1135.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="62.5" cy="1147.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="75.0" cy="1147.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="90.0" cy="1135.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="102.5" cy="1135.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="90.0" cy="1147.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="102.5" cy="1147.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="7.5" cy="1162.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="20.0" cy="1162.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="7.5" cy="1175.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="20.0" cy="1175.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="35.0" cy="1162.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="47.5" cy="1162.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="35.0" cy="1175.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="47.5" cy="1175.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="62.5" cy="1162.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="75.0" cy="1162.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="62.5" cy="1175.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="75.0" cy="1175.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="90.0" cy="1162.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="102.5" cy="1162.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="90.0" cy="1175.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="102.5" cy="1175.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="117.5" cy="1162.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="130.0" cy="1162.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="117.5" cy="1175.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="130.0" cy="1175.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="145.0" cy="1162.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="157.5" cy="1162.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="145.0" cy="1175.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="157.5" cy="1175.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="172.5" cy="1162.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="185.0" cy="1162.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="172.5" cy="1175.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="185.0" cy="1175.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="200.0" cy="1162.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="212.5" cy="1162.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="200.0" cy="1175.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="212.5" cy="1175.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="227.5" cy="1162.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="240.0" cy="1162.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="227.5" cy="1175.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="240.0" cy="1175.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="255.0" cy="1162.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="267.5" cy="1162.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="255.0" cy="1175.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="267.5" cy="1175.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="282.5" cy="1162.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="295.0" cy="1162.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="282.5" cy="1175.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="295.0" cy="1175.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="310.0" cy="1162.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="322.5" cy="1162.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="310.0" cy="1175.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="322.5" cy="1175.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="7.5" cy="1190.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="20.0" cy="1190.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="7.5" cy="1202.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="20.0" cy="1202.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="35.0" cy="1190.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="47.5" cy="1190.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="35.0" cy="1202.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="47.5" cy="1202.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="62.5" cy="1190.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="75.0" cy="1190.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="62.5" cy="1202.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="75.0" cy="1202.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="90.0" cy="1190.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="102.5" cy="1190.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="90.0" cy="1202.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="102.5" cy="1202.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="117.5" cy="1190.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="130.0" cy="1190.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="117.5" cy="1202.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="130.0" cy="1202.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="145.0" cy="1190.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="157.5" cy="1190.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="145.0" cy="1202.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="157.5" cy="1202.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="7.5" cy="1217.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="20.0" cy="1217.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="7.5" cy="1230.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="20.0" cy="1230.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="35.0" cy="1217.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="47.5" cy="1217.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="35.0" cy="1230.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="47.5" cy="1230.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="62.5" cy="1217.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="75.0" cy="1217.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="62.5" cy="1230.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="75.0" cy="1230.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="90.0" cy="1217.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="102.5" cy="1217.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="90.0" cy="1230.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="102.5" cy="1230.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="117.5" cy="1217.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="130.0" cy="1217.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="117.5" cy="1230.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="130.0" cy="1230.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="145.0" cy="1217.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="157.5" cy="1217.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="145.0" cy="1230.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="157.5" cy="1230.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="172.5" cy="1217.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="185.0" cy="1217.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="172.5" cy="1230.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="185.0" cy="1230.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="200.0" cy="1217.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="212.5" cy="1217.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="200.0" cy="1230.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="212.5" cy="1230.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="227.5" cy="1217.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="240.0" cy="1217.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="227.5" cy="1230.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="240.0" cy="1230.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="255.0" cy="1217.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="267.5" cy="1217.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="255.0" cy="1230.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="267.5" cy="1230.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="282.5" cy="1217.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="295.0" cy="1217.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="282.5" cy="1230.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="295.0" cy="1230.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="310.0" cy="1217.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="322.5" cy="1217.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="310.0" cy="1230.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="322.5" cy="1230.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="7.5" cy="1245.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="20.0" cy="1245.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="7.5" cy="1257.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="20.0" cy="1257.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="35.0" cy="1245.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="47.5" cy="1245.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="35.0" cy="1257.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="47.5" cy="1257.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="62.5" cy="1245.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="75.0" cy="1245.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="62.5" cy="1257.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="75.0" cy="1257.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="90.0" cy="1245.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="102.5" cy="1245.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="90.0" cy="1257.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="102.5" cy="1257.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="117.5" cy="1245.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="130.0" cy="1245.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="117.5" cy="1257.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="130.0" cy="1257.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="145.0" cy="1245.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="157.5" cy="1245.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="145.0" cy="1257.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="157.5" cy="1257.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="7.5" cy="1272.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="20.0" cy="1272.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="7.5" cy="1285.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="20.0" cy="1285.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="35.0" cy="1272.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="47.5" cy="1272.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="35.0" cy="1285.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="47.5" cy="1285.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="62.5" cy="1272.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="75.0" cy="1272.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="62.5" cy="1285.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="75.0" cy="1285.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="90.0" cy="1272.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="102.5" cy="1272.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="90.0" cy="1285.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="102.5" cy="1285.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="117.5" cy="1272.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="130.0" cy="1272.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="117.5" cy="1285.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="130.0" cy="1285.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="145.0" cy="1272.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="157.5" cy="1272.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="145.0" cy="1285.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="157.5" cy="1285.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="172.5" cy="1272.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="185.0" cy="1272.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="172.5" cy="1285.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="185.0" cy="1285.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="200.0" cy="1272.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="212.5" cy="1272.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="200.0" cy="1285.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="212.5" cy="1285.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="227.5" cy="1272.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="240.0" cy="1272.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="227.5" cy="1285.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="240.0" cy="1285.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="255.0" cy="1272.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="267.5" cy="1272.5" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
+<circle cx="255.0" cy="1285.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="black"/>
+<circle cx="267.5" cy="1285.0" r="5.0" stroke="black" stroke-width="0.5" 
+fill="white"/>
 </svg>

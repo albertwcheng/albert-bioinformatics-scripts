@@ -110,6 +110,10 @@ if __name__=='__main__':
 		letterScore=""
 		for lin in fil:
 			lin=lin.rstrip()
+			if len(lin)<1:
+				continue
+			if lin[0]=='#':
+				continue
 			letterScore+=lin+" . "
 		
 	scale=float(scale)
