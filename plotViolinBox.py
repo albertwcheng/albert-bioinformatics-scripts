@@ -38,10 +38,10 @@ from scipy.stats import wilcoxon #this is paired!!
 from glob import glob
 from random import *
 from PZFXMaker import *
-from scipy.stats import gaussian_kde
+from scipy.stats import gaussian_kde,histogram
 from numpy import arange
 
-def plotExpBox(data,xtickLabels,showIndPoints,mark,markMean,showMean,notch,whisker,outliers,xlegendrotation,xlabe,ylabe,titl,showSampleSizes,showViolin,showBox,annot,trendData,plotItemLegend,makePzfxFile):
+def plotExpBox(data,xtickLabels,showIndPoints,mark,markMean,showMean,notch,whisker,outliers,xlegendrotation,xlabe,ylabe,titl,showSampleSizes,showViolin,showBox,annot,trendData,plotItemLegend,makePzfxFile,makeBinMatrix):
 	
 	#fig=plt.figure()
 	if plotItemLegend:
@@ -134,6 +134,10 @@ def plotExpBox(data,xtickLabels,showIndPoints,mark,markMean,showMean,notch,whisk
 	
 	
 	xticks( range(1,len(data)+1), xtickLabels , rotation=xlegendrotation)
+	
+	if makeBinMatrix:
+		binMatrixOutFilename,binMatrixNumBins=makeBinMatrix
+		outputBinFiles(binMatrixOutFilename,data,xtickLabels,minMin,maxMax,binMatrixNumBins)
 	
 	if makePzfxFile:
 		
@@ -355,8 +359,57 @@ def drawHistogram(outfilename,plotData,xtickLabels,nbins=50):
 	#fig.show()
 
 	fig.savefig(outfilename,bbox_inches="tight")
+
+def outputBinFiles(outfilename,plotData,xtickLabels,minMin,maxMax,nbins=50):
 	
-def plotExpBox_Main(inputFiles,headers,valcols,outputFile,sep,startRow,showIndPoints,mark,markMean,showMean,notch,whisker,outliers,plotPvalueCluster,outputClusterPrefix,methodCluster,xlegendrotation,xlabe,ylabe,figsz,titl,showSampleSizes,trimToMinSize,relabels,logb,plotHistogramToFile,plotMedianForGroups,botta,showViolin,showBox,firstColAnnot,plotTrend,showLegend,makePzfxFile):
+	histoArrays=[]
+	
+	_low_range=-100
+	_binsize=-100
+	_extrapoints=-1
+	for col,xtickLabel in zip(plotData,xtickLabels):
+		histoArray,low_range,binsize,extrapoints=histogram(col,numbins=nbins,defaultlimits=(minMin,maxMax))
+		histoArrays.append(histoArray)
+		
+		if _binsize==-100:
+			_binsize=binsize
+			_low_range=low_range
+		else:
+			if _binsize!=binsize or low_range!=_low_range:
+				print >> stderr,"inconsistent histo",_binsize,_low_range,histoArray,low_range,binsize,extrapoints
+				exit(1)
+				
+		
+		if extrapoints>0:
+			print >> stderr,"extrapoints>0",histoArray,low_range,binsize,extrapoints
+			exit(1)
+	
+	binLows=[]
+	
+	for i in range(0,nbins):
+		binLows.append(i*binsize)
+	
+	outfil=open(outfilename,"w")
+	outv=["bins"]
+	for binLow in binLows:
+		outv.append(str(binLow))
+	
+	print >> outfil,"\t".join(outv)
+
+	#now the data
+	for xtickLabel,histoArray in zip(xtickLabels,histoArrays):
+		outv=[xtickLabel]
+		totalPoint=sum(histoArray)
+		for v in histoArray:
+			outv.append(str(float(v)/totalPoint))
+	
+		print >> outfil,"\t".join(outv)
+			
+	outfil.close()
+	
+	
+	
+def plotExpBox_Main(inputFiles,headers,valcols,outputFile,sep,startRow,showIndPoints,mark,markMean,showMean,notch,whisker,outliers,plotPvalueCluster,outputClusterPrefix,methodCluster,xlegendrotation,xlabe,ylabe,figsz,titl,showSampleSizes,trimToMinSize,relabels,logb,plotHistogramToFile,plotMedianForGroups,botta,showViolin,showBox,firstColAnnot,plotTrend,showLegend,makePzfxFile,makeBinMatrix):
 
 	#if plotPvalueCluster:
 		#if pvalue cluster is needed:
@@ -618,7 +671,7 @@ def plotExpBox_Main(inputFiles,headers,valcols,outputFile,sep,startRow,showIndPo
 		titl=outputFile
 
 
-	plotExpBox(plotData,xtickLabels,showIndPoints,mark,markMean,showMean,notch,whisker,outliers,xlegendrotation,xlabe,ylabe,titl,showSampleSizes,showViolin,showBox,annot,trendData,showLegend,makePzfxFile)
+	plotExpBox(plotData,xtickLabels,showIndPoints,mark,markMean,showMean,notch,whisker,outliers,xlegendrotation,xlabe,ylabe,titl,showSampleSizes,showViolin,showBox,annot,trendData,showLegend,makePzfxFile,makeBinMatrix)
 	
 	#ylim([0,200])
 	for m in medianToDraw:
@@ -664,6 +717,7 @@ def usageExit(programName):
 	print >> stderr,"--log base"
 	print >> stderr,"--show-legend"
 	print >> stderr,"--out-pzfx intemplate,outfile"
+	print >> stderr,"--out-bin-matrix outfile,numbins"
 	print >> stderr, "from PyCluster (see http://www.biopython.org/DIST/docs/api/Bio.Cluster.Record-class.html#treecluster)"
 	print >> stderr, "method   : specifies which linkage method is used:"
 	print >> stderr, "           method=='s': Single pairwise linkage"
@@ -676,7 +730,7 @@ def usageExit(programName):
 
 if __name__=='__main__':
 	programName=argv[0]
-	optlist,args=getopt(argv[1:],'t:F:d:r:s:pmn',['fs=','headerRow=','startRow=','showIndPoints','showMean','notch','offWhisker','offOutliers','pvalue-cluster-as=','pvalue-cluster-method=','xtick-rotation=','xlabel=','ylabel=','figsize=','title=','show-sample-sizes','trim-to-min-size','relabel-as=','plot-hist=','plot-median-for-group=','log=','bottom=','hide-violin','hide-box','plot-trend','first-col-annot','show-legend','out-pzfx=','pzfx-tableref-id='])
+	optlist,args=getopt(argv[1:],'t:F:d:r:s:pmn',['fs=','headerRow=','startRow=','showIndPoints','showMean','notch','offWhisker','offOutliers','pvalue-cluster-as=','pvalue-cluster-method=','xtick-rotation=','xlabel=','ylabel=','figsize=','title=','show-sample-sizes','trim-to-min-size','relabel-as=','plot-hist=','plot-median-for-group=','log=','bottom=','hide-violin','hide-box','plot-trend','first-col-annot','show-legend','out-pzfx=','pzfx-tableref-id=','out-bin-matrix='])
 
 	headerRow=1
 	startRow=2
@@ -710,6 +764,7 @@ if __name__=='__main__':
 	showBox=True
 	showLegend=False
 	makePzfxFile=None
+	makeBinMatrix=None
 	pzfxTableRefID="Table0"
 	#if len(args)!=3:
 		
@@ -778,6 +833,10 @@ if __name__=='__main__':
 				showLegend=True
 			elif a in ['--out-pzfx']:
 				makePzfxFile=v.split(",")
+			elif a in ['--out-bin-matrix']:
+				makeBinMatrix=v.split(",")
+				#print >> stderr,makeBinMatrix
+				makeBinMatrix[1]=int(makeBinMatrix[1])
 	except:
 		usageExit(programName)
 	
@@ -805,6 +864,6 @@ if __name__=='__main__':
 	if makePzfxFile:
 		makePzfxFile+=[pzfxTableRefID]
 	
-	plotExpBox_Main(filenames,headers,valcols,outputFile,fs,startRow,showIndPoints,'b,','g--',showMean,notch,whisker,outliers,makePvalueClusters,pvalueClusterOutputPrefix,pvalueClusterMethod,xlegendrotation,xlabe,ylabe,figsz,titl,showSampleSizes,trimToMinSize,relabels,logb,plotHistogramToFile,plotMedianForGroups,botta,showViolin,showBox,firstColAnnot,plotTrend,showLegend,makePzfxFile)	
+	plotExpBox_Main(filenames,headers,valcols,outputFile,fs,startRow,showIndPoints,'b,','g--',showMean,notch,whisker,outliers,makePvalueClusters,pvalueClusterOutputPrefix,pvalueClusterMethod,xlegendrotation,xlabe,ylabe,figsz,titl,showSampleSizes,trimToMinSize,relabels,logb,plotHistogramToFile,plotMedianForGroups,botta,showViolin,showBox,firstColAnnot,plotTrend,showLegend,makePzfxFile,makeBinMatrix)	
 		
 		
