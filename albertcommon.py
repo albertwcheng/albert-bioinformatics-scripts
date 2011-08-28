@@ -34,6 +34,50 @@ import types
 import re
 import os
 from ConfigParser import ConfigParser
+from random import shuffle,randint
+
+def findNextCombinationOfIdx(N,k,idxV):
+	for i in range(k-1,-1,-1):
+		if idxV[i]<N-k+i:
+			idxV[i]+=1
+			#reset the higher levels:
+			for j in range(i+1,k):
+				idxV[j]=idxV[j-1]+1
+			return True
+	
+	return False
+	
+def findAllCombinations(X,k): #find all k-subsets of X
+	combinations=[]
+	idxV=[]
+	N=len(X)
+	
+	#init idxV
+	for i in range(0,k):
+		idxV.append(i)
+	
+	#this is the first combination
+	combinations.append(getSubvector(X,idxV))
+	
+	#now proceed to find other combinations
+	while findNextCombinationOfIdx(N,k,idxV):
+		combinations.append(getSubvector(X,idxV))
+	
+	return combinations		
+
+def NextCombinationOn(X,k,idxV=None):
+	N=len(X)
+	if idxV==None: #get the first combination and return the idxV new
+		idxV=[]
+		for i in range(0,k):
+			idxV.append(i)
+	elif not findNextCombinationOfIdx(N,k,idxV):
+		return None,None
+	
+	return getSubvector(X,idxV),idxV
+	
+		
+
 
 def String_findAll(s,sub,start=0,end=-1):
 	if end!=-1:
@@ -254,6 +298,94 @@ def StrListToFloatList(L):
 		LC.append(float(s))
 	return LC
 
+def randomChooseK(X,k):
+	combination=[]
+	lowerchoice=0
+	N=len(X)
+	for i in range(0,k):
+		thischoice=randint(lowerchoice,N-k+i)
+		combination.append(X[thischoice])
+		lowerchoice=thischoice+1
+	
+	return combination
+
+def advRandomChooseK(X,k):
+	combination=[]
+	loconstraint=[]
+	hiconstraint=[]
+	N=len(X)
+	posV=range(0,k)
+	for i in posV:
+		loconstraint.append(i)
+		hiconstraint.append(N-k+i)
+	#now shuffle
+	shuffle(posV)
+	for i in posV:
+		#choose one from the constrained interval
+		choice=randint(loconstraint[i],hiconstraint[i])
+		combination.append(X[choice])
+		
+		hiconstraint[i]=choice
+		loconstraint[i]=choice
+		#now update the -1 and +1 constraint
+		j=i #propagate down
+		while j>0:
+			hiconstraint[j-1]=min(loconstraint[j]-1,hiconstraint[j-1])
+			j-=1
+			
+		j=i
+		while j<k-1:
+			loconstraint[j+1]=max(hiconstraint[j]+1,loconstraint[j+1])
+			j+=1
+			
+	return combination
+	
+def advRandomChooseKNoRepeat(X,k,history,trials=1000):
+	combination=advRandomChooseK(X,k)
+	tcombination=tuple(combination)
+	T=1
+	while tcombination in history:
+		T+=1
+		if T>trials:
+			return None
+		combination=advRandomChooseK(X,k)
+		tcombination=tuple(combination)
+	
+	history.add(tcombination)
+	return combination
+	
+
+
+def randomChooseKNoRepeat(X,k,history,trials=1000):
+	combination=randomChooseK(X,k)
+	tcombination=tuple(combination)
+	T=1
+	while tcombination in history:
+		T+=1
+		if T>trials:
+			return None
+		combination=randomChooseK(X,k)
+		tcombination=tuple(combination)
+	
+	history.add(tcombination)
+	return combination
+	
+	
+def randomShuffleNoRepeat(X,history,trials=1000):
+
+	
+	T=0
+	
+	while tuple(X) in history:
+		T+=1
+		if T>trials:
+			return False
+			
+		shuffle(X)
+	
+	history.add(tuple(X))
+	return True
+		
 def toStrList(L):
 	LC=[]
 	for i in L:
@@ -691,6 +823,14 @@ def getSubVectorByBinarySelector(D,I):
 	subv=[]
 	for i,d in zip(I,D):
 		if i:
+			subv.append(d)
+
+	return subv
+	
+def getSubVectorByReverseBinarySelector(D,I):
+	subv=[]
+	for i,d in zip(I,D):
+		if not i:
 			subv.append(d)
 
 	return subv

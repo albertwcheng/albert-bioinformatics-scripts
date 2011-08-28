@@ -9,4 +9,4 @@ infile=$1
 maxValueTo=$2
 outfile=$3
 
-awk -v FS="\t" -v OFS="\t" -v maxValueTo=$maxValueTo '{if(FNR>1){maxValue=$2; for(i=3;i<=NF;i++){if($i>maxValue){maxValue=$i}} for(i=1;i<=NF;i++){$i=float($i)/maxValue*maxValueTo;}} print;}' $infile > $outfile
+awk -v FS="\t" -v OFS="\t" -v maxValueTo=$maxValueTo '{if(FNR>1){maxValue=$2; for(i=3;i<=NF;i++){if($i>maxValue){maxValue=$i}} for(i=2;i<=NF;i++){$i=1.0*$i/maxValue*maxValueTo;}} print;}' $infile > $outfile

@@ -1,5 +1,6 @@
 #!/usr/bin/env python
-
+import warnings
+warnings.filterwarnings("ignore")
 #derived from plotExpBox2.py
 '''
 
@@ -34,12 +35,15 @@ import sys
 from albertcommon import *
 from welchttest import welchs_approximate_ttest_arr
 from scipy.stats.stats import ttest_ind,ttest_1samp,mannwhitneyu
-from scipy.stats import wilcoxon #this is paired!!
+from scipy.stats import wilcoxon,ansari,fligner,levene,bartlett 
 from glob import glob
 from random import *
 from PZFXMaker import *
 from scipy.stats import gaussian_kde,histogram
 from numpy import arange
+import traceback
+import numpy
+from math import log
 
 def plotExpBox(data,xtickLabels,showIndPoints,mark,markMean,showMean,notch,whisker,outliers,xlegendrotation,xlabe,ylabe,titl,showSampleSizes,showViolin,showBox,annot,trendData,plotItemLegend,makePzfxFile,makeBinMatrix):
 	
@@ -63,8 +67,8 @@ def plotExpBox(data,xtickLabels,showIndPoints,mark,markMean,showMean,notch,whisk
 	if whisker:
 		whisValue=1.5
 
-	for i in range(0,len(data)):
-		print >> stderr,len(data[i])
+	##for i in range(0,len(data)):
+	##	print >> stderr,len(data[i])
 
 	if showBox:
 		ax.boxplot(data,notch,widths=0.5,sym=fliers,whis=whisValue)
@@ -212,7 +216,7 @@ def makePValueClusterPlot(jobname,sampleNames,pvaluesM,methodCluster):
 	for sample in sampleNames:
 		Mr.append(0)
 
-	record.data=M
+	record.data=numpy.array(M)
 	record.mask=None
 	record.geneid=["Dummy"]
 	record.genename=["Dummy"]
@@ -292,7 +296,7 @@ def makePValueRawPlot(jobname,sampleNames,pvaluesM):
 	for sample in sampleNames:
 		Mr.append(0)
 
-	record.data=M
+	record.data=numpy.array(M)
 	record.mask=None
 	record.geneid=["Dummy"]
 	record.genename=["Dummy"]
@@ -407,9 +411,26 @@ def outputBinFiles(outfilename,plotData,xtickLabels,minMin,maxMax,nbins=50):
 			
 	outfil.close()
 	
+def filterDataInRangeInclusive(D,mi,ma):
+	xd=[]
+	N=0
+	NIN=0
+	NBelow=0
+	NAbove=0
+	for d in D:
+		N+=1
+		if mi!=None and d<mi:
+			NBelow+=1
+			continue
+		if ma!=None and d>ma:
+			NAbove+=1
+			continue
+		xd.append(d)
+		NIN+=1
 	
-	
-def plotExpBox_Main(inputFiles,headers,valcols,outputFile,sep,startRow,showIndPoints,mark,markMean,showMean,notch,whisker,outliers,plotPvalueCluster,outputClusterPrefix,methodCluster,xlegendrotation,xlabe,ylabe,figsz,titl,showSampleSizes,trimToMinSize,relabels,logb,plotHistogramToFile,plotMedianForGroups,botta,showViolin,showBox,firstColAnnot,plotTrend,showLegend,makePzfxFile,makeBinMatrix):
+	return xd,N,NIN,NBelow,NAbove
+			
+def plotExpBox_Main(inputFiles,headers,valcols,outputFile,sep,startRow,showIndPoints,mark,markMean,showMean,notch,whisker,outliers,plotPvalueCluster,outputClusterPrefix,methodCluster,xlegendrotation,xlabe,ylabe,figsz,titl,showSampleSizes,trimToMinSize,relabels,logb,plotHistogramToFile,plotMedianForGroups,botta,showViolin,showBox,firstColAnnot,plotTrend,showLegend,makePzfxFile,makeBinMatrix,writeDataSummaryStat,summaryStatRange,minuslog10pvalue):
 
 	#if plotPvalueCluster:
 		#if pvalue cluster is needed:
@@ -542,15 +563,40 @@ def plotExpBox_Main(inputFiles,headers,valcols,outputFile,sep,startRow,showIndPo
 	print >> stdout,"student t-test (1 sample; mean=0)"
 	print >> stdout,"sample","mean","p-val"
 
-
+	if writeDataSummaryStat:
+		fDSS=open(writeDataSummaryStat,"w")
+		print >> fDSS,"sample\tmean\tvar\tsd\tmin\tmax\tN\tNInRange["+str(summaryStatRange[0])+","+str(summaryStatRange[1])+"]\t%NInRange\tNbelowRange\t%Nbelow\tNAboveRange\t%NAbove"
+		
 	for x in range(0,len(plotData)):
 		#print >> stderr, len(plotData[x])
 		try:
 			print >> stdout, xtickLabels[x],mean(plotData[x]),ttest_1samp(plotData[x],0)[1]
 		except:
 			print >> stdout, xtickLabels[x],"NA","NA"
+		
+		if writeDataSummaryStat:
+			sumData,N,NIN,NBelow,NAbove=filterDataInRangeInclusive(plotData[x],summaryStatRange[0],summaryStatRange[1])
+			if NIN>1:
+				mea=mean(sumData)
+				DDOF=1
+				sd=std(sumData,ddof=DDOF)
+				var=sd*sd
+				mi=min(sumData)
+				ma=max(sumData)
+			else:
+				mea="NA"
+				sd="NA"
+				var="NA"
+				mi="NA"
+				ma="NA"
+				
+			print >> fDSS,xtickLabels[x]+"\t"+str(mea)+"\t"+str(var)+"\t"+str(sd)+"\t"+str(mi)+"\t"+str(ma)+"\t"+str(N)+"\t"+str(NIN)+"\t"+str(float(NIN)*100/N)+"\t"+str(NBelow)+"\t"+str(float(NBelow)*100/N)+"\t"+str(NAbove)+"\t"+str(float(NAbove)*100/N)
+		
 
 	pvalueM=[]
+	
+	if writeDataSummaryStat:
+		fDSS.close()
 	
 	print >> stdout,""
 	
@@ -569,7 +615,10 @@ def plotExpBox_Main(inputFiles,headers,valcols,outputFile,sep,startRow,showIndPo
 			if y<=x:
 				print >> stdout, "",
 				if x==y:
-					pvalueRow.append(1.0)
+					if minuslog10pvalue:
+						pvalueRow.append(0.0)
+					else:
+						pvalueRow.append(1.0)
 				else:
 					pvalueRow.append(pvalueM[y][x])
 			else:
@@ -577,7 +626,13 @@ def plotExpBox_Main(inputFiles,headers,valcols,outputFile,sep,startRow,showIndPo
 					pvalue=ttest_ind(plotData[x],plotData[y])[1]
 				except:
 					pvalue=1.0
-
+				
+				if minuslog10pvalue and str(pvalue)!="NA":
+					try:
+						pvalue=-1*log(pvalue,10)
+					except:
+						pvalue=-1000.0
+				
 				print >> stdout, str(pvalue),
 				pvalueRow.append(pvalue)
 		print >> stdout,"";	
@@ -608,12 +663,23 @@ def plotExpBox_Main(inputFiles,headers,valcols,outputFile,sep,startRow,showIndPo
 			if y<=x:
 				print >> stdout, "",
 				if x==y:
-					pvalueRow.append(1.0)
+					if minuslog10pvalue:
+						pvalueRow.append(0.0)
+					else:
+						pvalueRow.append(1.0)
 				else:
 					pvalueRow.append(pvalueM[y][x])
 					
 			else:
 				pvalue=welchs_approximate_ttest_arr(plotData[x],plotData[y])[3]
+
+				if minuslog10pvalue and str(pvalue)!="NA":
+					try:
+						pvalue=-1*log(pvalue,10)
+					except:
+						pvalue=-1000.0
+
+				
 				print >> stdout, str(pvalue),
 				pvalueRow.append(pvalue)
 		print >> stdout,"";
@@ -643,7 +709,10 @@ def plotExpBox_Main(inputFiles,headers,valcols,outputFile,sep,startRow,showIndPo
 			if y<=x:
 				print >> stdout, "",
 				if x==y:
-					pvalueRow.append(1.0)
+					if minuslog10pvalue:
+						pvalueRow.append(0.0)
+					else:
+						pvalueRow.append(1.0)
 				else:
 					pvalueRow.append(pvalueM[y][x])
 			else:
@@ -652,18 +721,251 @@ def plotExpBox_Main(inputFiles,headers,valcols,outputFile,sep,startRow,showIndPo
 					pvalue=mannwhitneyu(plotData[x],plotData[y])[1]*2				
 				except:
 					pvalue=1.0
+
+				if minuslog10pvalue and str(pvalue)!="NA":
+					try:
+						pvalue=-1*log(pvalue,10)
+					except:
+						pvalue=-1000.0
+
+
 				print >> stdout,pvalue, #mann-whiteney need to mul by 2 (one tail to two tail)
 				pvalueRow.append(pvalue)
 				#else:
 				#	print >>  stdout,wilcoxon(plotData[x],plotData[y])[1], # this is two-tailed already stdout, "", #
 		print >> stdout,"";	
-	
+
+
 	
 
 	if plotPvalueCluster:
 		makePValueRawPlot(outputClusterPrefix+"_U_raw",xtickLabels,pvalueM)
 		makePValueClusterPlot(outputClusterPrefix+"_U",xtickLabels,pvalueM,methodCluster)
 	
+	#####now the variance tests
+	
+	print >> stdout,""
+	print >> stdout,"Ansari-Bradley Two-sample Test for difference in scale parameters " 
+	print >> stdout,"p-val",
+	
+	
+	for x in range(0,len(plotData)):
+		print >> stdout,xtickLabels[x],
+	
+
+	pvalueM=[]
+
+	print >> stdout,""
+	for x in range(0,len(plotData)):
+		pvalueRow=[]
+		pvalueM.append(pvalueRow)
+		print >> stdout, xtickLabels[x],
+		for y in range(0,len(plotData)):
+			if y<=x:
+				print >> stdout, "",
+				if x==y:
+					if minuslog10pvalue:
+						pvalueRow.append(0.0)
+					else:
+						pvalueRow.append(1.0)
+				else:
+					pvalueRow.append(pvalueM[y][x])
+			else:
+				#if max(len(plotData[x]),len(plotData[y]))<=20:
+				try:
+					pvalue=ansari(plotData[x],plotData[y])[1]		
+				except:
+					pvalue="NA"
+
+				if minuslog10pvalue and str(pvalue)!="NA":
+					try:
+						pvalue=-1*log(pvalue,10)
+					except:
+						pvalue=-1000.0
+
+
+					#pvalue=1.0
+				print >> stdout,pvalue,
+				pvalueRow.append(pvalue)
+				#else:
+				#	print >>  stdout,wilcoxon(plotData[x],plotData[y])[1], # this is two-tailed already stdout, "", #
+		print >> stdout,"";	
+	
+	if plotPvalueCluster:
+		makePValueRawPlot(outputClusterPrefix+"_Ansari_raw",xtickLabels,pvalueM)
+		makePValueClusterPlot(outputClusterPrefix+"_Ansari",xtickLabels,pvalueM,methodCluster)	
+	
+	
+	#####
+
+	#####now the variance tests
+	
+	print >> stdout,""
+	print >> stdout,"Fligner's Two-sample Test for equal variance (non-parametrics)" 
+	print >> stdout,"p-val",
+	
+	
+	for x in range(0,len(plotData)):
+		print >> stdout,xtickLabels[x],
+	
+
+	pvalueM=[]
+
+	print >> stdout,""
+	for x in range(0,len(plotData)):
+		pvalueRow=[]
+		pvalueM.append(pvalueRow)
+		print >> stdout, xtickLabels[x],
+		for y in range(0,len(plotData)):
+			if y<=x:
+				print >> stdout, "",
+				if x==y:
+					if minuslog10pvalue:
+						pvalueRow.append(0.0)
+					else:
+						pvalueRow.append(1.0)
+				else:
+					pvalueRow.append(pvalueM[y][x])
+			else:
+				#if max(len(plotData[x]),len(plotData[y]))<=20:
+				try:
+					pvalue=fligner(plotData[x],plotData[y])[1]		
+				except:
+					pvalue="NA"
+					#pvalue=1.0
+					
+				if minuslog10pvalue and str(pvalue)!="NA":
+					try:
+						pvalue=-1*log(pvalue,10)
+					except:
+						pvalue=-1000.0
+
+
+				print >> stdout,pvalue,
+				pvalueRow.append(pvalue)
+				#else:
+				#	print >>  stdout,wilcoxon(plotData[x],plotData[y])[1], # this is two-tailed already stdout, "", #
+		print >> stdout,"";	
+	
+	if plotPvalueCluster:
+		makePValueRawPlot(outputClusterPrefix+"_fligner_raw",xtickLabels,pvalueM)
+		makePValueClusterPlot(outputClusterPrefix+"_fligner",xtickLabels,pvalueM,methodCluster)	
+	
+	
+	#####
+
+	#####now the variance tests
+	
+	print >> stdout,""
+	print >> stdout,"Levene's Two-sample Test for equal variance" 
+	print >> stdout,"p-val",
+	
+	
+	for x in range(0,len(plotData)):
+		print >> stdout,xtickLabels[x],
+	
+
+	pvalueM=[]
+
+	print >> stdout,""
+	for x in range(0,len(plotData)):
+		pvalueRow=[]
+		pvalueM.append(pvalueRow)
+		print >> stdout, xtickLabels[x],
+		for y in range(0,len(plotData)):
+			if y<=x:
+				print >> stdout, "",
+				if x==y:
+					if minuslog10pvalue:
+						pvalueRow.append(0.0)
+					else:
+						pvalueRow.append(1.0)
+				else:
+					pvalueRow.append(pvalueM[y][x])
+			else:
+				#if max(len(plotData[x]),len(plotData[y]))<=20:
+				try:
+					pvalue=levene(plotData[x],plotData[y])[1]		
+				except:
+					pvalue="NA"
+					#pvalue=1.0
+					
+				if minuslog10pvalue and str(pvalue)!="NA":
+					try:
+						pvalue=-1*log(pvalue,10)
+					except:
+						pvalue=-1000.0
+
+
+				print >> stdout,pvalue,
+				pvalueRow.append(pvalue)
+				#else:
+				#	print >>  stdout,wilcoxon(plotData[x],plotData[y])[1], # this is two-tailed already stdout, "", #
+		print >> stdout,"";	
+	
+	if plotPvalueCluster:
+		makePValueRawPlot(outputClusterPrefix+"_levene_raw",xtickLabels,pvalueM)
+		makePValueClusterPlot(outputClusterPrefix+"_levene",xtickLabels,pvalueM,methodCluster)	
+	
+	
+	#####
+
+	#####now the variance tests
+	
+	print >> stdout,""
+	print >> stdout,"Bartlett's Two-sample Test for equal variance (for normal distributions)" 
+	print >> stdout,"p-val",
+	
+	
+	for x in range(0,len(plotData)):
+		print >> stdout,xtickLabels[x],
+	
+
+	pvalueM=[]
+
+	print >> stdout,""
+	for x in range(0,len(plotData)):
+		pvalueRow=[]
+		pvalueM.append(pvalueRow)
+		print >> stdout, xtickLabels[x],
+		for y in range(0,len(plotData)):
+			if y<=x:
+				print >> stdout, "",
+				if x==y:
+					if minuslog10pvalue:
+						pvalueRow.append(0.0)
+					else:
+						pvalueRow.append(1.0)
+				else:
+					pvalueRow.append(pvalueM[y][x])
+			else:
+				#if max(len(plotData[x]),len(plotData[y]))<=20:
+				try:
+					pvalue=bartlett(plotData[x],plotData[y])[1]		
+				except:
+					pvalue="NA"
+					#pvalue=1.0
+
+				if minuslog10pvalue and str(pvalue)!="NA":
+					try:
+						pvalue=-1*log(pvalue,10)
+					except:
+						pvalue=-1000.0
+
+
+				print >> stdout,pvalue,
+				pvalueRow.append(pvalue)
+				#else:
+				#	print >>  stdout,wilcoxon(plotData[x],plotData[y])[1], # this is two-tailed already stdout, "", #
+		print >> stdout,"";	
+	
+	if plotPvalueCluster:
+		makePValueRawPlot(outputClusterPrefix+"_bartlett_raw",xtickLabels,pvalueM)
+		makePValueClusterPlot(outputClusterPrefix+"_bartlett",xtickLabels,pvalueM,methodCluster)	
+	
+	
+	#####
+
 	figure(figsize=figsz)
 	subplots_adjust(top=0.9, bottom=botta, left=0.2, right=0.8)
 	
@@ -704,6 +1006,7 @@ def usageExit(programName):
 	print >> stderr,"--xtick-rotation degree"
 	print >> stderr,"--offWhisker"
 	print >> stderr,"--offOutliers"
+	print >> stderr,"--minus-log10-pvalue output pvalue as -log10(pvalue)"
 	print >> stderr,"--pvalue-cluster-as prefix  make pvalue cluster heatmap using 1-pvalue as distance metric"
 	print >> stderr,"--pvalue-cluster-method method   cluster using one of the following method for the pvalue cluster heatmap"
 	print >> stderr,"--xlabel label"
@@ -718,6 +1021,8 @@ def usageExit(programName):
 	print >> stderr,"--show-legend"
 	print >> stderr,"--out-pzfx intemplate,outfile"
 	print >> stderr,"--out-bin-matrix outfile,numbins"
+	print >> stderr,"--write-data-summary-stat outfile write to outfile a table of mean and stddev etc"
+	print >> stderr,"--data-summary-stat-range min,max only consider data within the range min and max for doing summary stat table. Use NA to say no bound for each of the bounds"
 	print >> stderr, "from PyCluster (see http://www.biopython.org/DIST/docs/api/Bio.Cluster.Record-class.html#treecluster)"
 	print >> stderr, "method   : specifies which linkage method is used:"
 	print >> stderr, "           method=='s': Single pairwise linkage"
@@ -730,7 +1035,7 @@ def usageExit(programName):
 
 if __name__=='__main__':
 	programName=argv[0]
-	optlist,args=getopt(argv[1:],'t:F:d:r:s:pmn',['fs=','headerRow=','startRow=','showIndPoints','showMean','notch','offWhisker','offOutliers','pvalue-cluster-as=','pvalue-cluster-method=','xtick-rotation=','xlabel=','ylabel=','figsize=','title=','show-sample-sizes','trim-to-min-size','relabel-as=','plot-hist=','plot-median-for-group=','log=','bottom=','hide-violin','hide-box','plot-trend','first-col-annot','show-legend','out-pzfx=','pzfx-tableref-id=','out-bin-matrix='])
+	optlist,args=getopt(argv[1:],'t:F:d:r:s:pmn',['fs=','headerRow=','startRow=','showIndPoints','showMean','notch','offWhisker','offOutliers','pvalue-cluster-as=','pvalue-cluster-method=','xtick-rotation=','xlabel=','ylabel=','figsize=','title=','show-sample-sizes','trim-to-min-size','relabel-as=','plot-hist=','plot-median-for-group=','log=','bottom=','hide-violin','hide-box','plot-trend','first-col-annot','show-legend','out-pzfx=','pzfx-tableref-id=','out-bin-matrix=','write-data-summary-stat=','data-summary-stat-range=','minus-log10-pvalue'])
 
 	headerRow=1
 	startRow=2
@@ -767,6 +1072,9 @@ if __name__=='__main__':
 	makeBinMatrix=None
 	pzfxTableRefID="Table0"
 	#if len(args)!=3:
+	writeDataSummaryStat=""
+	summaryStatRange=[None,None]
+	minuslog10pvalue=False
 		
 	#else:
 	try:
@@ -837,7 +1145,26 @@ if __name__=='__main__':
 				makeBinMatrix=v.split(",")
 				#print >> stderr,makeBinMatrix
 				makeBinMatrix[1]=int(makeBinMatrix[1])
+			elif a in ['--data-summary-stat-range']:
+				mi,ma=v.split(",")
+				summaryStatRange=[]
+				try:
+					mi=float(mi)
+					summaryStatRange.append(mi)
+				except:
+					summaryStatRange.append(None)
+				try:
+					ma=float(ma)
+					summaryStatRange.append(ma)
+				except:
+					summaryStatRange.append(None)
+				
+			elif a in ['--write-data-summary-stat']:
+				writeDataSummaryStat=v
+			elif a in ['--minus-log10-pvalue']:
+				minuslog10pvalue=True
 	except:
+		traceback.print_stack()
 		usageExit(programName)
 	
 	#print >> stderr,args
@@ -864,6 +1191,6 @@ if __name__=='__main__':
 	if makePzfxFile:
 		makePzfxFile+=[pzfxTableRefID]
 	
-	plotExpBox_Main(filenames,headers,valcols,outputFile,fs,startRow,showIndPoints,'b,','g--',showMean,notch,whisker,outliers,makePvalueClusters,pvalueClusterOutputPrefix,pvalueClusterMethod,xlegendrotation,xlabe,ylabe,figsz,titl,showSampleSizes,trimToMinSize,relabels,logb,plotHistogramToFile,plotMedianForGroups,botta,showViolin,showBox,firstColAnnot,plotTrend,showLegend,makePzfxFile,makeBinMatrix)	
+	plotExpBox_Main(filenames,headers,valcols,outputFile,fs,startRow,showIndPoints,'b,','g--',showMean,notch,whisker,outliers,makePvalueClusters,pvalueClusterOutputPrefix,pvalueClusterMethod,xlegendrotation,xlabe,ylabe,figsz,titl,showSampleSizes,trimToMinSize,relabels,logb,plotHistogramToFile,plotMedianForGroups,botta,showViolin,showBox,firstColAnnot,plotTrend,showLegend,makePzfxFile,makeBinMatrix,writeDataSummaryStat,summaryStatRange,minuslog10pvalue)	
 		
 		
