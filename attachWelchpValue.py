@@ -57,14 +57,23 @@ def attachWelchpValue(filename,cols1,cols2,startRow1,sortByFDR):
 		arr2=[];
 
 		for i0 in cols1:
-			arr1.append(float(spliton[i0]));
-		
+			try:
+				arr1.append(float(spliton[i0]));
+			except:
+				pass
+				
 		for i0 in cols2:
-			arr2.append(float(spliton[i0]));
+			try:
+				arr2.append(float(spliton[i0]));
+			except:
+				pass
 		
-		welchRes=welchttest.welchs_approximate_ttest_arr(arr1,arr2);
-		pval=welchRes[3];
-	
+		try:		
+			welchRes=welchttest.welchs_approximate_ttest_arr(arr1,arr2);
+			pval=welchRes[3];
+		except:
+			pval=1.0
+			
 		try:		
 			copvalues=pvaluesMap[pval]
 		except KeyError:

@@ -109,7 +109,7 @@ def reverseComplement(seq):
 	
 	return rc
 
-def findLongestORFInThreeFrames(seq,startCodonsUpper=["ATG"],stopCodonsUpper=["TAA","TAG","TGA"]):
+def findORFInThreeFrames(seq,findLongestORFs=True,minORFLength=-1,maxORFLength=-1,startCodonsUpper=["ATG"],stopCodonsUpper=["TAA","TAG","TGA"]):
 	
 	seq=seq.upper()
 	
@@ -145,14 +145,31 @@ def findLongestORFInThreeFrames(seq,startCodonsUpper=["ATG"],stopCodonsUpper=["T
 			phaseATG[featurePhase]=-1
 			if thisPhaseATG!=-1:
 				#open!
+				
+				
 				thisORFLength=(feature-thisPhaseATG)/3
-				if thisORFLength>longestORFLength:
-					longestORFLength=thisORFLength
-					longestORFRange=[[thisPhaseATG,feature]]
-				elif thisORFLength==longestORFLength:
+				
+				if minORFLength>0 and thisORFLength<minORFLength:
+					continue
+				
+				if maxORFLength>0 and thisORFLength>maxORFLength:
+					continue
+
+				if findLongestORFs:
+					if thisORFLength>longestORFLength:
+						longestORFLength=thisORFLength
+						longestORFRange=[[thisPhaseATG,feature]]
+					elif thisORFLength==longestORFLength:
+						longestORFRange.append([thisPhaseATG,feature])
+				else:
+					if longestORFRange==None:
+						longestORFRange=[]
 					longestORFRange.append([thisPhaseATG,feature])
-	
+					
 	return longestORFRange
+
+def findLongestORFInThreeFrames(seq,minORFLength=-1,maxORFLength=-1,startCodonsUpper=["ATG"],stopCodonsUpper=["TAA","TAG","TGA"]):
+	return findORFInThreeFrames(seq,True,minORFLength,maxORFLength,startCodonsUpper,stopCodonsUpper)
 
 def getReverseComplementCoordNegRepresentation(rang):
 	return [-rang[0]-1,-rang[1]]
@@ -163,57 +180,83 @@ def getReverseComplementCoordNegRepresentationForRanges(ranges):
 		ret.append(getReverseComplementCoordNegRepresentation(rang))
 	return ret
 
-def getSequencesFromRanges(seq,ranges):
+def getSequencesFromRanges(seq,ranges,includeStopCodon=False):
 	seqs=[]
 	rc=None
+	if includeStopCodon:
+		includeStopCodon=3
+	else:
+		includeStopCodon=0
+		
+	if ranges==None:
+		return None
 	for rang in ranges:
 		if rang[0]>=0:
 			#in positive strand
-			seqs.append(seq[rang[0]:rang[1]])
+			seqs.append(seq[rang[0]:rang[1]+includeStopCodon])
 		else:
 			#in negative strand
 			if rc==None:
 				rc=reverseComplement(seq)
 			
-			seqs.append(rc[-rang[0]-1:-rang[1]])
+			seqs.append(rc[-rang[0]-1:-rang[1]+includeStopCodon])
 			
 	return seqs
 			
-def findLongestORFInSixFrames(seq,startCodonsUpper=["ATG"],stopCodonsUpper=["TAA","TAG","TGA"]):
-	forwardRange=findLongestORFInThreeFrames(seq,startCodonsUpper,stopCodonsUpper)
+def findORFInSixFrames(seq,findLongestORFs=True,minORFLength=-1,maxORFLength=-1,startCodonsUpper=["ATG"],stopCodonsUpper=["TAA","TAG","TGA"]):
+	forwardRange=findORFInThreeFrames(seq,findLongestORFs,minORFLength,maxORFLength,startCodonsUpper,stopCodonsUpper)
 	rc=reverseComplement(seq)
 	#print >> stderr,"rc=",rc
-	backwardRange=findLongestORFInThreeFrames(rc,startCodonsUpper,stopCodonsUpper)
+	backwardRange=findORFInThreeFrames(rc,findLongestORFs,minORFLength,maxORFLength,startCodonsUpper,stopCodonsUpper,)
 	
 	if forwardRange==None and backwardRange==None:
 		return None
 	
-	if forwardRange:
-		forwardLength=forwardRange[0][1]-forwardRange[0][0]
-	else:
-		forwardLength=-1
-
-	if backwardRange:
-		backwardLength=backwardRange[0][1]-backwardRange[0][0]
-	else:
-		backwardLength=-1
+	if findLongestORFs:
+		if forwardRange:
+			forwardLength=forwardRange[0][1]-forwardRange[0][0]
+		else:
+			forwardLength=-1
 	
-	if forwardLength>backwardLength:
-		#print >> stderr,"here3"
-		return forwardRange
-	elif forwardLength==backwardLength:
-		#print >> stderr,"here2"
-		return forwardRange+getReverseComplementCoordNegRepresentationForRanges(backwardRange)
-	else:
-		#print >> stderr,"here"
-		return getReverseComplementCoordNegRepresentationForRanges(backwardRange)
+		if backwardRange:
+			backwardLength=backwardRange[0][1]-backwardRange[0][0]
+		else:
+			backwardLength=-1
 		
+		if forwardLength>backwardLength:
+			#print >> stderr,"here3"
+			return forwardRange
+		elif forwardLength==backwardLength:
+			#print >> stderr,"here2"
+			return forwardRange+getReverseComplementCoordNegRepresentationForRanges(backwardRange)
+		else:
+			#print >> stderr,"here"
+			return getReverseComplementCoordNegRepresentationForRanges(backwardRange)
+	else:
+		returna=[]
+		if forwardRange!=None:
+			returna.extend(forwardRange)
+		
+		if backwardRange!=None:
+			returna.extend(getReverseComplementCoordNegRepresentationForRanges(backwardRange))
+		
+		return returna
+			
+def findLongestORFInSixFrames(seq,startCodonsUpper=["ATG"],stopCodonsUpper=["TAA","TAG","TGA"],minORFLength=-1,maxORFLength=-1):
+	return findORFInSixFrames(seq,startCodonsUpper,stopCodonsUpper,True,minORFLength,maxORFLength)
 
 if __name__=='__main__':
+
 	programName=argv[0]
 	args=argv[1:]
-	
-	ranges=findLongestORFInSixFrames(args[0])
-	seqs=getSequencesFromRanges(args[0],ranges)
-	for r,s in zip(ranges,seqs):
-		print >> stderr,r,s
+	try:
+		sequence,longest=args
+	except:
+		print >> stderr,programName,"sequence <longest,all>"
+		exit(1)
+		
+	ranges=findORFInSixFrames(sequence,longest=="longest")
+	seqs=getSequencesFromRanges(sequence,ranges,True)
+	if ranges!=None:
+		for r,s in zip(ranges,seqs):
+			print >> stdout,r,s
