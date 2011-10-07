@@ -14,6 +14,7 @@ from math import log;
 from scipy import std;
 from scipy import mean;
 from math import sqrt;
+from sys import stderr
 
 def stddev(arr):
 	N=len(arr);
@@ -93,7 +94,9 @@ def welchs_approximate_ttest(n1, mean1, sem1, \
     sv2=sem2**2;
     upper=(sv1+sv2)**2
     lower=(sv1**2)/(n1-1)+(sv2**2)/(n2-1)
+   
     df=int(upper/lower);
+
     pval=scipy.stats.t.cdf(t_s_prime, df);
     if(pval>0.5):
 	pval=1.0-pval;

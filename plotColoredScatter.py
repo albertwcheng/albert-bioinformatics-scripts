@@ -25,6 +25,7 @@ def printUsageAndExit(programName):
 	print >> stderr,"\t--xcol xcol"
 	print >> stderr,"\t--ycol ycol"
 	print >> stderr,"\t--config configfile. load config file"
+	print >> stderr,"\t--suppress-NA-error. Don't quit on NA error"
 	exit(1)
 
 startRow=2
@@ -36,6 +37,8 @@ labelcol=1
 configfile=None
 filename=None
 legendFile=None
+suppressNAError=False
+argsattrMatrix=dict()
 
 def reinitLoadingParams():
 	global startRow,headerRow,fs,xcol,ycol,labelcol,configfile,filename
@@ -48,7 +51,8 @@ def reinitLoadingParams():
 	configfile=None
 	filename=None
 	legendFile=None
-	
+	suppressNAError=False
+	#argsattrMatrix=dict()
 	
 def toFloatArray(L):
 	F=[]
@@ -56,7 +60,7 @@ def toFloatArray(L):
 		F.append(float(s))
 	return F
 	
-def plotData(filename,attrMatrix,startRow,labelcol,xcol,ycol,fs,legendOut):
+def plotData(filename,attrMatrix,startRow,labelcol,xcol,ycol,fs,legendOut,suppressNAError):
 	# !groupDivider	.
 	# !groupNameComponent	1-_1
 	# !hasGroup	no
@@ -70,7 +74,10 @@ def plotData(filename,attrMatrix,startRow,labelcol,xcol,ycol,fs,legendOut):
 	defaultLineWidth=float(getAttrWithDefaultValue(attrMatrix,"!lineWidth",1))
 	defaultMarkerSize=float(getAttrWithDefaultValue(attrMatrix,"!markerSize",1))
 	defaultShowLabel=getAttrWithDefaultValue(attrMatrix,"!showLabel","no").lower()
+	XLabel=getAttrWithDefaultValue(attrMatrix,"!XLabel",None)
+	YLabel=getAttrWithDefaultValue(attrMatrix,"!YLabel",None)
 	groupOrder=getAttrWithDefaultValue(attrMatrix,"!groupOrder",None)
+	
 	
 	X=[]
 	Y=[]
@@ -85,10 +92,19 @@ def plotData(filename,attrMatrix,startRow,labelcol,xcol,ycol,fs,legendOut):
 		if lino<startRow:
 			continue
 		fields=lin.split(fs)
+		
+		try:
+			x=float(fields[xcol])
+			y=float(fields[ycol])
+		except ValueError:
+			if not suppressNAError:
+				print >> stderr,"value error for converting to float x=",fields[xcol],"y=",fields[ycol]
+				exit(1)
+			continue
+		
 		label=fields[labelcol]
 		labels.append(label)
-		x=float(fields[xcol])
-		y=float(fields[ycol])
+
 		X.append(x)
 		Y.append(y)
 		if hasGroup:
@@ -148,6 +164,14 @@ def plotData(filename,attrMatrix,startRow,labelcol,xcol,ycol,fs,legendOut):
 		
 		plot(groupX,groupY,markerStyle,color=(_r,_g,_b),alpha=_a,linewidth=lineWidth,markersize=markerSize)
 		
+		
+		if XLabel:
+			xlabel(XLabel)
+		
+		if YLabel:
+			ylabel(YLabel)
+			
+		
 		if showLabel:
 			for label,x,y in zip(groupLabels,groupX,groupY):
 				text(x,y,label)
@@ -174,7 +198,7 @@ if __name__=='__main__':
 	
 	legendDataStreamsCreated=set()
 	
-	opts,args=getopt(argv[1:],'',['fs=','headerRow=','startRow=','xcol=','ycol=','labelcol=','config=','file=',"legendOut="])
+	opts,args=getopt(argv[1:],'',['fs=','headerRow=','startRow=','xcol=','ycol=','labelcol=','config=','file=',"legendOut=",'suppress-NA-error','XLabel=','YLabel='])
 
 	try:
 		outName,=args
@@ -198,17 +222,25 @@ if __name__=='__main__':
 			configfile=v
 		elif o=='--legendOut':
 			legendFile=v
+		elif o=='--suppress-NA-error':
+			suppressNAError=True
+
 		elif o=='--file':
 			filename=v
 			header,prestarts=getHeader(filename,headerRow,startRow,fs)	
 			labelcol=getCol0ListFromCol1ListStringAdv(header,labelcol)[0]
 			xcol=getCol0ListFromCol1ListStringAdv(header,xcol)[0]
 			ycol=getCol0ListFromCol1ListStringAdv(header,ycol)[0]
+	
 			
 			if configfile:
 				attrMatrix=readNamedAttrMatrix(configfile)
 			else:
 				attrMatrix=dict()
+			
+			for ke,va in argsattrMatrix.items():
+				attrMatrix[ke]=va
+			
 			
 			if legendFile:
 				if legendFile not in legendDataStreamsCreated:
@@ -216,13 +248,15 @@ if __name__=='__main__':
 					fil.close()
 					legendDataStreamsCreated.add(legendFile)
 				
-			plotData(filename,attrMatrix,startRow,labelcol,xcol,ycol,fs,legendFile)
+			plotData(filename,attrMatrix,startRow,labelcol,xcol,ycol,fs,legendFile,suppressNAError)
 			
 			
 			
 			#after everything
 			reinitLoadingParams()
-			
+		else:
+			key=o[2:]
+			argsattrMatrix["!"+key]=v		
 		
 	savefig(outName)
 	
@@ -255,6 +289,10 @@ if __name__=='__main__':
 			g=int(round(float(g)*255))
 			b=int(round(float(b)*255))
 			
+			
+			showReLabelAs=getLevel2AttrWithDefaultValue(attrMatrix,groupName,"showReLabelAs",None)
+			if showReLabelAs:
+				groupName+="("+showReLabelAs+")"
 			
 			print >> legendF,"<rect x=\""+str(10)+"\" y=\""+str(cury)+"\" width=\"20\" height=\"20\" stroke=\"black\" stroke-width=\"1\" style=\"fill:rgba("+str(r)+","+str(g)+","+str(b)+","+str(a)+");\"/>"
 			print >> legendF2,"<rect x=\""+str(10)+"\" y=\""+str(cury)+"\" width=\"20\" height=\"20\" stroke=\"black\" stroke-width=\"1\" style=\"fill:rgba("+str(r)+","+str(g)+","+str(b)+","+str(a)+");\"/>"

@@ -199,6 +199,7 @@ def printMatrix(stream,M,prefixes):
 		for cell in row:
 			print >> stream,"%g\t" % (cell),
 
+				
 		print >> stream,prefix
 #use pvalue as a distance metric
 #dist=1-pvalues
@@ -430,7 +431,7 @@ def filterDataInRangeInclusive(D,mi,ma):
 	
 	return xd,N,NIN,NBelow,NAbove
 			
-def plotExpBox_Main(inputFiles,headers,valcols,outputFile,sep,startRow,showIndPoints,mark,markMean,showMean,notch,whisker,outliers,plotPvalueCluster,outputClusterPrefix,methodCluster,xlegendrotation,xlabe,ylabe,figsz,titl,showSampleSizes,trimToMinSize,relabels,logb,plotHistogramToFile,plotMedianForGroups,botta,showViolin,showBox,firstColAnnot,plotTrend,showLegend,makePzfxFile,makeBinMatrix,writeDataSummaryStat,summaryStatRange,minuslog10pvalue):
+def plotExpBox_Main(inputFiles,headers,valcols,outputFile,sep,startRow,showIndPoints,mark,markMean,showMean,notch,whisker,outliers,plotPvalueCluster,outputClusterPrefix,methodCluster,xlegendrotation,xlabe,ylabe,figsz,titl,showSampleSizes,trimToMinSize,relabels,logb,plotHistogramToFile,plotMedianForGroups,botta,showViolin,showBox,firstColAnnot,plotTrend,showLegend,makePzfxFile,makeBinMatrix,writeDataSummaryStat,summaryStatRange,minuslog10pvalue,minNDataToKeep):
 
 	#if plotPvalueCluster:
 		#if pvalue cluster is needed:
@@ -554,8 +555,8 @@ def plotExpBox_Main(inputFiles,headers,valcols,outputFile,sep,startRow,showIndPo
 
 
 	for c in range(len(plotData)-1,-1,-1):
-		if len(plotData[c])==0:
-			print >> stderr,xtickLabels[c],"discarded"
+		if len(plotData[c])<minNDataToKeep:
+			print >> stderr,xtickLabels[c],"discarded because has only",len(plotData[c]),"data points <",minNDataToKeep
 			del plotData[c]
 			del xtickLabels[c]
 
@@ -671,7 +672,10 @@ def plotExpBox_Main(inputFiles,headers,valcols,outputFile,sep,startRow,showIndPo
 					pvalueRow.append(pvalueM[y][x])
 					
 			else:
-				pvalue=welchs_approximate_ttest_arr(plotData[x],plotData[y])[3]
+				try:
+					pvalue=welchs_approximate_ttest_arr(plotData[x],plotData[y])[3]
+				except:
+					pvalue=1.0
 
 				if minuslog10pvalue and str(pvalue)!="NA":
 					try:
@@ -1023,6 +1027,7 @@ def usageExit(programName):
 	print >> stderr,"--out-bin-matrix outfile,numbins"
 	print >> stderr,"--write-data-summary-stat outfile write to outfile a table of mean and stddev etc"
 	print >> stderr,"--data-summary-stat-range min,max only consider data within the range min and max for doing summary stat table. Use NA to say no bound for each of the bounds"
+	print >> stderr,"--min-num-data-to-keep. set the minimal number of datapoints per col to keep. [2]"
 	print >> stderr, "from PyCluster (see http://www.biopython.org/DIST/docs/api/Bio.Cluster.Record-class.html#treecluster)"
 	print >> stderr, "method   : specifies which linkage method is used:"
 	print >> stderr, "           method=='s': Single pairwise linkage"
@@ -1035,7 +1040,7 @@ def usageExit(programName):
 
 if __name__=='__main__':
 	programName=argv[0]
-	optlist,args=getopt(argv[1:],'t:F:d:r:s:pmn',['fs=','headerRow=','startRow=','showIndPoints','showMean','notch','offWhisker','offOutliers','pvalue-cluster-as=','pvalue-cluster-method=','xtick-rotation=','xlabel=','ylabel=','figsize=','title=','show-sample-sizes','trim-to-min-size','relabel-as=','plot-hist=','plot-median-for-group=','log=','bottom=','hide-violin','hide-box','plot-trend','first-col-annot','show-legend','out-pzfx=','pzfx-tableref-id=','out-bin-matrix=','write-data-summary-stat=','data-summary-stat-range=','minus-log10-pvalue'])
+	optlist,args=getopt(argv[1:],'t:F:d:r:s:pmn',['fs=','headerRow=','startRow=','showIndPoints','showMean','notch','offWhisker','offOutliers','pvalue-cluster-as=','pvalue-cluster-method=','xtick-rotation=','xlabel=','ylabel=','figsize=','title=','show-sample-sizes','trim-to-min-size','relabel-as=','plot-hist=','plot-median-for-group=','log=','bottom=','hide-violin','hide-box','plot-trend','first-col-annot','show-legend','out-pzfx=','pzfx-tableref-id=','out-bin-matrix=','write-data-summary-stat=','data-summary-stat-range=','minus-log10-pvalue','min-num-data-to-keep='])
 
 	headerRow=1
 	startRow=2
@@ -1075,7 +1080,8 @@ if __name__=='__main__':
 	writeDataSummaryStat=""
 	summaryStatRange=[None,None]
 	minuslog10pvalue=False
-		
+	minNDataToKeep=2
+	
 	#else:
 	try:
 		outputFile=args[0]
@@ -1145,6 +1151,8 @@ if __name__=='__main__':
 				makeBinMatrix=v.split(",")
 				#print >> stderr,makeBinMatrix
 				makeBinMatrix[1]=int(makeBinMatrix[1])
+			elif a in ['--min-num-data-to-keep']:
+				minNDataToKeep=int(v)
 			elif a in ['--data-summary-stat-range']:
 				mi,ma=v.split(",")
 				summaryStatRange=[]
@@ -1191,6 +1199,6 @@ if __name__=='__main__':
 	if makePzfxFile:
 		makePzfxFile+=[pzfxTableRefID]
 	
-	plotExpBox_Main(filenames,headers,valcols,outputFile,fs,startRow,showIndPoints,'b,','g--',showMean,notch,whisker,outliers,makePvalueClusters,pvalueClusterOutputPrefix,pvalueClusterMethod,xlegendrotation,xlabe,ylabe,figsz,titl,showSampleSizes,trimToMinSize,relabels,logb,plotHistogramToFile,plotMedianForGroups,botta,showViolin,showBox,firstColAnnot,plotTrend,showLegend,makePzfxFile,makeBinMatrix,writeDataSummaryStat,summaryStatRange,minuslog10pvalue)	
+	plotExpBox_Main(filenames,headers,valcols,outputFile,fs,startRow,showIndPoints,'b,','g--',showMean,notch,whisker,outliers,makePvalueClusters,pvalueClusterOutputPrefix,pvalueClusterMethod,xlegendrotation,xlabe,ylabe,figsz,titl,showSampleSizes,trimToMinSize,relabels,logb,plotHistogramToFile,plotMedianForGroups,botta,showViolin,showBox,firstColAnnot,plotTrend,showLegend,makePzfxFile,makeBinMatrix,writeDataSummaryStat,summaryStatRange,minuslog10pvalue,minNDataToKeep)	
 		
 		
