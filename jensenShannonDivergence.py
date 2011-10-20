@@ -5,6 +5,62 @@ from albertcommon import *
 from sys import *
 from math import log,fsum
 
+''' This part is copied from https://bitbucket.org/cevans/bootstrap/src/0f6e0b8c8a26/scikits/bootstrap/bootstrap.py not used yet
+
+from numpy.random import randint
+from scipy.stats import norm
+from numpy import *
+
+def ci(data,statfun,alpha=0.05,n_samples=10000,method='bca'):
+        """..."""
+
+        # Ensure that our data is, in fact, an array.
+        data = array(data)
+
+        # First create array of bootstrap sample indexes:
+        indexes = randint(data.shape[0],size=(n_samples,data.shape[0]))
+
+        # Then apply this to get the bootstrap samples and statistics over them.
+        samples = data[indexes]
+
+        stat = array([statfun(x) for x in samples])
+        
+        # Normal-theory Interval --- doesn't use sorted statistics.
+        if method == 'nti':
+                bstd = std(stat)
+                pass
+        
+        stat_sorted = sort(stat)
+        
+        # Percentile Interval
+        if method == 'pi':
+                return ( stat_sorted[round(n_samples*alpha/2)], stat_sorted[round(n_samples*(1-alpha/2))] )
+
+        # Bias-Corrected Accelerated Interval
+        elif method == 'bca':
+                ostat = statfun(data)
+
+                z = norm.ppf( ( 1.0*sum(stat < ostat) + 0.5*sum(stat == ostat) ) / n_samples )
+                
+                # Calculate the jackknife distribution and corresponding statistics quickly.
+                j_indexes = (lambda n: delete(tile(array(range(0,n)),n),range(0,n*n,n+1)).reshape((n,n-1)))(len(data))
+                jstat = [statfun(x) for x in data[j_indexes]]
+                jmean = mean(jstat)
+
+                a = sum( (jstat - jmean)**3 ) / ( 6.0 * sum( (jstat - jmean)**2 )**1.5 )
+
+                zp = z + norm.ppf(1-alpha/2)
+                zm = z - norm.ppf(1-alpha/2)
+
+                a1 = norm.cdf(z + zm/(1-a*zm))
+                a2 = norm.cdf(z + zp/(1-a*zp))
+
+                return (stat_sorted[round(n_samples*a1)],stat_sorted[round(n_samples*a2)])
+
+        else:
+                raise "Method %s not supported" % method
+'''
+
 #sigma over i (weighti * Pi)
 def sumProbDists(PM,weights):
 
@@ -60,14 +116,6 @@ def JSD(PM,weights,logb):
 
 	return firstTerm-secondTerm
 	
-
-def printUsageAndExit(programName):
-	print >> stderr,programName,"[options] infile [[groupName cols weight] ...]"
-	print >> stderr,"weight=1/n to let the program to calculate the weight evenly or use comma separated list"
-	print >> stderr,"Options:"
-	print >> stderr,"--logbase x. default 2, i.e., in bits"
-	print >> stderr,"--readGroupFile filename. read group def in file as rows of tab-delimited groupName cols weight"
-	exit(1)
 
 
 
@@ -140,14 +188,52 @@ def readFilePMsIntoGroupInfo(filename,groupInfo):
 					P.append(appendee)
 			
 	fil.close()
-	
+
+class NegativeProbabilityError:
+	pass
+
 #normalize element in P such that it sums to 1	
 def normalizeP(P):
 	PSum=float(fsum(P))
 	for i in range(0,len(P)):
+		if P[i]<0:
+			raise ZeroDivisionError
 		P[i]/=PSum
 	
-				
+
+def percentileCI(stats,alpha):
+	n_samples=len(stats)
+	stat_sorted=sorted(stats)
+	return ( stat_sorted[int(round(n_samples*alpha/2))], stat_sorted[int(round(n_samples*(1-alpha/2)))] )
+
+def bootstrap(PM,weights):
+	PMp=[]
+	weightsp=[]
+	N=len(PM)
+	
+	for i in range(0,N):
+		choice=randint(0,N-1)
+		PMp.append(PM[choice])
+		weightsp.append(weights[choice])
+	
+	#now normalize weightsp
+	normalizeP(weightsp)
+	return PMp,weightsp
+
+
+def printUsageAndExit(programName):
+	print >> stderr,programName,"[options] infile [[groupName cols weight] ...]"
+	print >> stderr,"weight=1/n to let the program to calculate the weight evenly or use comma separated list"
+	print >> stderr,"Options:"
+	print >> stderr,"--logbase x. default 2, i.e., in bits"
+	print >> stderr,"--readGroupFile filename. read group def in file as rows of tab-delimited groupName cols weight"
+	print >> stderr,"--removeAllZeroSamples. Remove all zero samples and samples containing negative values. If not set, for samples that all-zero or has negative values, program will abort."
+	print >> stderr,"--bootstrapTrials x. default 10000."
+	print >> stderr,"--cialpha x. default 0.05. Set alpha for bootstrap CI"
+	exit(1)
+
+
+			
 if __name__=="__main__":
 
 	#testTwoPCaseAndExit()
@@ -155,17 +241,27 @@ if __name__=="__main__":
 
 
 	programName=argv[0]
-	opts,args=getopt(argv[1:],'',['logbase=','readGroupFile='])
+	opts,args=getopt(argv[1:],'',['logbase=','readGroupFile=','removeAllZeroSamples','bootstrapTrials=','cialpha='])
 	
+	bootstrapTrials=10000
 	logb=log(2)
 	readGroupFile=None
+	removeAllZeroSamples=False
+	cialpha=0.05
 	
 	for a,v in opts:
 		if a=='--logbase':
 			logb=log(float(v))
 		elif a=='--readGroupFile':
 			readGroupFile=v
-	
+		elif a=='--removeAllZeroSamples':
+			removeAllZeroSamples=True
+		elif a=='--bootstrapTrials':
+			bootstrapTrials=int(v)
+		elif a=='--cialpha':
+			cialpha=float(v)
+			
+				
 	evenWeight=False
 	
 	unprocessedGroupInfo=[]
@@ -202,7 +298,7 @@ if __name__=="__main__":
 			for i in range(0,len(weight)):
 				weight=float(weight)
 				#ensure weight sums to 1, normalize it.
-			normalizeP(weight)
+			
 		
 		groupInfo.append([groupName,cols,weight])
 		
@@ -219,26 +315,49 @@ if __name__=="__main__":
 	for thisGroupInfo in groupInfo:
 	
 		
-		PM=thisGroupInfo[4]
-		for P in PM:
-			normalizeP(P)
-			
-		weight=thisGroupInfo[2]
+		groupName,cols,weight,actualColIdx,PM=thisGroupInfo
+		for i in range(len(PM)-1,-1,-1): #from end.
+			P=PM[i]
+			try:
+				normalizeP(P)
+			except ZeroDivisionError:
+				#all zeros!!?!
+				if removeAllZeroSamples:
+					#remove this P and the weight and from the actualColIdx
+					del actualColIdx[i]
+					del PM[i]
+					if weight:
+						del weight[i]
+				else:
+					print >> stderr,"contains all-zero sample. Abort unless --removeAllZeroSamples specified"
+					printUsageAndExit(programName)
+				
+		
 		if not weight: #not specified, depends on the number of samples in group, set even weight
 			numSamples=len(PM)
 			weight=[1.0/numSamples]*numSamples
 			thisGroupInfo[2]=weight
-			
+		
+		normalizeP(weight)	#redistribute weight to make sure it sums to one (in case incorrect inputs or changes made above
 			
 	#now it's ready for the math
 	#for each group compute JSDivergence and output
-	print >> stdout,"\t".join(["GroupName","ColSelector","ColSelected","Weights","JSD"])
+	print >> stdout,"\t".join(["GroupName","ColSelector","ColAnalyzed","NumColAnalyzed","Weights","JSD","JSDNegError","JSDPosError","BootstrapCIMin","BootstrapCIMax","BootstrapJSDMin","BootstrapJSDMax"])
+	
 	
 	for groupName,cols,weights,actualColsIdx,PM in groupInfo:
-		#print >> stderr,"calculating JSD for group",groupName,"..."
+		print >> stderr,"Calculating JSD for group",groupName,"..."
 		jsd=JSD(PM,weights,logb)
+		bstrpJSD=[]
 		#now print
-		print >> stdout,"\t".join([groupName,cols,",".join(toStrList(actualColsIdx)),",".join(toStrList(weights)),str(jsd)])
+		for T in range(0,bootstrapTrials):
+			if T%1000==0:
+				print >> stderr,"\tWorking on bootstrap %d of %d" %(T+1,bootstrapTrials)
+			PMp,weightsp=bootstrap(PM,weights)
+			bstrpJSD.append(JSD(PMp,weightsp,logb))
+			
+		CI=percentileCI(bstrpJSD,cialpha)
+		print >> stdout,"\t".join([groupName,cols,",".join(toStrList(actualColsIdx)),str(len(actualColsIdx)),",".join(toStrList(weights)),str(jsd),str(jsd-CI[0]),str(CI[1]-jsd),str(CI[0]),str(CI[1]),str(min(bstrpJSD)),str(max(bstrpJSD))])
 	
 	
 	#print >> stderr,"<Done>"
