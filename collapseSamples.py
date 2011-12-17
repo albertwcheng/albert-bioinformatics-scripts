@@ -43,7 +43,7 @@ def exceptionStrFloat(S):
 		return
 	
 	exceptionStrFloatCalled=True
-	print >> sys.stderr,"Warning: String Conversion Exception",S
+	print >> sys.stderr,"Warning: String Conversion Exception ["+S+"]"
 
 	#print >> sys.stderr,	suppressStrFloatErrorAbortion
 	suppressStrFloatErrorAbortion=False

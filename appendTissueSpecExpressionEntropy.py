@@ -8,10 +8,16 @@ def entropy(values):
 	totalwgt=float(sum(values))
 	Hg=0.0
 	for wgt in values:
-		Ptg=wgt/totalwgt
-		#print >> stderr,Ptg
-		Hg-=1*Ptg*log(Ptg,2)
-		
+		try:
+			Ptg=wgt/totalwgt
+			#print >> stderr,Ptg
+			Hg-=1*Ptg*log(Ptg,2)
+		except:
+			print >> stderr,values
+			print >> stderr,"Ptg=%f wgt=%f totalwgt=%f Hg=%f" %(Ptg,wgt,totalwgt,Hg)
+			exit(1)
+			pass
+			
 	return Hg
 
 def toFloatList(fields,noise):
@@ -58,7 +64,11 @@ if __name__=='__main__':
 			if len(values)==0:
 				Hg="NA"
 			else:
-				Hg=entropy(values)
+				try:
+					Hg=entropy(values)
+				except:
+					Hg="NA"
+					
 			fields+=[str(Hg)]
 		print >> stdout,fs.join(fields)
 		

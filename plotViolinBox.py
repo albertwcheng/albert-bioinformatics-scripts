@@ -1010,6 +1010,7 @@ def usageExit(programName):
 	print >> stderr,"--xtick-rotation degree"
 	print >> stderr,"--offWhisker"
 	print >> stderr,"--offOutliers"
+	print >> stderr,"--hide-violin"
 	print >> stderr,"--minus-log10-pvalue output pvalue as -log10(pvalue)"
 	print >> stderr,"--pvalue-cluster-as prefix  make pvalue cluster heatmap using 1-pvalue as distance metric"
 	print >> stderr,"--pvalue-cluster-method method   cluster using one of the following method for the pvalue cluster heatmap"

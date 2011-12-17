@@ -84,7 +84,7 @@ def printUsage(programName):
 	print >> stderr,"--uniq. indicate that columns are outputed only once"
 	print >> stderr,"--sortedUniq. a combination of uniq and sorted flag"
 	print >> stderr,"-F,--fill-empty-with sth. fill empty colum with sth"
-	print >> stderr,"--ignore-truncated-col. ignore rows with not enough columns"
+	print >> stderr,"--ignore-truncated-rows. ignore rows with not enough columns"
 	explainColumns(stderr)
 
 if __name__=="__main__":
