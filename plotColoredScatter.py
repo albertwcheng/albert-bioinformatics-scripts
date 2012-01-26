@@ -67,6 +67,10 @@ def plotData(filename,attrMatrix,startRow,labelcol,xcol,ycol,fs,legendOut,suppre
 	# MATRIX ATTR rgbColor r,g,b
 	# MATRIX ATTR colorMapColor colorMapName:indx[0.0-1.0]
 	hasGroup=(getAttrWithDefaultValue(attrMatrix,"!hasGroup","no").lower()=="yes")
+	centerPlot=(getAttrWithDefaultValue(attrMatrix,"!centerPlot","no").lower()=="yes")
+	squarePlot=(getAttrWithDefaultValue(attrMatrix,"!squarePlot","no").lower()=="yes")
+	hideDots=(getAttrWithDefaultValue(attrMatrix,"!hideDots","no").lower()=="yes")
+	dottedLineThruCenter=(getAttrWithDefaultValue(attrMatrix,"!dottedLineThruCenter","no").lower()=="yes")
 	groupDivider=getAttrWithDefaultValue(attrMatrix,"!groupDivider",".")
 	groupNameComponent=getAttrWithDefaultValue(attrMatrix,"!groupNameComponent","1")
 	defaultColor=toFloatArray(getAttrWithDefaultValue(attrMatrix,"!color",(0.0,0.0,0.0,1.0)))
@@ -83,6 +87,11 @@ def plotData(filename,attrMatrix,startRow,labelcol,xcol,ycol,fs,legendOut,suppre
 	Y=[]
 	labels=[]
 	groups=dict()
+	maxX=None
+	minX=None
+	maxY=None
+	minY=None
+	
 	
 	fil=open(filename)
 	lino=0
@@ -96,6 +105,19 @@ def plotData(filename,attrMatrix,startRow,labelcol,xcol,ycol,fs,legendOut,suppre
 		try:
 			x=float(fields[xcol])
 			y=float(fields[ycol])
+			if maxX==None:
+				maxX=x
+			if minX==None:
+				minX=x
+			if maxY==None:
+				maxY=y
+			if minY==None:
+				minY=y
+			minX=min(minX,x)
+			maxX=max(maxX,x)
+			minY=min(minY,y)
+			maxY=max(maxY,y)
+			
 		except ValueError:
 			if not suppressNAError:
 				print >> stderr,"value error for converting to float x=",fields[xcol],"y=",fields[ycol]
@@ -162,8 +184,9 @@ def plotData(filename,attrMatrix,startRow,labelcol,xcol,ycol,fs,legendOut,suppre
 		else:
 			_r,_g,_b,_a=defaultColor
 		
-		plot(groupX,groupY,markerStyle,color=(_r,_g,_b),alpha=_a,linewidth=lineWidth,markersize=markerSize)
-		
+		if not hideDots:
+			plot(groupX,groupY,markerStyle,color=(_r,_g,_b),alpha=_a,linewidth=lineWidth,markersize=markerSize)
+			
 		
 		if XLabel:
 			xlabel(XLabel)
@@ -174,13 +197,51 @@ def plotData(filename,attrMatrix,startRow,labelcol,xcol,ycol,fs,legendOut,suppre
 		
 		if showLabel:
 			for label,x,y in zip(groupLabels,groupX,groupY):
-				text(x,y,label)
+				text(x,y,label,horizontalalignment="center",verticalalignment="center")
 		elif showReLabelAs:
 			for x,y in zip(groupX,groupY):
-				text(x,y,showReLabelAs)
+				text(x,y,showReLabelAs,horizontalalignment="center",verticalalignment="center")
 		
 		if legendOut:	
 			print >> legendOutDataStream,groupName+"\t"+str(_r)+"\t"+str(_g)+"\t"+str(_b)+"\t"+str(_a)
+			
+	
+	
+	if centerPlot:
+		if minX*maxX<0:
+			#opposite sign
+			maxAbsX=max(fabs(minX),maxX)*1.25
+			xlim(-maxAbsX,maxAbsX)
+		
+		if minY*maxY<0:
+			maxAbsY=max(fabs(minY),maxY)*1.25
+			ylim(-maxAbsY,maxAbsY)
+		
+	if squarePlot:
+		cxmin,cxmax=xlim()
+		cymin,cymax=ylim()
+		
+		xlength=cxmax-cxmin
+		ylength=cymax-cymin
+		
+		setlength=max(xlength,ylength)
+		
+		cxmin-=(setlength-xlength)/2
+		cxmax+=(setlength-xlength)/2
+		cymin-=(setlength-ylength)/2
+		cymax+=(setlength-ylength)/2
+		
+		xlim(cxmin,cxmax)
+		ylim(cymin,cymax)
+		
+	
+	
+	if dottedLineThruCenter:
+		cxmin,cxmax=xlim()
+		cymin,cymax=ylim()
+		
+		axhline(linestyle=':',y=(cymax+cymin)/2.0)
+		axvline(linestyle=':',x=(cxmax+cxmin)/2.0)
 	
 	if legendOut:
 		legendOutDataStream.close()

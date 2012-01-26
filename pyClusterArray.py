@@ -447,10 +447,13 @@ if __name__=="__main__":
 
 	if attachParam:
 		attachParam=[]
+		
 		if logbase!=0:
 			attachParam.append("log"+logbaseDisplay)
 		if filledThreshold!=0:
 			attachParam.append("filled"+str(filledThreshold))
+		if atLeastXDataWithAbsValGEY[0]!=0:
+			attachParam.append(str(atLeastXDataWithAbsValGEY[0])+"ptGE"+str(atLeastXDataWithAbsValGEY[1]))
 		if topSD!=0:
 			attachParam.append("topsd"+str(topSD))
 		if topCV!=0:

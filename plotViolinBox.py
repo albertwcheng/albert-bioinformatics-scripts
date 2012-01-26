@@ -126,8 +126,8 @@ def plotExpBox(data,xtickLabels,showIndPoints,mark,markMean,showMean,notch,whisk
 			violinx=arange(kernel_min,kernel_max,(kernel_max-kernel_min)/100.) 
 			violinv=kernel.evaluate(violinx)
 			violinv=violinv/violinv.max()*violinw
-			fill_betweenx(violinx,i+1,violinv+i+1,facecolor='y',alpha=0.3)
-			fill_betweenx(violinx,i+1,-violinv+i+1,facecolor='y',alpha=0.3)						
+			fill_betweenx(violinx,i+1,violinv+i+1,facecolor=vfacecolor,alpha=valpha) #'y', 0.3
+			fill_betweenx(violinx,i+1,-violinv+i+1,facecolor=vfacecolor,alpha=valpha)						
 
 	if showSampleSizes:
 		for i in range(0,len(data)):
@@ -431,7 +431,7 @@ def filterDataInRangeInclusive(D,mi,ma):
 	
 	return xd,N,NIN,NBelow,NAbove
 			
-def plotExpBox_Main(inputFiles,headers,valcols,outputFile,sep,startRow,showIndPoints,mark,markMean,showMean,notch,whisker,outliers,plotPvalueCluster,outputClusterPrefix,methodCluster,xlegendrotation,xlabe,ylabe,figsz,titl,showSampleSizes,trimToMinSize,relabels,logb,plotHistogramToFile,plotMedianForGroups,botta,showViolin,showBox,firstColAnnot,plotTrend,showLegend,makePzfxFile,makeBinMatrix,writeDataSummaryStat,summaryStatRange,minuslog10pvalue,minNDataToKeep):
+def plotExpBox_Main(inputFiles,headers,valcols,outputFile,sep,startRow,showIndPoints,mark,markMean,showMean,notch,whisker,outliers,plotPvalueCluster,outputClusterPrefix,methodCluster,xlegendrotation,xlabe,ylabe,figsz,titl,showSampleSizes,trimToMinSize,relabels,logb,plotHistogramToFile,plotMedianForGroups,botta,showViolin,showBox,firstColAnnot,plotTrend,showLegend,makePzfxFile,makeBinMatrix,writeDataSummaryStat,summaryStatRange,minuslog10pvalue,minNDataToKeep,vfacecolor,valpha):
 
 	#if plotPvalueCluster:
 		#if pvalue cluster is needed:
@@ -1014,6 +1014,7 @@ def usageExit(programName):
 	print >> stderr,"--minus-log10-pvalue output pvalue as -log10(pvalue)"
 	print >> stderr,"--pvalue-cluster-as prefix  make pvalue cluster heatmap using 1-pvalue as distance metric"
 	print >> stderr,"--pvalue-cluster-method method   cluster using one of the following method for the pvalue cluster heatmap"
+	print >> stderr,"--vfacecolor r,g,b,a --valpha a facecolor and alpha for violin plots"
 	print >> stderr,"--xlabel label"
 	print >> stderr,"--ylabel label"
 	print >> stderr,"--figsize w,h"
@@ -1041,7 +1042,7 @@ def usageExit(programName):
 
 if __name__=='__main__':
 	programName=argv[0]
-	optlist,args=getopt(argv[1:],'t:F:d:r:s:pmn',['fs=','headerRow=','startRow=','showIndPoints','showMean','notch','offWhisker','offOutliers','pvalue-cluster-as=','pvalue-cluster-method=','xtick-rotation=','xlabel=','ylabel=','figsize=','title=','show-sample-sizes','trim-to-min-size','relabel-as=','plot-hist=','plot-median-for-group=','log=','bottom=','hide-violin','hide-box','plot-trend','first-col-annot','show-legend','out-pzfx=','pzfx-tableref-id=','out-bin-matrix=','write-data-summary-stat=','data-summary-stat-range=','minus-log10-pvalue','min-num-data-to-keep='])
+	optlist,args=getopt(argv[1:],'t:F:d:r:s:pmn',['fs=','headerRow=','startRow=','showIndPoints','showMean','notch','offWhisker','offOutliers','pvalue-cluster-as=','pvalue-cluster-method=','xtick-rotation=','xlabel=','ylabel=','figsize=','title=','show-sample-sizes','trim-to-min-size','relabel-as=','plot-hist=','plot-median-for-group=','log=','bottom=','hide-violin','hide-box','plot-trend','first-col-annot','show-legend','out-pzfx=','pzfx-tableref-id=','out-bin-matrix=','write-data-summary-stat=','data-summary-stat-range=','minus-log10-pvalue','min-num-data-to-keep=','valpha=','vfacecolor='])
 
 	headerRow=1
 	startRow=2
@@ -1082,7 +1083,8 @@ if __name__=='__main__':
 	summaryStatRange=[None,None]
 	minuslog10pvalue=False
 	minNDataToKeep=2
-	
+	vfacecolor='y'
+	valpha=1.0 #0.3
 	#else:
 	try:
 		outputFile=args[0]
@@ -1172,6 +1174,18 @@ if __name__=='__main__':
 				writeDataSummaryStat=v
 			elif a in ['--minus-log10-pvalue']:
 				minuslog10pvalue=True
+			elif a in ['--valpha']:
+				valapha=float(v)
+			elif a in ['--vfacecolor']:
+				vrgba=v.split(",")
+				if len(vrgba)<3:
+					vfacecolor=v
+				else:
+					vfacecolor=[]
+					for vr in vrgba:
+						vfacecolor.append(float(vr))
+					valpha=vfacecolor[3]
+			
 	except:
 		traceback.print_stack()
 		usageExit(programName)
@@ -1200,6 +1214,6 @@ if __name__=='__main__':
 	if makePzfxFile:
 		makePzfxFile+=[pzfxTableRefID]
 	
-	plotExpBox_Main(filenames,headers,valcols,outputFile,fs,startRow,showIndPoints,'b,','g--',showMean,notch,whisker,outliers,makePvalueClusters,pvalueClusterOutputPrefix,pvalueClusterMethod,xlegendrotation,xlabe,ylabe,figsz,titl,showSampleSizes,trimToMinSize,relabels,logb,plotHistogramToFile,plotMedianForGroups,botta,showViolin,showBox,firstColAnnot,plotTrend,showLegend,makePzfxFile,makeBinMatrix,writeDataSummaryStat,summaryStatRange,minuslog10pvalue,minNDataToKeep)	
+	plotExpBox_Main(filenames,headers,valcols,outputFile,fs,startRow,showIndPoints,'b,','g--',showMean,notch,whisker,outliers,makePvalueClusters,pvalueClusterOutputPrefix,pvalueClusterMethod,xlegendrotation,xlabe,ylabe,figsz,titl,showSampleSizes,trimToMinSize,relabels,logb,plotHistogramToFile,plotMedianForGroups,botta,showViolin,showBox,firstColAnnot,plotTrend,showLegend,makePzfxFile,makeBinMatrix,writeDataSummaryStat,summaryStatRange,minuslog10pvalue,minNDataToKeep,vfacecolor,valpha)	
 		
 		
