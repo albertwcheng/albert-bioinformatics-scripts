@@ -24,6 +24,8 @@ def printUsageAndExit(programName):
 	print >> stderr,"\t--startRow y. set data start row"
 	print >> stderr,"\t--xcol xcol"
 	print >> stderr,"\t--ycol ycol"
+	print >> stderr,"\t--XLabel xlabel"
+	print >> stderr,"\t--YLabel	ylabel"	
 	print >> stderr,"\t--config configfile. load config file"
 	print >> stderr,"\t--suppress-NA-error. Don't quit on NA error"
 	exit(1)
@@ -39,6 +41,8 @@ filename=None
 legendFile=None
 suppressNAError=False
 argsattrMatrix=dict()
+xlabe=""
+ylabe=""
 
 def reinitLoadingParams():
 	global startRow,headerRow,fs,xcol,ycol,labelcol,configfile,filename
@@ -60,6 +64,10 @@ def toFloatArray(L):
 		F.append(float(s))
 	return F
 	
+
+	
+	
+	
 def plotData(filename,attrMatrix,startRow,labelcol,xcol,ycol,fs,legendOut,suppressNAError):
 	# !groupDivider	.
 	# !groupNameComponent	1-_1
@@ -74,15 +82,40 @@ def plotData(filename,attrMatrix,startRow,labelcol,xcol,ycol,fs,legendOut,suppre
 	groupDivider=getAttrWithDefaultValue(attrMatrix,"!groupDivider",".")
 	groupNameComponent=getAttrWithDefaultValue(attrMatrix,"!groupNameComponent","1")
 	defaultColor=toFloatArray(getAttrWithDefaultValue(attrMatrix,"!color",(0.0,0.0,0.0,1.0)))
-	defaultMarkerStyle=getAttrWithDefaultValue(attrMatrix,"!markerStyle","o")
+	defaultMarkerStyle=getAttrWithDefaultValue(attrMatrix,"!markerStyle",".")
 	defaultLineWidth=float(getAttrWithDefaultValue(attrMatrix,"!lineWidth",1))
 	defaultMarkerSize=float(getAttrWithDefaultValue(attrMatrix,"!markerSize",1))
 	defaultShowLabel=getAttrWithDefaultValue(attrMatrix,"!showLabel","no").lower()
-	XLabel=getAttrWithDefaultValue(attrMatrix,"!XLabel",None)
-	YLabel=getAttrWithDefaultValue(attrMatrix,"!YLabel",None)
+	XLabel=getAttrWithDefaultValue(attrMatrix,"!XLabel",xlabe)
+	YLabel=getAttrWithDefaultValue(attrMatrix,"!YLabel",ylabe)
 	groupOrder=getAttrWithDefaultValue(attrMatrix,"!groupOrder",None)
+	plotSlopedLines=getAttrWithDefaultValue(attrMatrix,"!plotSlopedLines","").strip()
+	xlimsSet=getAttrWithDefaultValue(attrMatrix,"!xlims","").strip()
+	ylimsSet=getAttrWithDefaultValue(attrMatrix,"!ylims","").strip()
+	smartGroups=getAttrWithDefaultValue(attrMatrix,"!smartGroups","")
+	
+	if len(smartGroups)>0:
+		smartGroups=smartGroups.split(";")
+		for i in range(0,len(smartGroups)):
+			smartGroupStr=smartGroups[i]
+			smartGroups[i]=smartGroupStr.split(":")
+			
+	else:
+		smartGroups=None
 	
 	
+	#print >> stderr,"attrMatrix",attrMatrix
+	#print >> stderr,"plotSlopedLines",plotSlopedLines
+	if len(plotSlopedLines)>0:
+		plotSlopedLines=plotSlopedLines.split(";")
+		for i in range(0,len(plotSlopedLines)):
+			m,c,s=plotSlopedLines[i].split(",")
+			plotSlopedLines[i]=(float(m),float(c),s)
+		
+		#print >> stderr,plotSlopedLines	
+	else:
+		plotSlopedLines=[]
+		
 	X=[]
 	Y=[]
 	labels=[]
@@ -92,15 +125,25 @@ def plotData(filename,attrMatrix,startRow,labelcol,xcol,ycol,fs,legendOut,suppre
 	maxY=None
 	minY=None
 	
+	#print >> stderr,"startRow=",startRow
 	
 	fil=open(filename)
 	lino=0
 	for lin in fil:
 		lin=lin.rstrip("\r\n")
 		lino+=1
-		if lino<startRow:
-			continue
+		
 		fields=lin.split(fs)
+		
+		if lino<startRow:
+			if lino==startRow-1:
+				#print >> stderr,"XLabel=",XLabel
+				if XLabel.strip()=="__useHeader__":
+					XLabel=fields[xcol]
+				if YLabel.strip()=="__useHeader__":
+					YLabel=fields[ycol]
+			continue
+		
 		
 		try:
 			x=float(fields[xcol])
@@ -129,6 +172,24 @@ def plotData(filename,attrMatrix,startRow,labelcol,xcol,ycol,fs,legendOut,suppre
 
 		X.append(x)
 		Y.append(y)
+		
+		if smartGroups:
+			for groupName,groupLogic in smartGroups:
+				#print >> stderr,groupName,groupLogic
+				if eval(groupLogic):
+					try:
+						groupLabels,groupX,groupY=groups[groupName]
+					except KeyError:
+						groupLabels=[]
+						groupX=[]
+						groupY=[]
+						groups[groupName]=(groupLabels,groupX,groupY)
+					
+					groupLabels.append(groupName) ##label??
+					groupX.append(x)
+					groupY.append(y)
+					#exlusive group?? if yes, break
+			
 		if hasGroup:
 			#which group is this label?
 			labelon=label.split(groupDivider)
@@ -149,8 +210,8 @@ def plotData(filename,attrMatrix,startRow,labelcol,xcol,ycol,fs,legendOut,suppre
 	fil.close()
 	
 	#now plot
-	if not hasGroup:
-		groups["___default___"]=(labels,x,y)
+	if not hasGroup and not smartGroups:
+		groups["___default___"]=(labels,X,Y)
 	
 	if legendOut:
 		legendOutDataStream=open(legendOut+".legendData","w+") #need headear??
@@ -163,6 +224,7 @@ def plotData(filename,attrMatrix,startRow,labelcol,xcol,ycol,fs,legendOut,suppre
 	for groupName in groupOrdered:
 		try:
 			groupData=groups[groupName]
+			#print >> stderr,"plotting",groupName,groupData
 		except KeyError:
 			continue
 			
@@ -185,7 +247,7 @@ def plotData(filename,attrMatrix,startRow,labelcol,xcol,ycol,fs,legendOut,suppre
 			_r,_g,_b,_a=defaultColor
 		
 		if not hideDots:
-			plot(groupX,groupY,markerStyle,color=(_r,_g,_b),alpha=_a,linewidth=lineWidth,markersize=markerSize)
+			plot(groupX,groupY,markerStyle,color=(_r,_g,_b),alpha=_a,markeredgewidth=lineWidth,linewidth=lineWidth,markersize=markerSize)
 			
 		
 		if XLabel:
@@ -206,6 +268,13 @@ def plotData(filename,attrMatrix,startRow,labelcol,xcol,ycol,fs,legendOut,suppre
 			print >> legendOutDataStream,groupName+"\t"+str(_r)+"\t"+str(_g)+"\t"+str(_b)+"\t"+str(_a)
 			
 	
+	if len(xlimsSet)>0:
+		cxmin,cxmax=xlimsSet.split(",")
+		xlim(float(cxmin),float(cxmax))
+	
+	if len(ylimsSet)>0:	
+		cymin,cymax=ylimsSet.split(",")
+		ylim(float(cymin),float(cymax))
 	
 	if centerPlot:
 		if minX*maxX<0:
@@ -242,6 +311,20 @@ def plotData(filename,attrMatrix,startRow,labelcol,xcol,ycol,fs,legendOut,suppre
 		
 		axhline(linestyle=':',y=(cymax+cymin)/2.0)
 		axvline(linestyle=':',x=(cxmax+cxmin)/2.0)
+		
+	if len(plotSlopedLines)>0:
+		cxmin,cxmax=xlim()
+		cymin,cymax=ylim()
+		
+		#minmin=min(cxmin,cymin)
+		#maxmax=max(cxmax,cymax)
+		
+		for m,c,s in plotSlopedLines:
+			#print >> stderr,"plot sloped line",[cxmin,cxmin*m+c],[cxmax,cxmax*m+c]
+			plot([cxmin,cxmax],[cxmin*m+c,cxmax*m+c],s)
+		
+		xlim(cxmin,cxmax)
+		ylim(cymin,cymax)
 	
 	if legendOut:
 		legendOutDataStream.close()
@@ -285,7 +368,10 @@ if __name__=='__main__':
 			legendFile=v
 		elif o=='--suppress-NA-error':
 			suppressNAError=True
-
+		elif o=='--XLabel':
+			xlabe=v
+		elif o=='--YLabel':
+			ylabe=v
 		elif o=='--file':
 			filename=v
 			header,prestarts=getHeader(filename,headerRow,startRow,fs)	

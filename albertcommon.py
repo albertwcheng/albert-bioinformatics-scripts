@@ -124,9 +124,11 @@ def readNamedAttrMatrix(filename):
 	attrMatrix=dict()
 	
 	fil=open(filename)
+	#print >> stderr,"opening config",filename
+	
 	lino=0
 	for lin in fil:
-		
+		#print >> stderr,"reading",lin
 		lin=lin.rstrip("\r\n")
 		if len(lin)<1:
 			continue

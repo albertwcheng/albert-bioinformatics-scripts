@@ -40,6 +40,7 @@ def usageExit(programName):
 	print >> stderr, "-r,--headerRow row set the header row"
 	print >> stderr, "-f,--format format: [col1] col0 name excel"
 	print >> stderr, "-c,--condense. Condense 1,2,3,4 => 1-4"
+	print >> stderr, "-n,--not. Complement the selection. e.g., for a file with 10 columns: colSelect.py --not filename 2-3,6-9 selects 1,4-5,10. Using this option force the column selections to be sorted" 
 	explainColumns(stderr)	
 	exit()
 
@@ -68,7 +69,7 @@ def condenseNumbers(numbers):
 
 if __name__=="__main__":
 	programName=argv[0]
-	optlist,args=getopt(argv[1:],'t:F:d:r:s:o:c',['ofs=','fs=','headerRow=','format=','sort','condense'])
+	optlist,args=getopt(argv[1:],'t:F:d:r:s:o:cn',['ofs=','fs=','headerRow=','format=','sort','condense','not'])
 
 	sort=False
 	headerRow=1
@@ -78,6 +79,7 @@ if __name__=="__main__":
 	formats=["col0","col1","excel","name"]
 	condense=False
 	condense_sep="-"
+	complement=False
 	
 	if len(args)!=2:
 		usageExit(programName)
@@ -100,6 +102,8 @@ if __name__=="__main__":
 				sort=True
 			elif a in ["-c","--condense"]:
 				condense=True
+			elif a in ["-n","--not"]:
+				complement=True
 
 		startRow=headerRow+1
 		#headerRow-=1
@@ -107,6 +111,15 @@ if __name__=="__main__":
 		
 		idCols=getCol0ListFromCol1ListStringAdv(header,colString)
 		
+		if complement:
+			cidCols=[]
+			ncols=len(header)
+			for i in range(0,ncols):
+				if i not in idCols:
+					cidCols.append(i)
+			
+			idCols=cidCols
+			
 		if sort:
 			idCols.sort()
 		
