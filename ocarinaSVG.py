@@ -27,9 +27,85 @@ def printUnknown_sub(stream,scale,curx,cury):
 	curx+=110
 	return curx,cury
 
-letterToOcarinaABCD={ "C'": (0,0,0,0), "G#,": (1,0,0,0), "A": (0,0,1,0), "Bb":(0,0,0,1), "B":(0,1,0,0), "Bb,":(1,1,0,0), "F":(1,0,1,0), "F#":(0,1,1,1), "A,":(1,0,0,1), "G#":(0,1,1,0), "G,":(0,1,0,1), "G":(0,0,1,1), "B,":(1,1,0,1), "E":(1,1,1,0), "D":(1,0,1,1), "C": (1,1,1,1)}
+#letterToOcarinaABCD={ "G,":(0,1,0,1),  "G#,": (1,0,0,0), "A,":(1,0,0,1),  "Bb,":(1,1,0,0),  "B,":(1,1,0,1), "C": (1,1,1,1),  "D":(1,0,1,1), "E":(1,1,1,0), "F":(1,0,1,0),"F#":(0,1,1,1),"G":(0,0,1,1), "G#":(0,1,1,0), "A": (0,0,1,0), "Bb":(0,0,0,1), "B":(0,1,0,0),   "C'": (0,0,0,0)      }
 
-def printOcarinon(stream,letter,scale,curx,cury,startx,lino,letterOfLine): #return new curx, cury
+OcarinaABCDToLetter=dict()
+
+_G_=["G,"]
+_Gs_=["G#,","Ab,"]
+_A_=["A,"]
+_As_=["Bb,","A#,"]
+_B_=["B,","Cb"]
+_C=["C","B#,"]
+_D=["D"]
+_Ds=["D#","Eb"]
+_E=["E","Fb"]
+_F=["F","E#"]
+_Fs=["F#","Gb"]
+_G=["G"]
+_Gs=["G#","Ab"]
+_A=["A"]
+_As=["A#","Bb"]
+_B=["B","Cb'"]
+__C=["C'","B#"]
+
+Mode="Ionian"
+OcarinaABCDToLetter[Mode]=dict()
+OcarinaABCDToLetter[Mode][(0,1,0,1)]=_G_
+OcarinaABCDToLetter[Mode][(1,0,0,0)]=_Gs_
+OcarinaABCDToLetter[Mode][(1,0,0,1)]=_A_
+OcarinaABCDToLetter[Mode][(1,1,0,0)]=_As_
+OcarinaABCDToLetter[Mode][(1,1,0,1)]=_B_
+OcarinaABCDToLetter[Mode][(1,1,1,1)]=_C
+OcarinaABCDToLetter[Mode][(1,0,1,1)]=_D
+OcarinaABCDToLetter[Mode][(1,1,1,0)]=_E
+OcarinaABCDToLetter[Mode][(1,0,1,0)]=_F
+OcarinaABCDToLetter[Mode][(0,1,1,1)]=_Fs
+OcarinaABCDToLetter[Mode][(0,0,1,1)]=_G
+OcarinaABCDToLetter[Mode][(0,1,1,0)]=_Gs
+OcarinaABCDToLetter[Mode][(0,0,1,0)]=_A
+OcarinaABCDToLetter[Mode][(0,0,0,1)]=_As
+OcarinaABCDToLetter[Mode][(0,1,0,0)]=_B
+OcarinaABCDToLetter[Mode][(0,0,0,0)]=__C
+
+Mode="Dorian"
+OcarinaABCDToLetter[Mode]=dict()
+OcarinaABCDToLetter[Mode][(0,1,0,1)]=_G_
+OcarinaABCDToLetter[Mode][(1,0,0,0)]=_Gs_
+OcarinaABCDToLetter[Mode][(1,0,0,1)]=_A_
+OcarinaABCDToLetter[Mode][(1,1,0,0)]=_As_
+OcarinaABCDToLetter[Mode][(1,1,0,1)]=_B_
+OcarinaABCDToLetter[Mode][(1,1,1,1)]=_C
+OcarinaABCDToLetter[Mode][(1,0,1,1)]=_D
+OcarinaABCDToLetter[Mode][(1,1,1,0)]=_Ds
+OcarinaABCDToLetter[Mode][(1,0,1,0)]=_F
+OcarinaABCDToLetter[Mode][(0,1,1,1)]=_Fs
+OcarinaABCDToLetter[Mode][(0,0,1,1)]=_G
+OcarinaABCDToLetter[Mode][(0,1,1,0)]=_Gs
+OcarinaABCDToLetter[Mode][(0,0,1,0)]=_A
+OcarinaABCDToLetter[Mode][(0,0,0,1)]=_As
+OcarinaABCDToLetter[Mode][(0,1,0,0)]=_As
+OcarinaABCDToLetter[Mode][(0,0,0,0)]=__C
+
+
+#init
+letterToOcarinaABCD=dict()
+
+for mode,modeMap in OcarinaABCDToLetter.items():
+	
+	thisLetterMap=dict()
+	
+	letterToOcarinaABCD[mode]=thisLetterMap
+	
+	#swap the key and values.
+	for ABCD,letters in modeMap.items():
+		for letter in letters:
+			thisLetterMap[letter]=ABCD
+	
+	
+	#print >> stderr,mode,thisLetterMap
+
+def printOcarinon(stream,tuning,letter,scale,curx,cury,startx,lino,letterOfLine): #return new curx, cury
 	global letterToOcarinaABCD
 	
 	if letter==".":
@@ -41,7 +117,7 @@ def printOcarinon(stream,letter,scale,curx,cury,startx,lino,letterOfLine): #retu
 		return (curx,cury,lino,letterOfLine+1)	
 
 	try:
-		return printOcarinon_sub(stream,letterToOcarinaABCD[letter],scale,curx,cury)+(lino,letterOfLine+1)
+		return printOcarinon_sub(stream,letterToOcarinaABCD[tuning][letter],scale,curx,cury)+(lino,letterOfLine+1)
 	except:
 		print >> stderr,"unknown letter code",letter,"at line",lino,"letter",letterOfLine
 		return printUnknown_sub(stream,scale,curx,cury)+(lino,letterOfLine+1)
@@ -75,7 +151,7 @@ def createSVGFromLetterScore(stream,title,tuning,letterScore,scale):
 	for letter in letterScore.split(" "):
 		if len(letter)<1:
 			continue
-		curx,cury,lino,letterOfLine=printOcarinon(stream,letter,scale,curx,cury,startx,lino,letterOfLine)
+		curx,cury,lino,letterOfLine=printOcarinon(stream,tuning,letter,scale,curx,cury,startx,lino,letterOfLine)
 	
 	
 	
@@ -83,12 +159,12 @@ def createSVGFromLetterScore(stream,title,tuning,letterScore,scale):
 	print >> stream, "</svg>"
 
 def printUsageAndExit(programName):
-	print >> stderr,programName,"+letterScore/file title subtitle scale outSVG"
+	print >> stderr,programName,"+letterScore/file tuning title subtitle scale outSVG"
 	print >> stderr,"create Ocarina Tab score"
 	print >> stderr,"input a string of letter score separated by space. allowed letters listed below. Use '.' to indicate new line or '-' to indicate space"
 	print >> stderr,"directly specify letter Score by preceding with '+', or use filename"
-	print >> stderr,"allowed letter (ionian tuning):"
-	print >> stderr,"G, G#, A, Bb, B, C D E F F# G G# A Bb B C'"
+	#print >> stderr,"allowed letter (ionian tuning):"
+	#print >> stderr,"G, G#, A, Bb, B, C D E F F# G G# A Bb B C'"
 	exit(1)
 	
 if __name__=='__main__':
@@ -96,7 +172,7 @@ if __name__=='__main__':
 	args=argv[1:]
 	
 	try:
-		letterScore,title,tuning,scale,outSVG=args
+		letterScore,tuning,title,subtitle,scale,outSVG=args
 	except:
 		printUsageAndExit(programName)
 		
