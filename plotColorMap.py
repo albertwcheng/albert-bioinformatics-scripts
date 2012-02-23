@@ -80,7 +80,35 @@ def toFloatListWithNAMask(L):
 	return (fL,Mask,vmin,vmax)
 
 
-
+def preProcessRowData(rowvalues,rowmask,rowmin,rowmax,options):
+	if options.normalizeRowToSumOf!=0.0:
+		#print >> stderr,"normalize to",options.normalizeRowToSumOf
+		rowsum=0.0
+		for i in range(0,len(rowvalues)):
+			if rowmask[i]==1:
+				rowsum+=rowvalues[i]
+		
+		#second pass
+		for i in range(0,len(rowvalues)):
+			if rowmask[i]==1:
+				rowvalues[i]=rowvalues[i]/rowsum*options.normalizeRowToSumOf
+		
+		try:
+			return rowmin/rowsum*options.normalizeRowToSumOf,rowmax/rowsum*options.normalizeRowToSumOf
+		except:
+			#print >> stderr,rowmin
+			return rowmin,rowmax
+	elif options.normalizeRowToMaxOf!=0.0:
+		for i in range(0,len(rowvalues)):
+			if rowmask[i]==1 and rowmax!=0.0:
+				rowvalues[i]=rowvalues[i]/rowmax*options.normalizeRowToMaxOf
+		try:
+			return rowmin/rowmax*options.normalizeRowToMaxOf,options.normalizeRowToMaxOf
+		except:
+			return rowmin,rowmax
+			
+	return rowmin,rowmax
+	
 def plotColorMatrix(infile,figFileName,options):
 	#load file
 	fil=open(infile)
@@ -122,6 +150,9 @@ def plotColorMatrix(infile,figFileName,options):
 		else:
 			rownames.append(fields[0])
 			rowvalues,rowmask,rowmin,rowmax=toFloatListWithNAMask(fields[1:])
+			
+			rowmin,rowmax=preProcessRowData(rowvalues,rowmask,rowmin,rowmax,options)
+			
 			if rowmin!=None:
 				if minval==None:
 					minval=rowmin
@@ -267,6 +298,9 @@ def plotColorMatrixWithAllColorMaps(infile,figFileNameIn,options):
 		else:
 			rownames.append(fields[0])
 			rowvalues,rowmask,rowmin,rowmax=toFloatListWithNAMask(fields[1:])
+			
+			rowmin,rowmax=preProcessRowData(rowvalues,rowmask,rowmin,rowmax,options)
+			
 			if rowmin!=None:
 				if minval==None:
 					minval=rowmin
@@ -394,6 +428,9 @@ if __name__=='__main__':
 	parser.add_option('--title-font-size',dest='titleFontSize',default='medium',help="set title font size")
 	parser.add_option('--sample-all-color-maps',dest='sampleAllColorMaps',default=False,action="store_true",help="make figures using all color maps")
 	parser.add_option('--suffix-files',dest="suffixFiles",default=".pdf",help="set the suffix (including the format) of output figures when using sample all color maps option [default: pdf]")
+	parser.add_option('--normalize-row-to-sum-of',dest="normalizeRowToSumOf",type=float,default=0.0,help="normalize rows to sum of x")
+	parser.add_option('--normalize-row-to-max-of',dest="normalizeRowToMaxOf",type=float,default=0.0,help="normalize row max to x")
+	
 	(options, args) = parser.parse_args(argv)
 	
 	#print >> stderr,options.suffixFiles
