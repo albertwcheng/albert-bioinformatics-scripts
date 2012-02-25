@@ -298,7 +298,7 @@ def joinFiles(filename1,filename2,file1f0,file2f0,separator,printFile2Only,skipK
 
 def joinu_Main():
 	programName=argv[0]
-	optlist,argvs=getopt(argv[1:],'1:2:rck:t:h:f:w:W:s',['replace-file1-cols-by-file2-cols-on-joined-items=','r1=','r2=','with='])
+	optlist,argvs=getopt(argv[1:],'1:2:rck:t:h:f:w:W:s',['replace-file1-cols-by-file2-cols-on-joined-items=','r1=','r2=','with=','12='])
 	headerRow=1
 
 	if len(argvs)<2:
@@ -306,6 +306,7 @@ def joinu_Main():
 		print >> stderr,"Options:"
 		print >> stderr,"-1 col1forFile1 (support multiple columns)"
 		print >> stderr,"-2 col1forFile2 (support multiple columns)"
+		print >> stderr,"--12 col1for both files"
 		print >> stderr,"--r1 A --with B. Replace header field of file1 from A to B"
 		print >> stderr,"--r2 A --with B."
 		print >> stderr,"-t separator"
@@ -364,7 +365,24 @@ def joinu_Main():
 					stripL(header)				
 				replaceValuesByDict(header,f2hreplace)
 				file2f0=getCol0ListFromCol1ListStringAdv(header,v)				
-
+		elif k=='--12':
+			try:
+				file1f0=getCol0ListFromCol1ListString(v)
+			except ValueError:
+				header,prestarts=getHeader(filename1,headerRow,headerRow+1,separator)
+				if stripFields:
+					stripL(header)
+				replaceValuesByDict(header,f1hreplace)
+				file1f0=getCol0ListFromCol1ListStringAdv(header,v)
+				
+			try:
+				file2f0=getCol0ListFromCol1ListString(v)
+			except ValueError:
+				header,prestarts=getHeader(filename2,headerRow,headerRow+1,separator)
+				if stripFields:
+					stripL(header)				
+				replaceValuesByDict(header,f2hreplace)
+				file2f0=getCol0ListFromCol1ListStringAdv(header,v)				
 		elif k=='-t':
 			separator=replaceSpecialChar(v)	
 		elif k=='-r':
@@ -418,8 +436,8 @@ def joinu_Main():
 				exit()
 								
 			headerFieldReplaceeSelector=0
-			
-	print >> sys.stderr,"seperator is ["+separator+"]";
+	if warningLevel>0:		
+		print >> sys.stderr,"seperator is ["+separator+"]";
 	joinFiles(filename1,filename2,file1f0,file2f0,separator,printFile2Only,skipKeyColFile2,keyInternalSeparator,warningLevel,includeEveryFile1Rows,File2FillIn,warnDuplicateKeys,replaceFile1ColsByFile2,replaceFile1ColsByFile2Cols,stripFields,f1hreplace,f2hreplace,headerRow)
 
 if __name__=='__main__':

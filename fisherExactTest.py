@@ -25,10 +25,10 @@ def fisherExactTwoTailPValue(t11,t12,t21,t22):
 	return fisherExactPValues(t11,t12,t21,t22).two_tail
 
 
-def fisherExactLeftTailPvalue(t11,t12,t21,t22):
+def fisherExactLeftTailPValue(t11,t12,t21,t22):
 	return fisherExactPValues(t11,t12,t21,t22).left_tail
 
-def fisherExactRightTailPvalue(t11,t12,t21,t22):
+def fisherExactRightTailPValue(t11,t12,t21,t22):
 	return fisherExactPValues(t11,t12,t21,t22).right_tail
 	
 def printUsageAndExit_fisherExactTest(programName):
