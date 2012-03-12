@@ -218,8 +218,9 @@ def plotColorMatrix(infile,figFileName,options):
 				#print >> stderr,"NA at",r,c
 				#broken_barh([(x,1)],(y,1),facecolor=options.NAColor,linewidth=0.0,antialiased=True) #edgecolor=options.NAColor,
 				gca().add_patch(Rectangle((x,y),1,1,facecolor=options.NAColor,linewidth=0.0))
-				plot([x,x+1],[y,y+1],color="black")
-				plot([x,x+1],[y+1,y],color="black")
+				if options.NACross:
+					plot([x,x+1],[y,y+1],color="black")
+					plot([x,x+1],[y+1,y],color="black")
 			else:
 				if options.labelZ:
 					zlabel=options.formatz %(values[r][c])
@@ -371,8 +372,9 @@ def plotColorMatrixWithAllColorMaps(infile,figFileNameIn,options):
 					#print >> stderr,"NA at",r,c
 					#broken_barh([(x,1)],(y,1),facecolor=options.NAColor,linewidth=0.0,antialiased=True) #edgecolor=options.NAColor,
 					gca().add_patch(Rectangle((x,y),1,1,facecolor=options.NAColor,linewidth=0.0))
-					plot([x,x+1],[y,y+1],color="black")
-					plot([x,x+1],[y+1,y],color="black")
+					if options.NACross:
+						plot([x,x+1],[y,y+1],color="black")
+						plot([x,x+1],[y+1,y],color="black")
 				else:
 					if options.labelZ:
 						zlabel=options.formatz %(values[r][c])
@@ -416,6 +418,7 @@ if __name__=='__main__':
 	parser.add_option("--color-map",dest="colormapName",default="gnuplot2",help="specify color map")
 	parser.add_option("--show-available-color-maps",dest="showAvailableColorMap",action="store_true",default=False,help="show the color maps to output filename")
 	parser.add_option("--NA-color",dest="NAColor",default="grey",help="set NA data color [grey]")
+	parser.add_option("--NA-cross",dest="NACross",default=False,help="draw a cross inside NA boxes",action="store_true")
 	parser.add_option("--data-range",dest="dataRange",default=None,nargs=2,help="set data range --data-range min max [default: None: Auto]")
 	parser.add_option("--fs",dest="fs",default="\t",help="set field separator [tab]")
 	parser.add_option('--fig-size',dest='figSize',default=None,nargs=2,help="set figure dimension --fig-size w h [default: None: Auto]")
