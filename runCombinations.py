@@ -19,7 +19,10 @@ if __name__=='__main__':
 		printUsageAndExit(programName)
 	
 	for arg in args:
-		thisArgs=arg.split("|")
+		if arg=="|":
+			thisArgs=["|"]
+		else:
+			thisArgs=arg.split("|")
 		argCombinations.append(thisArgs)
 	
 	argCombinations=findAllCombinations(argCombinations)
