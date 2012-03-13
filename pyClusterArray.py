@@ -96,7 +96,8 @@ def printUsage(programName):
 	print >> stderr, "--ignore-NA-rows ignore rows with at least one NA value"
 	print >> stderr, "--ignore-NA-rows ignore rows with at least one NA value"
 	print >> stderr, "--copy-array-tree-for-orig  copy the atr to _orig.atr as well"
-	print >> stderr, "--out-pvalue-matrix  output also p-value matrix (for pearson and spearman correlation)"		
+	print >> stderr, "--out-pvalue-matrix  output also p-value matrix (for pearson and spearman correlation)"
+	print >> stderr, "--out-processed-data output processed data and mask matrices to <jobname>.processed_data and <jobname>.processed_mask respectively"
 	print >> stderr, "Input Format:"
 	print >> stderr, "First line: GeneID<tab>ArrayName1<tab>ArrayName2<tab>...ArrayNameN"
 	print >> stderr, "Other lines: GeneID<tab>Data1<tab>Data2<tab>...DataN"			
@@ -162,7 +163,11 @@ def removeExt(filename):
 	return ".".join(filename)
 
 
-
+def toStrList(L):
+	sL=[]
+	for x in L:
+		sL.append(str(x))
+	return sL
 
 
 
@@ -278,7 +283,7 @@ def centerGenesInPlaceByMean(M,Msk):
 	for Mrow,MskRow in zip(M,Msk):
 		centerGeneByMeanPerRow(Mrow,MskRow)		
 
-def topSDSubM(M,Msk,k):
+def topSDSubM(Genes,M,Msk,k):
 	SDs=[]
 
 	if k>=len(M):
@@ -292,23 +297,26 @@ def topSDSubM(M,Msk,k):
 		SDs.append(sd)
 
 	
-	SDs.sort(reverse=True)
+	SDSort=SDs[:]
+	SDSort.sort(reverse=True)
 	
-	SDThreshold=SDs[k-1]
+	SDThreshold=SDSort[k-1]
 
 	print >> stderr,"SDThreshold=",SDThreshold
 	
 	newM=[]
 	newMsk=[]
-	for Mrow,MskRow,sd in zip(M,Msk,SDs):
+	newGenes=[]
+	for gene,Mrow,MskRow,sd in zip(Genes,M,Msk,SDs):
 		if sd>=SDThreshold:
 			newM.append(Mrow)
 			newMsk.append(MskRow)
-
-	return (newM,newMsk)
+			newGenes.append(gene)
+			
+	return (newGenes,newM,newMsk)
 	
 	
-def topCVSubM(M,Msk,k):
+def topCVSubM(Genes,M,Msk,k):
 	SDs=[]
 
 	if k>=len(M):
@@ -324,20 +332,24 @@ def topCVSubM(M,Msk,k):
 		SDs.append(CV)
 
 	
-	SDs.sort(reverse=True)
+	SDSort=SDs[:]
+	SDSort.sort(reverse=True)
 	
-	SDThreshold=SDs[k-1]
+	SDThreshold=SDSort[k-1]
+
 
 	print >> stderr,"CVThreshold=",SDThreshold
 	
 	newM=[]
 	newMsk=[]
-	for Mrow,MskRow,sd in zip(M,Msk,SDs):
+	newGenes=[]
+	for gene,Mrow,MskRow,sd in zip(Genes,M,Msk,SDs):
 		if sd>=SDThreshold:
 			newM.append(Mrow)
 			newMsk.append(MskRow)
-
-	return (newM,newMsk)
+			newGenes.append(gene)
+			
+	return (newGenes,newM,newMsk)
 	
 def absArray(L):
 	absL=[]
@@ -365,7 +377,7 @@ if __name__=="__main__":
 
 	####MAIN ENTRY POINT
 	programName=sys.argv[0]
-	opts,args=getopt(sys.argv[1:],'s:j:nNl:pf:',['center-gene=','normalize-gene','prefix','top-sd=','top-cv=','ignore-NA-rows','filled-threshold=','sd-threshold=','at-least-x-data-with-abs-val-ge-y=','max-min=','attach-param','folder=',"copy-array-tree-for-orig","out-pvalue-matrix"])
+	opts,args=getopt(sys.argv[1:],'s:j:nNl:pf:',['center-gene=','normalize-gene','prefix','top-sd=','top-cv=','ignore-NA-rows','filled-threshold=','sd-threshold=','at-least-x-data-with-abs-val-ge-y=','max-min=','attach-param','folder=',"copy-array-tree-for-orig","out-pvalue-matrix","out-processed-data"])
 	CenterGene=""
 	NormalizeGene=False
 	NALowerLeft=False
@@ -385,6 +397,7 @@ if __name__=="__main__":
 	copyArrayTreeForOrig=False
 	pvalueMatrix=False
 	logbaseDisplay=""
+	outProcessedData=False
 	
 	try:
 		filename,distance,clustermethod=args
@@ -440,6 +453,8 @@ if __name__=="__main__":
 				copyArrayTreeForOrig=True
 			elif o in ['--out-pvalue-matrix']:
 				pvalueMatrix=True
+			elif o in ['--out-processed-data']:
+				outProcessedData=True
 				
 	except:
 		printUsage(programName)
@@ -556,10 +571,10 @@ if __name__=="__main__":
 	print >> stderr,"done reading"
 
 	if topSD>0:
-		M,MASK=topSDSubM(M,MASK,topSD)	
+		Genes,M,MASK=topSDSubM(Genes,M,MASK,topSD)	
 	
 	if topCV>0:
-		M,MASK=topCVSubM(M,MASK,topCV)	
+		Genes,M,MASK=topCVSubM(Genes,M,MASK,topCV)	
 	
 
 	if CenterGene=="m":
@@ -592,7 +607,7 @@ if __name__=="__main__":
 	record.uniqid=UNIQID
 
 	#record= Record(fil)
-
+	
 	#fil.close()
 
 	#print >> stderr,record
@@ -608,7 +623,18 @@ if __name__=="__main__":
 	#biopython_cluster_savedata(jobname,expclusters=ArrayTree)
 
 
-
+	if outProcessedData:
+		fildata=open(jobname+".processed_matrix","w")
+		filmask=open(jobname+".processed_mask","w")
+		
+		print >> fildata,"\t".join([UNIQID]+Arrays)
+		print >> filmask,"\t".join([UNIQID]+Arrays)
+		
+		for geneName,datarow,maskrow in zip(Genes,M,MASK):
+			print >> fildata,"\t".join([geneName]+toStrList(datarow))
+			print >> filmask,"\t".join([geneName]+toStrList(maskrow))
+		fildata.close()
+		filmask.close()
 
 
 	#now read in jobname.cdt and modify it (needs only first three lines)
