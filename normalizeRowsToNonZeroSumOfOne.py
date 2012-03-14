@@ -51,7 +51,7 @@ if __name__=='__main__':
 				continue
 			fields=[fields[0]]
 			for value in values:
-				fields.append(str(value/svalue))
+				fields.append(str(value/svalues))
 				
 			print >> stdout,"\t".join(fields)
 	
