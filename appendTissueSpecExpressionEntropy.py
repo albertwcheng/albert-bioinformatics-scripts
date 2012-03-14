@@ -5,16 +5,30 @@ from sys import *
 from albertcommon import *
 
 def entropy(values):
+	#transform values such that all values above 0
+	mvalues=min(values)
+	if mvalues<0:
+		for i in range(0,len(values)):
+			values[i]-=mvalues
+	
 	totalwgt=float(sum(values))
+	
+	if totalwgt==0:
+		return "NA"
+	
 	Hg=0.0
 	for wgt in values:
 		try:
 			Ptg=wgt/totalwgt
+			if Ptg<0:
+				print >> stderr,"Ptg<0, should not happen. abort"
+				exit(1)
+			if Ptg==0:
+				continue #Ptg==0, don't contribute to entropy?
 			#print >> stderr,Ptg
 			Hg-=1*Ptg*log(Ptg,2)
 		except:
-			print >> stderr,values
-			print >> stderr,"Ptg=%f wgt=%f totalwgt=%f Hg=%f" %(Ptg,wgt,totalwgt,Hg)
+			print >> stderr,"values=",values,"Ptg=%f wgt=%f totalwgt=%f Hg=%f" %(Ptg,wgt,totalwgt,Hg)
 			exit(1)
 			pass
 			
@@ -30,7 +44,7 @@ def toFloatList(fields,noise):
 			
 	return values
 		
-noise=0.000001
+noise=0.000000  
 
 
 if __name__=='__main__':

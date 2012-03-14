@@ -344,12 +344,18 @@ if __name__=='__main__':
 	
 	opts,args=getopt(argv[1:],'',['fs=','headerRow=','startRow=','xcol=','ycol=','labelcol=','config=','file=',"legendOut=",'suppress-NA-error','XLabel=','YLabel='])
 
+	fileParamsPassed=False
+
+
 	try:
 		outName,=args
 	except:
 		printUsageAndExit(programName)
 	
 	for o,v in opts:
+		if fileParamsPassed==True and o!="--file":
+			print >> stderr,"Warning, --file should be at the end of all optional args to take the optional args in effect abort."
+			exit(1)
 		if o=='--fs':
 			fs=v
 		elif o=='--headerRow':
@@ -373,6 +379,7 @@ if __name__=='__main__':
 		elif o=='--YLabel':
 			ylabe=v
 		elif o=='--file':
+			fileParamsPassed=True
 			filename=v
 			header,prestarts=getHeader(filename,headerRow,startRow,fs)	
 			labelcol=getCol0ListFromCol1ListStringAdv(header,labelcol)[0]

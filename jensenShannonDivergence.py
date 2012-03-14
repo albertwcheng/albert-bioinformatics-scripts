@@ -194,10 +194,19 @@ class NegativeProbabilityError:
 
 #normalize element in P such that it sums to 1	
 def normalizeP(P):
+	#negative values? renormalize P such that all values are >=0
+	minP=min(P)
+	if minP<0:
+		for i in range(0,len(P)):
+			P[i]-=minP
+			
 	PSum=float(fsum(P))
 	for i in range(0,len(P)):
 		if P[i]<0:
-			raise ZeroDivisionError
+			#should abort instead!!
+			print >> stderr,"negative prob, abort"
+			exit(1)
+			#raise ZeroDivisionError
 		P[i]/=PSum
 	
 

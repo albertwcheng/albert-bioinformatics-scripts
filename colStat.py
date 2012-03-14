@@ -46,7 +46,7 @@ def old_excelColIndex(idx):
 
 	
 
-def colStat_Main(filename,rows,cols,separator,OFS):
+def colStat_Main(filename,rows,cols,separator,OFS,outfieldsOnly):
 	try:
 		fin=generic_istream(filename)
 	except IOError:
@@ -62,28 +62,37 @@ def colStat_Main(filename,rows,cols,separator,OFS):
 		if lino>maxRow:
 			break
 	
-	
+
 		if lino in rows:
-			fields=line.split(separator)			
-			print >> stdout, "[:::::"+OFS+"R "+str(lino)+OFS+":::::]"
-			print >> stdout, "Index"+OFS+"Excel"+OFS+"Field"
-			print >> stdout, "-----"+OFS+"-----"+OFS+"-----"
-			if len(cols)==0:
-				cols=range(0,len(fields))
+			fields=line.split(separator)	
+			if outfieldsOnly:
+				if len(cols)==0:
+					cols=range(0,len(fields))
 			
-			for col in cols:
-				print >> stdout, str(col+1)+OFS+excelColIndex(col)+OFS+fields[col]
+				for col in cols:
+					print >> stdout, fields[col]
+		
+			else:		
+				print >> stdout, "[:::::"+OFS+"R "+str(lino)+OFS+":::::]"
+				print >> stdout, "Index"+OFS+"Excel"+OFS+"Field"
+				print >> stdout, "-----"+OFS+"-----"+OFS+"-----"
+				if len(cols)==0:
+					cols=range(0,len(fields))
+			
+				for col in cols:
+					print >> stdout, str(col+1)+OFS+excelColIndex(col)+OFS+fields[col]
 	
 	fin.close()
 
 if __name__=="__main__":
 	programName=argv[0]
-	optlist,args=getopt(argv[1:],'t:F:r:c:o:','')
+	optlist,args=getopt(argv[1:],'t:F:r:c:o:',['out-fields-only'])
 
 	rows=[1]
 	cols=[]
 	separator="\t" #default separator is tab
 	osep="\t\t\t"
+	outfieldsOnly=False
 
 	if len(args)<1:
 		print >> stderr, "Usage:",programName,"filename"
@@ -92,6 +101,7 @@ if __name__=="__main__":
 		print >> stderr," -r [a-b,c...] rows to print [default:1]"
 		print >> stderr," -c [a-b,c...] cols to print [default: all]"
 		print >> stderr," -o string   output separator string"
+		print >> stderr," --out-fields-only. Onput the header field values only"
 	else:
 		filename=args[0]
 	
@@ -104,6 +114,7 @@ if __name__=="__main__":
 				cols=getCol0ListFromCol1ListString(v)
 			elif a=="-o":
 				osep=replaceSpecialChar(v)
+			elif a=='--out-fields-only':
+				outfieldsOnly=True
 
-
-		colStat_Main(filename,rows,cols,separator,osep)
+		colStat_Main(filename,rows,cols,separator,osep,outfieldsOnly)

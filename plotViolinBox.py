@@ -45,6 +45,9 @@ import traceback
 import numpy
 from math import log
 
+
+
+
 def plotExpBox(data,xtickLabels,showIndPoints,mark,markMean,showMean,notch,whisker,outliers,xlegendrotation,xlabe,ylabe,titl,showSampleSizes,showViolin,showBox,annot,trendData,plotItemLegend,makePzfxFile,makeBinMatrix):
 	
 	#fig=plt.figure()
@@ -577,6 +580,7 @@ def plotExpBox_Main(inputFiles,headers,valcols,outputFile,sep,startRow,showIndPo
 		
 		if writeDataSummaryStat:
 			sumData,N,NIN,NBelow,NAbove=filterDataInRangeInclusive(plotData[x],summaryStatRange[0],summaryStatRange[1])
+			
 			if NIN>1:
 				mea=mean(sumData)
 				DDOF=1
@@ -590,6 +594,8 @@ def plotExpBox_Main(inputFiles,headers,valcols,outputFile,sep,startRow,showIndPo
 				var="NA"
 				mi="NA"
 				ma="NA"
+			
+		
 				
 			print >> fDSS,xtickLabels[x]+"\t"+str(mea)+"\t"+str(var)+"\t"+str(sd)+"\t"+str(mi)+"\t"+str(ma)+"\t"+str(N)+"\t"+str(NIN)+"\t"+str(float(NIN)*100/N)+"\t"+str(NBelow)+"\t"+str(float(NBelow)*100/N)+"\t"+str(NAbove)+"\t"+str(float(NAbove)*100/N)
 		
