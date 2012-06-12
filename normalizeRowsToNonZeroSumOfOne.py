@@ -45,7 +45,7 @@ if __name__=='__main__':
 			mvalues=min(values)
 			if mvalues<0:
 				for i in range(0,len(values)):
-					values-=mvalues
+					values[i]-=mvalues
 			svalues=sum(values)
 			if svalues==0.0:
 				continue

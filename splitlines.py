@@ -51,7 +51,13 @@ def splitlines_Main(srcFile,lines,dstFiles):
 	
 	linei=0
 	
-	curFout=open(dstFiles[linei],"w")
+	if dstFiles[linei][0]=="+":
+		dstFiles[linei]=dstFiles[linei][1:]
+		openmode="w+"
+	else:
+		openmode="w"
+	
+	curFout=open(dstFiles[linei],openmode)
 
 	for line in fin:
 		lino+=1
@@ -62,7 +68,14 @@ def splitlines_Main(srcFile,lines,dstFiles):
 				break
 			else:
 				linei+=1
-				curFout=open(dstFiles[linei],"w")
+				
+				if dstFiles[linei][0]=="+":
+					dstFiles[linei]=dstFiles[linei][1:]
+					openmode="w+"
+				else:
+					openmode="w"
+				
+				curFout=open(dstFiles[linei],openmode)
 		
 		curFout.write(line)
 		lines[linei]-=1
@@ -80,7 +93,8 @@ def splitlines_Main(srcFile,lines,dstFiles):
 		print >> stderr,"source file finished before running through all partitions, some destination files are not written"
 	
 def usageExit(programName):
-	print >> stderr,"Usage:",programName,"sourceFile lines,... destFile,..."
+	print >> stderr,"Usage:",programName,"sourceFile lines,... [+]destFile,..."
+	print >> stderr,"file name prefixed by + to append file"
 	exit()
 	
 if len(sys.argv)!=4:
