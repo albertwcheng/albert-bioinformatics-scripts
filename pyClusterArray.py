@@ -231,6 +231,8 @@ def cluster3_NormalizeInPlace(values):
 		return
 
 	sos=sumOfSquares(values)
+	if sos==0: #ignore all-0 row, can't normalize anyway
+		return
 	try:
 		S=sqrt(1.0/sos)
 	except ZeroDivisionError:

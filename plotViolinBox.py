@@ -358,15 +358,78 @@ def trimData(plotData,size):
 def drawHistogram(outfilename,plotData,xtickLabels,nbins=50):
 	fig=figure(figsize=(8,len(plotData)*2))
 	fig.subplots_adjust(top=0.8, bottom=0.1, left=0.2, right=0.8)
-
+	
+	#find minmin and maxmax for plotData
+	minmin=min(plotData[0])
+	maxmax=max(plotData[0])
+	
+	for i in range(1,len(plotData)):
+		minmin=min(minmin,min(plotData[i]))
+		maxmax=max(maxmax,max(plotData[i]))
+	
+	rangedata=maxmax-minmin
+	#maxmax+=rangedata/float(nbin)
+	#minmin-=rangedata/float(nbin)
+	maxy=0
+	
+	axes=[]
+	
 	for i,D,label in zip(range(0,len(plotData)),plotData,xtickLabels):
-		ax = fig.add_subplot(len(plotData),1,i) #len(plotData),1,i
-		ax.hist(D,nbins)
+		ax = fig.add_subplot(len(plotData),1,i+1) #len(plotData),1,i #i+1 in place of i (6/18/2012)
+		__n,__bins,__patches=ax.hist(D,nbins,(minmin,maxmax),True,histtype="stepfilled")
+		#ax.plot(__bins,__n,'r-')
+		maxy=max(maxy,max(__n))
 		ax.set_title(label)
-
+		density = gaussian_kde(D)
+		xs = np.linspace(minmin,maxmax,200)
+		density.covariance_factor = lambda : .25
+		density._compute_covariance()
+		ax.plot(xs,density(xs))
+		#ax.set_xlim(minmin,maxmax)
+		#ax.set_ylim(0,maxy)
+		axes.append(ax)
 	#fig.show()
+	
+	for ax in axes:
+		ax.set_ylim(0,maxy*1.1)
 
 	fig.savefig(outfilename,bbox_inches="tight")
+
+def drawDensigram(outfilename,plotData,xtickLabels,nbins=50):
+	fig=figure(figsize=(8,len(plotData)*2))
+	fig.subplots_adjust(top=0.8, bottom=0.1, left=0.2, right=0.8)
+	
+	#find minmin and maxmax for plotData
+	minmin=min(plotData[0])
+	maxmax=max(plotData[0])
+	
+	for i in range(1,len(plotData)):
+		minmin=min(minmin,min(plotData[i]))
+		maxmax=max(maxmax,max(plotData[i]))
+	
+	rangedata=maxmax-minmin
+	#maxmax+=rangedata/float(nbin)
+	#minmin-=rangedata/float(nbin)
+	maxy=0
+	
+	axes=[]
+	
+	for i,D,label in zip(range(0,len(plotData)),plotData,xtickLabels):
+		ax = fig.add_subplot(len(plotData),1,i+1) #len(plotData),1,i #i+1 in place of i (6/18/2012)
+
+		
+		ax.set_title(label)
+		density = gaussian_kde(D)
+		xs = np.linspace(minmin,maxmax,200)
+		density.covariance_factor = lambda : .25
+		density._compute_covariance()
+		ax.plot(xs,density(xs))
+
+		axes.append(ax)
+	
+
+	fig.savefig(outfilename,bbox_inches="tight")
+
 
 def outputBinFiles(outfilename,plotData,xtickLabels,minMin,maxMax,nbins=50):
 	
@@ -433,8 +496,19 @@ def filterDataInRangeInclusive(D,mi,ma):
 		NIN+=1
 	
 	return xd,N,NIN,NBelow,NAbove
+
+def writeXYZPvalues(filename,xtickLabels,pvalueM):
+	fil=open(filename,"w")
+	for x in range(0,len(xtickLabels)):
+		for y in range(0,len(xtickLabels)):
+			print >> fil,xtickLabels[x]+"\t"+str(xtickLabels[y])+"\t"+str(pvalueM[x][y])
+	fil.close()
+
+
+def mean2(X):
+	return float(sum(X))/len(X)
 			
-def plotExpBox_Main(inputFiles,headers,valcols,outputFile,sep,startRow,showIndPoints,mark,markMean,showMean,notch,whisker,outliers,plotPvalueCluster,outputClusterPrefix,methodCluster,xlegendrotation,xlabe,ylabe,figsz,titl,showSampleSizes,trimToMinSize,relabels,logb,plotHistogramToFile,plotMedianForGroups,botta,showViolin,showBox,firstColAnnot,plotTrend,showLegend,makePzfxFile,makeBinMatrix,writeDataSummaryStat,summaryStatRange,minuslog10pvalue,minNDataToKeep,vfacecolor,valpha):
+def plotExpBox_Main(inputFiles,headers,valcols,outputFile,sep,startRow,showIndPoints,mark,markMean,showMean,notch,whisker,outliers,plotPvalueCluster,outputClusterPrefix,methodCluster,xlegendrotation,xlabe,ylabe,figsz,titl,showSampleSizes,trimToMinSize,relabels,logb,plotHistogramToFile,plotMedianForGroups,botta,showViolin,showBox,firstColAnnot,plotTrend,showLegend,makePzfxFile,makeBinMatrix,writeDataSummaryStat,summaryStatRange,minuslog10pvalue,minNDataToKeep,vfacecolor,valpha,outXYZPvalues):
 
 	#if plotPvalueCluster:
 		#if pvalue cluster is needed:
@@ -582,7 +656,9 @@ def plotExpBox_Main(inputFiles,headers,valcols,outputFile,sep,startRow,showIndPo
 			sumData,N,NIN,NBelow,NAbove=filterDataInRangeInclusive(plotData[x],summaryStatRange[0],summaryStatRange[1])
 			
 			if NIN>1:
-				mea=mean(sumData)
+				#print >> stderr,"sumData=",sumData
+				#print >> stderr,mean
+				mea=mean2(sumData)
 				DDOF=1
 				sd=std(sumData,ddof=DDOF)
 				var=sd*sd
@@ -654,6 +730,8 @@ def plotExpBox_Main(inputFiles,headers,valcols,outputFile,sep,startRow,showIndPo
 		makePValueRawPlot(outputClusterPrefix+"_t_raw",xtickLabels,pvalueM)
 		makePValueClusterPlot(outputClusterPrefix+"_t",xtickLabels,pvalueM,methodCluster)
 
+
+		
 	pvalueM=[]
 
 	print >> stdout,"welch t-test"
@@ -694,7 +772,8 @@ def plotExpBox_Main(inputFiles,headers,valcols,outputFile,sep,startRow,showIndPo
 				pvalueRow.append(pvalue)
 		print >> stdout,"";
 
-	
+	if outXYZPvalues:
+		writeXYZPvalues(outXYZPvalues+"_Welch.xyz",xtickLabels,pvalueM)
 
 	if plotPvalueCluster:
 		makePValueRawPlot(outputClusterPrefix+"_Welch_raw",xtickLabels,pvalueM)
@@ -745,7 +824,8 @@ def plotExpBox_Main(inputFiles,headers,valcols,outputFile,sep,startRow,showIndPo
 				#	print >>  stdout,wilcoxon(plotData[x],plotData[y])[1], # this is two-tailed already stdout, "", #
 		print >> stdout,"";	
 
-
+	if outXYZPvalues:
+		writeXYZPvalues(outXYZPvalues+"_U.xyz",xtickLabels,pvalueM)
 	
 
 	if plotPvalueCluster:
@@ -993,7 +1073,7 @@ def plotExpBox_Main(inputFiles,headers,valcols,outputFile,sep,startRow,showIndPo
 
 	if len(plotHistogramToFile)>0:
 		drawHistogram(plotHistogramToFile,plotData,xtickLabels)
-	
+		drawDensigram(plotHistogramToFile+".density.png",plotData,xtickLabels)
 
 def mulArray(x,n):
 	L=[]
@@ -1036,6 +1116,7 @@ def usageExit(programName):
 	print >> stderr,"--write-data-summary-stat outfile write to outfile a table of mean and stddev etc"
 	print >> stderr,"--data-summary-stat-range min,max only consider data within the range min and max for doing summary stat table. Use NA to say no bound for each of the bounds"
 	print >> stderr,"--min-num-data-to-keep. set the minimal number of datapoints per col to keep. [2]"
+	print >> stderr,"--outXYZPvalues prefix. Write pvalues for statistics in the form of xyz format"
 	print >> stderr, "from PyCluster (see http://www.biopython.org/DIST/docs/api/Bio.Cluster.Record-class.html#treecluster)"
 	print >> stderr, "method   : specifies which linkage method is used:"
 	print >> stderr, "           method=='s': Single pairwise linkage"
@@ -1048,7 +1129,7 @@ def usageExit(programName):
 
 if __name__=='__main__':
 	programName=argv[0]
-	optlist,args=getopt(argv[1:],'t:F:d:r:s:pmn',['fs=','headerRow=','startRow=','showIndPoints','showMean','notch','offWhisker','offOutliers','pvalue-cluster-as=','pvalue-cluster-method=','xtick-rotation=','xlabel=','ylabel=','figsize=','title=','show-sample-sizes','trim-to-min-size','relabel-as=','plot-hist=','plot-median-for-group=','log=','bottom=','hide-violin','hide-box','plot-trend','first-col-annot','show-legend','out-pzfx=','pzfx-tableref-id=','out-bin-matrix=','write-data-summary-stat=','data-summary-stat-range=','minus-log10-pvalue','min-num-data-to-keep=','valpha=','vfacecolor='])
+	optlist,args=getopt(argv[1:],'t:F:d:r:s:pmn',['fs=','headerRow=','startRow=','showIndPoints','showMean','notch','offWhisker','offOutliers','pvalue-cluster-as=','pvalue-cluster-method=','xtick-rotation=','xlabel=','ylabel=','figsize=','title=','show-sample-sizes','trim-to-min-size','relabel-as=','plot-hist=','plot-median-for-group=','log=','bottom=','hide-violin','hide-box','plot-trend','first-col-annot','show-legend','out-pzfx=','pzfx-tableref-id=','out-bin-matrix=','write-data-summary-stat=','data-summary-stat-range=','minus-log10-pvalue','min-num-data-to-keep=','valpha=','vfacecolor=',"outXYZPvalues="])
 
 	headerRow=1
 	startRow=2
@@ -1091,6 +1172,8 @@ if __name__=='__main__':
 	minNDataToKeep=2
 	vfacecolor='y'
 	valpha=1.0 #0.3
+	outXYZPvalues=None
+	
 	#else:
 	try:
 		outputFile=args[0]
@@ -1191,7 +1274,8 @@ if __name__=='__main__':
 					for vr in vrgba:
 						vfacecolor.append(float(vr))
 					valpha=vfacecolor[3]
-			
+			elif a in ['--outXYZPvalues']:
+				outXYZPvalues=v
 	except:
 		traceback.print_stack()
 		usageExit(programName)
@@ -1220,6 +1304,6 @@ if __name__=='__main__':
 	if makePzfxFile:
 		makePzfxFile+=[pzfxTableRefID]
 	
-	plotExpBox_Main(filenames,headers,valcols,outputFile,fs,startRow,showIndPoints,'b,','g--',showMean,notch,whisker,outliers,makePvalueClusters,pvalueClusterOutputPrefix,pvalueClusterMethod,xlegendrotation,xlabe,ylabe,figsz,titl,showSampleSizes,trimToMinSize,relabels,logb,plotHistogramToFile,plotMedianForGroups,botta,showViolin,showBox,firstColAnnot,plotTrend,showLegend,makePzfxFile,makeBinMatrix,writeDataSummaryStat,summaryStatRange,minuslog10pvalue,minNDataToKeep,vfacecolor,valpha)	
+	plotExpBox_Main(filenames,headers,valcols,outputFile,fs,startRow,showIndPoints,'b,','g--',showMean,notch,whisker,outliers,makePvalueClusters,pvalueClusterOutputPrefix,pvalueClusterMethod,xlegendrotation,xlabe,ylabe,figsz,titl,showSampleSizes,trimToMinSize,relabels,logb,plotHistogramToFile,plotMedianForGroups,botta,showViolin,showBox,firstColAnnot,plotTrend,showLegend,makePzfxFile,makeBinMatrix,writeDataSummaryStat,summaryStatRange,minuslog10pvalue,minNDataToKeep,vfacecolor,valpha,outXYZPvalues)	
 		
 		

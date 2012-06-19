@@ -69,7 +69,9 @@ if __name__=='__main__':
 			else:
 				ent_chrom,ent_gstart0,ent_gend1=entries[name]
 				if ent_chrom!=chrom:
-					print >> stderr,"warning: chrom not consistent for entry",fields
+					print >> stderr,"warning and removed: chrom not consistent for entry",fields,"was",entries[name]
+					entries[name][0]="Error"
+					
 				ent_gstart0=min(gstart0,ent_gstart0)
 				ent_gend1=min(gend1,ent_gend1)
 				entries[name][1]=ent_gstart0
@@ -80,7 +82,9 @@ if __name__=='__main__':
 	
 	for name in nameOrder:
 		chrom,gstart0,gend1=entries[name]
-		print >> stdout,chrom+"\t"+str(gstart0)+"\t"+str(gend1)+"\t"+name
+		if chrom=="Error":
+			continue
+		print >> stdout,chrom+"\t"+str(gstart0)+"\t"+str(gend1)+"\t"+"_".join(name.split())
 		
 	
 				

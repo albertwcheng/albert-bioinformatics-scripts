@@ -151,7 +151,7 @@ if __name__=="__main__":
 		
 		#evaluate the logic. if true, print line
 		fields=lin.split(fs)
-		
+		NF=len(fields)
 		if lino>=startRow:
 			try:
 				logicResult=eval(compiledLogics)
