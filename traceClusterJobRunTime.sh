@@ -1,0 +1,1 @@
+qstat  | awk '{match($0,/[0-9]+/,arr1); if( length(arr1[0])>0 ){match($0,/[0-9][0-9]:[0-9][0-9]:[0-9][0-9]/,arr); tim=arr[0]; split(tim,tarr,":"); timeRan=tarr[1]*60*60+tarr[2]*60+tarr[3]; printf("%s\t%s\t%s\t%s\t%d\n", arr1[0],tarr[1],tarr[2],tarr[3],timeRan)}}'
