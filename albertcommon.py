@@ -556,6 +556,19 @@ def rangeListFromRangeStringAdv(headerFields,rangestring,transform):
 
 		if len(col1rangesplit)==1:
 			director=col1rangesplit[0][0]
+			
+			adder=0
+			
+			if ">>" in col1rangesplit[0]:
+				col1rangesplitsplit=col1rangesplit[0].split(">>")
+				col1rangesplit[0]=col1rangesplitsplit[0]
+				adder=int(col1rangesplitsplit[1])
+				
+			elif "<<" in col1rangesplit[0]:
+				col1rangesplitsplit=col1rangesplit[0].split("<<")
+				col1rangesplit[0]=col1rangesplitsplit[0]
+				adder=-int(col1rangesplitsplit[1])			
+				
 			if director in [".","@","%"]: #it's a header string!
 				if director=='.':
 					indices=multiColIndicesFromHeaderMerged(headerFields,[col1rangesplit[0][1:]])
@@ -569,7 +582,7 @@ def rangeListFromRangeStringAdv(headerFields,rangestring,transform):
 					sys.exit()
 			
 				for inx in indices:
-					rangeValues.append(inx+1+transform)
+					rangeValues.append(inx+1+transform+adder)
 				
 			elif director=='_':
 				rangeValues.append(len(headerFields)-int(col1rangesplit[0][1:])+1+transform)
@@ -587,20 +600,41 @@ def rangeListFromRangeStringAdv(headerFields,rangestring,transform):
 		else: # x-x a range!
 			try:
 				#handle the left value of the bound
+				adderL=0
+				adderR=0
+				
+				if ">>" in col1rangesplit[0]:
+					col1rangesplitsplit=col1rangesplit[0].split(">>")
+					col1rangesplit[0]=col1rangesplitsplit[0]
+					adderL=int(col1rangesplitsplit[1])
+				elif "<<" in col1rangesplit[0]:
+					col1rangesplitsplit=col1rangesplit[0].split("<<")
+					col1rangesplit[0]=col1rangesplitsplit[0]
+					adderL=-int(col1rangesplitsplit[1])	
+				
+				if ">>" in col1rangesplit[1]:
+					col1rangesplitsplit=col1rangesplit[1].split(">>")
+					col1rangesplit[1]=col1rangesplitsplit[0]
+					adderR=int(col1rangesplitsplit[1])
+				elif "<<" in col1rangesplit[1]:
+					col1rangesplitsplit=col1rangesplit[1].split("<<")
+					col1rangesplit[1]=col1rangesplitsplit[0]
+					adderR=-int(col1rangesplitsplit[1])	
+									
 				if col1rangesplit[0][0]=='.':
 					#print >> sys.stderr, headerFields
 					indices=multiColIndicesFromHeaderMerged(headerFields,[col1rangesplit[0][1:]])
 					if(len(indices)==0):
 						print >> sys.stderr,"Error:",col1rangesplit[0][1:],"not found in header"	
 						sys.exit()
-					rangeL=min(indices)+1+transform
+					rangeL=min(indices)+1+transform+adderL
 				elif col1rangesplit[0][0]=='@': #added 12/10/2009
 					p=re.compile(col1rangesplit[0][1:])
 					indices=multiColIndicesFromHeaderMerged(headerFields,[p])
 					if(len(indices)==0):
 						print >> sys.stderr,"Error:",col1rangesplit[0][1:],"not matched in header"	
 						sys.exit()	
-					rangeL=min(indices)
+					rangeL=min(indices)+adderL
 				elif col1rangesplit[0][0]=='_': #from the back added 12/10/2009
 					rangeL=len(headerFields)-int(col1rangesplit[0][1:])+1+transform
 				elif col1rangesplit[0][0]=='x':
@@ -615,14 +649,14 @@ def rangeListFromRangeStringAdv(headerFields,rangestring,transform):
 					if(len(indices)==0):
 						print >> sys.stderr,"Error:",col1rangesplit[1][1:],"not found in header"	
 						sys.exit()
-					rangeH=max(indices)+2+transform
+					rangeH=max(indices)+2+transform+adderR
 				elif col1rangesplit[1][0]=='@':
 					p=re.compile(col1rangesplit[1][1:])
 					indices=multiColIndicesFromHeaderMerged(headerFields,[p])
 					if(len(indices)==0):
 						print >> sys.stderr,"Error:",col1rangesplit[1][1:],"not matched in header"	
 						sys.exit()						
-					rangeH=max(indices)+2+transform
+					rangeH=max(indices)+2+transform+adderR
 				elif col1rangesplit[1][0]=='_': #from the back added 12/10/2009
 					rangeH=len(headerFields)-int(col1rangesplit[1][1:])+2+transform
 				elif col1rangesplit[1][0]=='x':
@@ -804,9 +838,12 @@ def explainColumns(stream):
 	print >> stream,"\tfield name preceded by '.': .exp-5,.pvalue-.fdr"
 	print >> stream,"\texcel column preceded by 'x': xB-xAA means column 2 to column 27"
 	print >> stream,"\tregex preceded by '@': @FDR[a-z]"
+	print >> stream,"\t>> after . and @ objects mean move right by one column"
+	print >> stream,"\t<< after . and @ objects mean move left by one column"
 	print >> stream,"\t%filename%sep or just %filename: open file which contains the fields to include. default separator is [TAB]"
 	print >> stream,"\tif last field is a. Then following columns are added as ascending. If appears at end, all are sorted ascending"
 	print >> stream,"\tis last field is d. Then following columns are added as descending. If appears at end, all are sorted descending"
+	
 
 def getSubvector(D,I,sortIndex=False):
 	subv=[]
