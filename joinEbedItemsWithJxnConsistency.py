@@ -112,6 +112,12 @@ def doesEbedsHaveConsistentJxn(bed1blocks,bed2blocks,bed2ContainedInBed1=False):
 	return True
 
 
+def getFieldWithDefaultValue(fields,idx,defaultValue):
+	try:
+		return fields[idx]
+	except:
+		return defaultValue
+
 def readEBedInPlace(bedExons,filename):
 	
 	fil=open(filename)
@@ -119,12 +125,20 @@ def readEBedInPlace(bedExons,filename):
 		lin=lin.rstrip("\r\n")
 		fields=lin.split("\t")
 		try:
-			chrom,chromStartG0,chromEndG1,name,score,strand,thickStartG0,thickEndG1,itemRGB,blockCount,blockSizes,blockStarts0=fields
+			
+			chrom,chromStartG0,chromEndG1=fields[0:3]
 			chromStartG0=int(chromStartG0)
-			chromEndG1=int(chromEndG1)
-			thickStartG0=int(thickStartG0)
-			thickEndG1=int(thickEndG1)
-			blockCount=int(blockCount)
+			chromEndG1=int(chromEndG1)			
+			name=getFieldWithDefaultValue(fields,4,"")
+			score=getFieldWithDefaultValue(fields,5,"")
+			strand=getFieldWithDefaultValue(fields,6,".")
+			thickStartG0=int(getFieldWithDefaultValue(fields,7,str(chromStartG0)))
+			thickEndG1=int(getFieldWithDefaultValue(fields,8,str(chromEndG1)))
+			itemRGB=getFieldWithDefaultValue(fields,9,"0,0,0")
+			blockCount=int(getFieldWithDefaultValue(fields,10,"1"))
+			blockSizes=getFieldWithDefaultValue(fields,11,str(chromEndG1-chromStartG0))
+			#,name,score,strand,thickStartG0,thickEndG1,itemRGB,blockCount,blockSizes,blockStarts0=fields
+			blockStarts0=getFieldWithDefaultValue(fields,12,"0")
 
 			if strand not in ["+","-"]:
 				#correct!
@@ -255,7 +269,7 @@ if __name__=='__main__':
 	#ebed1=[(0, 3), (5, 10), (12, 14), (16, 20)]
 	#ebed2=[(4, 5)]
 	#print ebed1,ebed2,"\n",doesEbedsHaveConsistentJxn(ebed1,ebed2)
-	testCase()
+	#testCase()
 	#
 
 	from optparse import OptionParser
@@ -288,7 +302,7 @@ if __name__=='__main__':
 	readEBedInPlace(bedExons2,filename2)
 	bedExonBins2=binIntv(bedExons2,options.binInterval)
 	
-	jBedExons=joinIntervalsByBins(bedExonBins1,bedExonBins1,bedExons1,bedExons1,options.overlapLength,addChromIfNeeded,appenduplicate,warnduplicate,"","")
+	jBedExons=joinIntervalsByBins(bedExonBins1,bedExonBins2,bedExons1,bedExons2,options.overlapLength,addChromIfNeeded,appenduplicate,warnduplicate,"","")
 
 	print >> stderr,""
 	#jbed[(bin1Chr,coord1[0],coord1[1],coord2[0],coord2[1])]=(tuple(name,tuple(gblocks)),tuple(tuple(name,tuple(gblocks))),ob)
