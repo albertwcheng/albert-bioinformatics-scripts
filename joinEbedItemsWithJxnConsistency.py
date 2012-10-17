@@ -114,6 +114,7 @@ def doesEbedsHaveConsistentJxn(bed1blocks,bed2blocks,bed2ContainedInBed1=False):
 
 def getFieldWithDefaultValue(fields,idx,defaultValue):
 	try:
+		#print >> stderr,"reading fields",idx
 		return fields[idx]
 	except:
 		return defaultValue
@@ -124,21 +125,25 @@ def readEBedInPlace(bedExons,filename):
 	for lin in fil:
 		lin=lin.rstrip("\r\n")
 		fields=lin.split("\t")
+		
+		if len(lin)==0 or lin[0]=='#' or lin[0:5]=='track':
+			continue
+		
 		try:
 			
 			chrom,chromStartG0,chromEndG1=fields[0:3]
 			chromStartG0=int(chromStartG0)
 			chromEndG1=int(chromEndG1)			
-			name=getFieldWithDefaultValue(fields,4,"")
-			score=getFieldWithDefaultValue(fields,5,"")
-			strand=getFieldWithDefaultValue(fields,6,".")
-			thickStartG0=int(getFieldWithDefaultValue(fields,7,str(chromStartG0)))
-			thickEndG1=int(getFieldWithDefaultValue(fields,8,str(chromEndG1)))
-			itemRGB=getFieldWithDefaultValue(fields,9,"0,0,0")
-			blockCount=int(getFieldWithDefaultValue(fields,10,"1"))
-			blockSizes=getFieldWithDefaultValue(fields,11,str(chromEndG1-chromStartG0))
+			name=getFieldWithDefaultValue(fields,3,"")
+			score=getFieldWithDefaultValue(fields,4,"")
+			strand=getFieldWithDefaultValue(fields,5,".")
+			thickStartG0=int(getFieldWithDefaultValue(fields,6,str(chromStartG0)))
+			thickEndG1=int(getFieldWithDefaultValue(fields,7,str(chromEndG1)))
+			itemRGB=getFieldWithDefaultValue(fields,8,"0,0,0")
+			blockCount=int(getFieldWithDefaultValue(fields,9,"1"))
+			blockSizes=getFieldWithDefaultValue(fields,10,str(chromEndG1-chromStartG0))
 			#,name,score,strand,thickStartG0,thickEndG1,itemRGB,blockCount,blockSizes,blockStarts0=fields
-			blockStarts0=getFieldWithDefaultValue(fields,12,"0")
+			blockStarts0=getFieldWithDefaultValue(fields,11,"0")
 
 			if strand not in ["+","-"]:
 				#correct!

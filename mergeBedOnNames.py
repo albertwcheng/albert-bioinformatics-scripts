@@ -27,7 +27,10 @@ def printUsageAndExit(parser):
 	exit(1)
 
 if __name__=='__main__':
-
+	
+	print >> stderr,"this is potentially buggy??"
+	exit(1)
+	
 	chroms=dict()
 	nameOrder=[]
 	entries=dict()
@@ -73,7 +76,7 @@ if __name__=='__main__':
 					entries[name][0]="Error"
 					
 				ent_gstart0=min(gstart0,ent_gstart0)
-				ent_gend1=min(gend1,ent_gend1)
+				ent_gend1=max(gend1,ent_gend1) #was min???
 				entries[name][1]=ent_gstart0
 				entries[name][2]=ent_gend1
 				
