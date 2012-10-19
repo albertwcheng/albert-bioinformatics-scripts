@@ -183,6 +183,8 @@ if __name__=='__main__':
 		
 	profilePos=[]
 	
+	profileNumM=[] #number of M'ed seq per position
+	profileNumI=[] #number of Informative seq per position
 	
 	prevI=-1
 	prevN=""
@@ -194,15 +196,24 @@ if __name__=='__main__':
 				#look at prevI column for C->T
 				profilePos.append(str(prevI+1))
 				columnStr=align[:,prevI].upper()
+				
+				numM=0
+				numI=0
+				
 				for i in range(0,len(profile)):
 					if columnStr[i]=="T":
 						profile[i].append("0")
+						numI+=1
 					elif columnStr[i]=="C":
 						profile[i].append("1")
+						numI+=1
+						numM+=1
 					else:
 						profile[i].append("-")
 					
 				
+				profileNumM.append(numM-1) #has to minus one, because of the ref
+				profileNumI.append(numI-1) #has to minus one, because of the ref
 						
 			prevN=thisN
 			prevI=i
@@ -210,12 +221,25 @@ if __name__=='__main__':
 	
 	del profile[refAlignIdx]
 	del profileNames[refAlignIdx]
+	
+	
+	
 	profileOut=os.path.join(outfolder,"profile.xls")
 	profout=open(profileOut,"w")
 	print >> profout, "\t".join(["file"]+profilePos)
 	for profName, prof in zip(profileNames,profile):
 		print >> profout,  "\t".join([seqIToFilenameMap[profName]]+prof)
 	profout.close()
+	
+	profilePercentages=os.path.join(outfolder,"profile_percentages.xls")
+	profilePerOut=open(profilePercentages,"w")
+	print >> profilePerOut,"CpGPos\t%M\tfM\t#M\t#InfSeq"
+	for pPos,pM,pI in zip(profilePos,profileNumM,profileNumI):
+		print >> profilePerOut, "%s\t%f%%\t%f\t%d\t%d" %(pPos,float(pM)/pI*100,float(pM)/pI,pM,pI)
+	profilePerOut.close()
+	
+	profilePlotOut=os.path.join(outfolder,"profile.pdf")
+	system("plotColorMap.py --xtick-rotation 90 --color-map gist_gray_r %s %s" %(profileOut,profilePlotOut) )
 	
 	
 	
