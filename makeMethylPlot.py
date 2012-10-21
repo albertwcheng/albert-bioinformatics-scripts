@@ -6,10 +6,7 @@ from Bio import AlignIO
 from os import system
 import os
 
-def printUsageAndExit(programName):
-	print >> stderr,programName,"[options] outfolder ref seq1 seq2 ... seqN"
-	print >> stderr,"--clustal-cmd x. specify the clustal command. default: clustalw"
-	exit(1)
+
 
 def readFasta(filename):
 
@@ -57,7 +54,7 @@ def reverse_complement(S):
 
 def runClustalw(clustalCmd,infile):
 	print >> stderr,clustalCmd,infile
-	system(clustalCmd+ " " +infile)	
+	system(clustalCmd+ " " +infile + " > "+infile+".cx.stdout")	
 
 def numMatches(alnFile):
 	align=AlignIO.read(alnFile,"clustal")
@@ -69,17 +66,19 @@ def numMatches(alnFile):
 		if s1.upper()==s2.upper():
 			numMatches+=1
 	return numMatches
-
+	
+def printUsageAndExit(programName):
+	print >> stderr,programName,"[options] outfolder ref seq1 seq2 ... seqN"
+	print >> stderr,"--clustal-cmd x. specify the clustal command. default: clustalw"
+	print >> stderr,"--non-CpG-conversion-stat-out out. Append file"
+	print >> stderr,"--non-CpG-conversion-stat-out-sample-name sampleName. default is abspath of the directory of the first aligning sequence"
+	exit(1)
 
 if __name__=='__main__':
 	programName=argv[0]
-	opts,args=getopt(argv[1:],'',['clustal-cmd='])
+	opts,args=getopt(argv[1:],'',['clustal-cmd=','non-CpG-conversion-stat-out=','non-CpG-conversion-stat-out-sample-name='])
 	
-	clustalCmd='clustalw'
-	
-	for o,v in opts:
-		if o=='--clustal-cmd':
-			clustalCmd=v
+
 	try:
 		outfolder=args[0]
 		ref=args[1]
@@ -90,6 +89,25 @@ if __name__=='__main__':
 	except:
 		printUsageAndExit(programName)
 	
+
+	clustalCmd='clustalw'
+	
+	nonCpGConvStatOutFile=None
+	
+	nonCpGConvStatOutSampleName=os.path.dirname(os.path.abspath(seqs[0]))
+	
+	
+	for o,v in opts:
+		if o=='--clustal-cmd':
+			clustalCmd=v
+		elif o=='--non-CpG-conversion-stat-out':
+			nonCpGConvStatOutFile=v
+		elif o=='--non-CpG-conversion-stat-out-sample-name':
+			nonCpGConvStatOutSampleName=v
+
+	
+	if nonCpGConvStatOutFile:
+		nonCpGConvStatOutFile=open(nonCpGConvStatOutFile,"a")
 	
 	refName,refSeq=readFasta(ref)
 	
@@ -186,11 +204,18 @@ if __name__=='__main__':
 	profileNumM=[] #number of M'ed seq per position
 	profileNumI=[] #number of Informative seq per position
 	
+	CGNumM=0
+	CGNumI=0
+	
+	nonCGConv=0 #number of C is converted to T not followed by G
+	nonCGI=0 #number of C position not followed by G
+	
 	prevI=-1
 	prevN=""
 	for i in range(0,len(refAlign)):
 		thisN=refAlign[i].upper()
 		if thisN in ["A","C","G","T"]:
+			#print >> stderr,prevN+thisN
 			if prevN+thisN=="CG":
 				##a CpG found!
 				#look at prevI column for C->T
@@ -200,20 +225,38 @@ if __name__=='__main__':
 				numM=0
 				numI=0
 				
-				for i in range(0,len(profile)):
-					if columnStr[i]=="T":
-						profile[i].append("0")
+				for j in range(0,len(profile)):
+					if columnStr[j]=="T":
+						profile[j].append("0")
 						numI+=1
-					elif columnStr[i]=="C":
-						profile[i].append("1")
+					elif columnStr[j]=="C":
+						profile[j].append("1")
 						numI+=1
 						numM+=1
 					else:
-						profile[i].append("-")
+						profile[j].append("-")
 					
 				
 				profileNumM.append(numM-1) #has to minus one, because of the ref
 				profileNumI.append(numI-1) #has to minus one, because of the ref
+				
+				CGNumM+=numM-1 #keep total
+				CGNumI+=numI-1
+				
+			elif prevN+thisN in ["CT","CA","CC"]: #non-CpG position for estimating conversion efficiency
+				#print >> stderr,"heythere"
+				columnStr=align[:,prevI].upper()
+				#print >> stderr,columnStr
+				for j in range(0,len(profile)):
+					if j!=refAlignIdx:
+						if columnStr[j]=="T":
+							#converted
+							nonCGConv+=1
+							nonCGI+=1
+						elif columnStr[j]=="C":
+							nonCGI+=1
+
+										
 						
 			prevN=thisN
 			prevI=i
@@ -235,11 +278,29 @@ if __name__=='__main__':
 	profilePerOut=open(profilePercentages,"w")
 	print >> profilePerOut,"CpGPos\t%M\tfM\t#M\t#InfSeq"
 	for pPos,pM,pI in zip(profilePos,profileNumM,profileNumI):
-		print >> profilePerOut, "%s\t%f%%\t%f\t%d\t%d" %(pPos,float(pM)/pI*100,float(pM)/pI,pM,pI)
+		try:
+			print >> profilePerOut, "%s\t%f%%\t%f\t%d\t%d" %(pPos,float(pM)/pI*100,float(pM)/pI,pM,pI)
+		except:
+			print >> profilePerOut, "%s\t%s\t%s\t%d\t%d" %(pPos,"NA","NA",pM,pI)
+		
+	print >> profilePerOut, "%s\t%f%%\t%f\t%d\t%d" %("TotalCpG",float(CGNumM)/CGNumI*100,float(CGNumM)/CGNumI,CGNumM,CGNumI)
+	try:
+		print >> profilePerOut, "%s\t%f%%\t%f\t%d\t%d" %("NonCpGConversionRate",float(nonCGConv)/nonCGI*100,float(nonCGConv)/nonCGI,nonCGConv,nonCGI)
+	except:
+		print >> profilePerOut, "%s\t%s\t%s\t%d\t%d" %("NonCpGConversionRate","NA","NA",nonCGConv,nonCGI)
+	if nonCpGConvStatOutFile:
+		try:
+			print >> nonCpGConvStatOutFile, "%s\t%f%%\t%f\t%d\t%d" %(nonCpGConvStatOutSampleName,float(nonCGConv)/nonCGI*100,float(nonCGConv)/nonCGI,nonCGConv,nonCGI)
+		except:
+			print >> nonCpGConvStatOutFile, "%s\t%s%%\t%s\t%d\t%d" %("NonCpGConversionRate","NA","NA",nonCGConv,nonCGI)
+	
 	profilePerOut.close()
+	
+
 	
 	profilePlotOut=os.path.join(outfolder,"profile.pdf")
 	system("plotColorMap.py --xtick-rotation 90 --color-map gist_gray_r %s %s" %(profileOut,profilePlotOut) )
 	
-	
+	if nonCpGConvStatOutFile:
+		nonCpGConvStatOutFile.close()	
 	
