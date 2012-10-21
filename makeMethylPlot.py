@@ -212,14 +212,22 @@ if __name__=='__main__':
 	
 	prevI=-1
 	prevN=""
+	prevRefI=-1
+	
+	refI=0
+	
 	for i in range(0,len(refAlign)):
 		thisN=refAlign[i].upper()
+		if thisN!="-": #counting also N's
+			refI+=1
+		
 		if thisN in ["A","C","G","T"]:
+			
 			#print >> stderr,prevN+thisN
 			if prevN+thisN=="CG":
 				##a CpG found!
 				#look at prevI column for C->T
-				profilePos.append(str(prevI+1))
+				profilePos.append(str(prevRefI))  #was prevI+1, now use prevRefI (base1) so that it is relative to reference
 				columnStr=align[:,prevI].upper()
 				
 				numM=0
@@ -260,7 +268,7 @@ if __name__=='__main__':
 						
 			prevN=thisN
 			prevI=i
-			
+			prevRefI=refI
 	
 	del profile[refAlignIdx]
 	del profileNames[refAlignIdx]
