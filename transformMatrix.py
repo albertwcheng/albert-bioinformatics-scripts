@@ -3,6 +3,7 @@
 from math import *
 from sys import *
 from getopt import getopt
+from albertcommon import *
 
 def log2(x):
 	return log(x,2)
@@ -16,6 +17,7 @@ def printUsageAndExit(programName):
 	print >> stderr,"FIELDS:current field array based 0"
 	print >> stderr,"ROWNAME:FIELDS[0]"
 	print >> stderr,"COLNAME:HEADERS[COL-1]"
+	print >> stderr,"X:current field FIELDS[COL-1]"
 	explainColumns(stderr)
 	exit(1)
 
@@ -40,7 +42,7 @@ if __name__=='__main__':
 	
 	for o,v in opts:
 		if o=='--cols':
-			columns=v
+			currentColumns=v
 		elif o=='--start-row':
 			startRow=int(startRow)
 		elif o=='-c':
@@ -62,17 +64,27 @@ if __name__=='__main__':
 	fil=open(filename)
 	for lin in fil:
 		ROW+=1
-		if ROW<startRow:
-			continue
 		lin=lin.rstrip("\r\n")
 		FIELDS=lin.split(fs)
-		for columns,conditional,operation in operations:
-			for column in columns:
-				COLUMN=column+1
-				ROWNAME=FIELDS[0]
-				COLNAME=FIELDS[column]
-				if eval(conditional):
-					FIELDS[column]=eval(operation)
+		
+		if ROW>=startRow:
+			for columns,conditional,operation in operations:
+				for column in columns:
+					COLUMN=column+1
+					ROWNAME=FIELDS[0]
+					COLNAME=HEADERS[column]
+					X=FIELDS[column]
+					if eval(conditional):
+						try:
+							FIELDS[column]=eval(operation)
+						except:
+							if "." in X:
+								X=float(X)
+							else:
+								X=int(X)
+							FIELDS[column]=eval(operation)
+								
+		print >> stdout,"\t".join(toStrList(FIELDS))
 		
 	fil.close()
 	
