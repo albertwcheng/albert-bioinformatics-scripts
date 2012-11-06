@@ -72,11 +72,12 @@ def printUsageAndExit(programName):
 	print >> stderr,"--clustal-cmd x. specify the clustal command. default: clustalw"
 	print >> stderr,"--non-CpG-conversion-stat-out out. Append file"
 	print >> stderr,"--non-CpG-conversion-stat-out-sample-name sampleName. default is abspath of the directory of the first aligning sequence"
+	print >> stderr,"--reverse-profile. Reverse profile for some flipped design PCR"
 	exit(1)
 
 if __name__=='__main__':
 	programName=argv[0]
-	opts,args=getopt(argv[1:],'',['clustal-cmd=','non-CpG-conversion-stat-out=','non-CpG-conversion-stat-out-sample-name='])
+	opts,args=getopt(argv[1:],'',['clustal-cmd=','non-CpG-conversion-stat-out=','non-CpG-conversion-stat-out-sample-name=','reverse-profile'])
 	
 
 	try:
@@ -96,6 +97,7 @@ if __name__=='__main__':
 	
 	nonCpGConvStatOutSampleName=os.path.dirname(os.path.abspath(seqs[0]))
 	
+	reverseProfile=False
 	
 	for o,v in opts:
 		if o=='--clustal-cmd':
@@ -104,7 +106,8 @@ if __name__=='__main__':
 			nonCpGConvStatOutFile=v
 		elif o=='--non-CpG-conversion-stat-out-sample-name':
 			nonCpGConvStatOutSampleName=v
-
+		elif o=='--reverse-profile':
+			reverseProfile=True
 	
 	if nonCpGConvStatOutFile:
 		nonCpGConvStatOutFile=open(nonCpGConvStatOutFile,"a")
@@ -273,7 +276,12 @@ if __name__=='__main__':
 	del profile[refAlignIdx]
 	del profileNames[refAlignIdx]
 	
-	
+	if reverseProfile:
+		for prof in profile:
+			prof.reverse()
+		profilePos.reverse()
+		profileNumM.reverse()
+		profileNumI.reverse()
 	
 	profileOut=os.path.join(outfolder,"profile.xls")
 	profout=open(profileOut,"w")
@@ -285,6 +293,11 @@ if __name__=='__main__':
 	profilePercentages=os.path.join(outfolder,"profile_percentages.xls")
 	profilePerOut=open(profilePercentages,"w")
 	print >> profilePerOut,"CpGPos\t%M\tfM\t#M\t#InfSeq"
+	
+	
+	
+	
+	
 	for pPos,pM,pI in zip(profilePos,profileNumM,profileNumI):
 		try:
 			print >> profilePerOut, "%s\t%f%%\t%f\t%d\t%d" %(pPos,float(pM)/pI*100,float(pM)/pI,pM,pI)
