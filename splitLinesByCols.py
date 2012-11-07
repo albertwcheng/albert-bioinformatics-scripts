@@ -42,6 +42,10 @@ if __name__=='__main__':
 	for lin in fil:
 		lin=lin.rstrip("\r\n")
 		lino+=1
+		
+		if lino%10000==1:
+			print >> stderr,"processing line %d" %(lino)
+		
 		if lino<startRow:
 			continue
 		
