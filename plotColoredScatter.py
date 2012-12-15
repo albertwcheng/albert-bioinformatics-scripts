@@ -93,6 +93,12 @@ def plotData(filename,attrMatrix,startRow,labelcol,xcol,ycol,fs,legendOut,suppre
 	xlimsSet=getAttrWithDefaultValue(attrMatrix,"!xlims","").strip()
 	ylimsSet=getAttrWithDefaultValue(attrMatrix,"!ylims","").strip()
 	smartGroups=getAttrWithDefaultValue(attrMatrix,"!smartGroups","")
+	defaultShowSmartLabel=getAttrWithDefaultValue(attrMatrix,"!showSmartLabel",None)
+	labelOffsetX=float(getAttrWithDefaultValue(attrMatrix,"!labelOffsetX","0"))
+	labelOffsetY=float(getAttrWithDefaultValue(attrMatrix,"!labelOffsetY","0"))
+	smlabelOffsetX=getAttrWithDefaultValue(attrMatrix,"!smlabelOffsetX","0")
+	smlabelOffsetY=getAttrWithDefaultValue(attrMatrix,"!smlabelOffsetY","0")
+	showLabelArrow=(getAttrWithDefaultValue(attrMatrix,"!showLabelArrow","no").lower()=="yes")
 	
 	if len(smartGroups)>0:
 		smartGroups=smartGroups.split(";")
@@ -237,7 +243,12 @@ def plotData(filename,attrMatrix,startRow,labelcol,xcol,ycol,fs,legendOut,suppre
 		lineWidth=float(getLevel2AttrWithDefaultValue(attrMatrix,groupName,"lineWidth",defaultLineWidth))
 		markerSize=float(getLevel2AttrWithDefaultValue(attrMatrix,groupName,"markerSize",defaultMarkerSize))
 		showLabel=(getLevel2AttrWithDefaultValue(attrMatrix,groupName,"showLabel",defaultShowLabel).lower()=="yes")
+		markerEdgeColor=getLevel2AttrWithDefaultValue(attrMatrix,groupName,"markerEdgeColor","0,0,0,0")
+		showSmartLabel=getLevel2AttrWithDefaultValue(attrMatrix,groupName,"showSmartLabel",defaultShowSmartLabel)
 		showReLabelAs=getLevel2AttrWithDefaultValue(attrMatrix,groupName,"showReLabelAs",None)
+		
+		#print >> stderr,"showSmartLabel=",showSmartLabel
+		
 		if rgbacolor:
 			_r,_g,_b,_a=toFloatArray(rgbacolor.split(","))
 		elif colormapcolor:
@@ -246,8 +257,11 @@ def plotData(filename,attrMatrix,startRow,labelcol,xcol,ycol,fs,legendOut,suppre
 		else:
 			_r,_g,_b,_a=defaultColor
 		
+		
+		markerEdgeColor=toFloatArray(markerEdgeColor.split(","))
+		
 		if not hideDots:
-			plot(groupX,groupY,markerStyle,color=(_r,_g,_b),alpha=_a,markeredgewidth=lineWidth,linewidth=lineWidth,markersize=markerSize)
+			plot(groupX,groupY,markerStyle,color=(_r,_g,_b),alpha=_a,markeredgecolor=markerEdgeColor,markeredgewidth=lineWidth,linewidth=lineWidth,markersize=markerSize)
 			
 		
 		if XLabel:
@@ -259,10 +273,19 @@ def plotData(filename,attrMatrix,startRow,labelcol,xcol,ycol,fs,legendOut,suppre
 		
 		if showLabel:
 			for label,x,y in zip(groupLabels,groupX,groupY):
-				text(x,y,label,horizontalalignment="center",verticalalignment="center")
+				text(x+labelOffsetX+eval(smlabelOffsetX),y+labelOffsetY+eval(smlabelOffsetY),label,horizontalalignment="center",verticalalignment="center")
 		elif showReLabelAs:
 			for x,y in zip(groupX,groupY):
-				text(x,y,showReLabelAs,horizontalalignment="center",verticalalignment="center")
+				text(x+labelOffsetX+eval(smlabelOffsetX),y+labelOffsetY+eval(smlabelOffsetY),showReLabelAs,horizontalalignment="center",verticalalignment="center")
+		elif showSmartLabel:
+			for label,x,y in zip(groupLabels,groupX,groupY):
+				LABELCOMPS=label.split(groupDivider)
+				GROUPNAME=groupName
+				LABEL=label
+				X=x
+				Y=y
+				#print >> stderr,eval(showSmartLabel)
+				text(x+labelOffsetX+eval(smlabelOffsetX),y+labelOffsetY+eval(smlabelOffsetY),eval(showSmartLabel),horizontalalignment="center",verticalalignment="center")
 		
 		if legendOut:	
 			print >> legendOutDataStream,groupName+"\t"+str(_r)+"\t"+str(_g)+"\t"+str(_b)+"\t"+str(_a)

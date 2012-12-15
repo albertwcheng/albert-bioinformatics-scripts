@@ -22,8 +22,29 @@ def mean( *arguments ):
 	return _sum/_count
 '''
 
+def log2(x):
+	return log(x,2)
+
 def stdN_1(L):
 	return std(L,ddof=1)
+
+
+__KEY_COUNT=dict()
+
+def COUNTER( *arguments):
+	global __KEY_COUNT
+	t=[]
+	for argument in arguments:
+		t.append(argument)
+	t=tuple(t)
+	try:
+		__KEY_COUNT[t]+=1
+	except:
+		__KEY_COUNT[t]=1
+	
+	
+	#print >> stderr,t,__KEY_COUNT[t]
+	return __KEY_COUNT[t]
 
 
 def printUsageAndExit(programName):
@@ -41,6 +62,8 @@ def printUsageAndExit(programName):
 	print >> stderr,"SYSTEMVAR:"
 	print >> stderr,"FNR current line number"
 	print >> stderr,"LINE current whole line content"
+	print >> stderr,"Extended Functions:"
+	print >> stderr,"COUNTER(x) update and return the count for value x. Example COUNTER([1])==1 will print only the first row for each uniq value at column 1 producing a uniq operation on column 1 retaining order"
 	
 	explainColumns(stderr)
 	exit()
