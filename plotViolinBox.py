@@ -70,11 +70,19 @@ def plotExpBox(data,xtickLabels,showIndPoints,mark,markMean,showMean,notch,whisk
 	if whisker:
 		whisValue=1.5
 
+	for axhlin in axhlines:
+		axhline(axhlin[0],linestyle=axhlin[1],color=axhlin[2])
+
+
 	##for i in range(0,len(data)):
 	##	print >> stderr,len(data[i])
 
 	if showBox:
-		ax.boxplot(data,notch,widths=0.5,sym=fliers,whis=whisValue)
+		boxplotted=ax.boxplot(data,notch,widths=0.5,sym=fliers,whis=whisValue)
+		whiskerlines=boxplotted["whiskers"]
+		for w in whiskerlines:
+			w.set_linestyle(whiskerStyle)
+			#w.set_linewidth(5)		
 	#print >> stderr,resultD
 	
 	maxMax=-10000000.0
@@ -159,7 +167,10 @@ def plotExpBox(data,xtickLabels,showIndPoints,mark,markMean,showMean,notch,whisk
 	xlabel(xlabe)
 	ylabel(ylabe)
 	title(titl)
-	ylim([minMin-maxMax*0.1,maxMax*1.1])
+	if ylims:
+		ylim([ylims[0],ylims[1]])
+	else:
+		ylim([minMin-maxMax*0.1,maxMax*1.1])
 	
 	if plotItemLegend:
 		box=ax.get_position()
@@ -637,424 +648,424 @@ def plotExpBox_Main(inputFiles,headers,valcols,outputFile,sep,startRow,showIndPo
 			del plotData[c]
 			del xtickLabels[c]
 
-
-	print >> stdout,"student t-test (1 sample; mean=0)"
-	print >> stdout,"sample","mean","p-val"
-
-	if writeDataSummaryStat:
-		fDSS=open(writeDataSummaryStat,"w")
-		print >> fDSS,"sample\tmean\tvar\tsd\tmin\tmax\tN\tNInRange["+str(summaryStatRange[0])+","+str(summaryStatRange[1])+"]\t%NInRange\tNbelowRange\t%Nbelow\tNAboveRange\t%NAbove"
-		
-	for x in range(0,len(plotData)):
-		#print >> stderr, len(plotData[x])
-		try:
-			print >> stdout, xtickLabels[x],mean(plotData[x]),ttest_1samp(plotData[x],0)[1]
-		except:
-			print >> stdout, xtickLabels[x],"NA","NA"
+	if not skipStat:
+		print >> stdout,"student t-test (1 sample; mean=0)"
+		print >> stdout,"sample","mean","p-val"
+	
+		if writeDataSummaryStat:
+			fDSS=open(writeDataSummaryStat,"w")
+			print >> fDSS,"sample\tmean\tvar\tsd\tmin\tmax\tN\tNInRange["+str(summaryStatRange[0])+","+str(summaryStatRange[1])+"]\t%NInRange\tNbelowRange\t%Nbelow\tNAboveRange\t%NAbove"
+			
+		for x in range(0,len(plotData)):
+			#print >> stderr, len(plotData[x])
+			try:
+				print >> stdout, xtickLabels[x],mean(plotData[x]),ttest_1samp(plotData[x],0)[1]
+			except:
+				print >> stdout, xtickLabels[x],"NA","NA"
+			
+			if writeDataSummaryStat:
+				sumData,N,NIN,NBelow,NAbove=filterDataInRangeInclusive(plotData[x],summaryStatRange[0],summaryStatRange[1])
+				
+				if NIN>1:
+					#print >> stderr,"sumData=",sumData
+					#print >> stderr,mean
+					mea=mean2(sumData)
+					DDOF=1
+					sd=std(sumData,ddof=DDOF)
+					var=sd*sd
+					mi=min(sumData)
+					ma=max(sumData)
+				else:
+					mea="NA"
+					sd="NA"
+					var="NA"
+					mi="NA"
+					ma="NA"
+				
+			
+					
+				print >> fDSS,xtickLabels[x]+"\t"+str(mea)+"\t"+str(var)+"\t"+str(sd)+"\t"+str(mi)+"\t"+str(ma)+"\t"+str(N)+"\t"+str(NIN)+"\t"+str(float(NIN)*100/N)+"\t"+str(NBelow)+"\t"+str(float(NBelow)*100/N)+"\t"+str(NAbove)+"\t"+str(float(NAbove)*100/N)
+			
+	
+		pvalueM=[]
 		
 		if writeDataSummaryStat:
-			sumData,N,NIN,NBelow,NAbove=filterDataInRangeInclusive(plotData[x],summaryStatRange[0],summaryStatRange[1])
+			fDSS.close()
+		
+		print >> stdout,""
+		
+		print >> stdout,"student t-test (2 samples)"
+		print >> stdout,"p-val",
+		for x in range(0,len(plotData)):
+			print >> stdout,xtickLabels[x],
+		
+		print >> stdout,""
+	
+		for x in range(0,len(plotData)):
+			pvalueRow=[]
+			pvalueM.append(pvalueRow)
+			print >> stdout, xtickLabels[x],
+			for y in range(0,len(plotData)):
+				if y<=x:
+					print >> stdout, "",
+					if x==y:
+						if minuslog10pvalue:
+							pvalueRow.append(0.0)
+						else:
+							pvalueRow.append(1.0)
+					else:
+						pvalueRow.append(pvalueM[y][x])
+				else:
+					try:
+						pvalue=ttest_ind(plotData[x],plotData[y])[1]
+					except:
+						pvalue=1.0
+					
+					if minuslog10pvalue and str(pvalue)!="NA":
+						try:
+							pvalue=-1*log(pvalue,10)
+						except:
+							pvalue=-1000.0
+					
+					print >> stdout, str(pvalue),
+					pvalueRow.append(pvalue)
+			print >> stdout,"";	
+	
+		
+		print >> stdout,""
+	
+		
+	
+	
+		if plotPvalueCluster:
+			makePValueRawPlot(outputClusterPrefix+"_t_raw",xtickLabels,pvalueM)
+			makePValueClusterPlot(outputClusterPrefix+"_t",xtickLabels,pvalueM,methodCluster)
+	
+	
 			
-			if NIN>1:
-				#print >> stderr,"sumData=",sumData
-				#print >> stderr,mean
-				mea=mean2(sumData)
-				DDOF=1
-				sd=std(sumData,ddof=DDOF)
-				var=sd*sd
-				mi=min(sumData)
-				ma=max(sumData)
-			else:
-				mea="NA"
-				sd="NA"
-				var="NA"
-				mi="NA"
-				ma="NA"
-			
+		pvalueM=[]
+	
+		print >> stdout,"welch t-test"
+		print >> stdout,"p-val",
+		for x in range(0,len(plotData)):
+			print >> stdout,xtickLabels[x],
 		
-				
-			print >> fDSS,xtickLabels[x]+"\t"+str(mea)+"\t"+str(var)+"\t"+str(sd)+"\t"+str(mi)+"\t"+str(ma)+"\t"+str(N)+"\t"+str(NIN)+"\t"+str(float(NIN)*100/N)+"\t"+str(NBelow)+"\t"+str(float(NBelow)*100/N)+"\t"+str(NAbove)+"\t"+str(float(NAbove)*100/N)
+		print >> stdout,""
+		for x in range(0,len(plotData)):
+			pvalueRow=[]
+			pvalueM.append(pvalueRow)
+			print >> stdout, xtickLabels[x],
+			for y in range(0,len(plotData)):
+				if y<=x:
+					print >> stdout, "",
+					if x==y:
+						if minuslog10pvalue:
+							pvalueRow.append(0.0)
+						else:
+							pvalueRow.append(1.0)
+					else:
+						pvalueRow.append(pvalueM[y][x])
+						
+				else:
+					try:
+						pvalue=welchs_approximate_ttest_arr(plotData[x],plotData[y])[3]
+					except:
+						pvalue=1.0
+	
+					if minuslog10pvalue and str(pvalue)!="NA":
+						try:
+							pvalue=-1*log(pvalue,10)
+						except:
+							pvalue=-1000.0
+	
+					
+					print >> stdout, str(pvalue),
+					pvalueRow.append(pvalue)
+			print >> stdout,"";
+	
+		if outXYZPvalues:
+			writeXYZPvalues(outXYZPvalues+"_Welch.xyz",xtickLabels,pvalueM)
+	
+		if plotPvalueCluster:
+			makePValueRawPlot(outputClusterPrefix+"_Welch_raw",xtickLabels,pvalueM)
+			makePValueClusterPlot(outputClusterPrefix+"_Welch",xtickLabels,pvalueM,methodCluster)
+	
 		
-
-	pvalueM=[]
-	
-	if writeDataSummaryStat:
-		fDSS.close()
-	
-	print >> stdout,""
-	
-	print >> stdout,"student t-test (2 samples)"
-	print >> stdout,"p-val",
-	for x in range(0,len(plotData)):
-		print >> stdout,xtickLabels[x],
-	
-	print >> stdout,""
-
-	for x in range(0,len(plotData)):
-		pvalueRow=[]
-		pvalueM.append(pvalueRow)
-		print >> stdout, xtickLabels[x],
-		for y in range(0,len(plotData)):
-			if y<=x:
-				print >> stdout, "",
-				if x==y:
-					if minuslog10pvalue:
-						pvalueRow.append(0.0)
-					else:
-						pvalueRow.append(1.0)
-				else:
-					pvalueRow.append(pvalueM[y][x])
-			else:
-				try:
-					pvalue=ttest_ind(plotData[x],plotData[y])[1]
-				except:
-					pvalue=1.0
-				
-				if minuslog10pvalue and str(pvalue)!="NA":
-					try:
-						pvalue=-1*log(pvalue,10)
-					except:
-						pvalue=-1000.0
-				
-				print >> stdout, str(pvalue),
-				pvalueRow.append(pvalue)
-		print >> stdout,"";	
-
-	
-	print >> stdout,""
-
-	
-
-
-	if plotPvalueCluster:
-		makePValueRawPlot(outputClusterPrefix+"_t_raw",xtickLabels,pvalueM)
-		makePValueClusterPlot(outputClusterPrefix+"_t",xtickLabels,pvalueM,methodCluster)
-
-
+		print >> stdout,""
+		print >> stdout,"non-parametric (Mann-Whitney U)" #"non-parametric (Mann-Whitney U if larger n<=20 else Wilcoxon)"
+		print >> stdout,"p-val",
+		for x in range(0,len(plotData)):
+			print >> stdout,xtickLabels[x],
 		
-	pvalueM=[]
-
-	print >> stdout,"welch t-test"
-	print >> stdout,"p-val",
-	for x in range(0,len(plotData)):
-		print >> stdout,xtickLabels[x],
 	
-	print >> stdout,""
-	for x in range(0,len(plotData)):
-		pvalueRow=[]
-		pvalueM.append(pvalueRow)
-		print >> stdout, xtickLabels[x],
-		for y in range(0,len(plotData)):
-			if y<=x:
-				print >> stdout, "",
-				if x==y:
-					if minuslog10pvalue:
-						pvalueRow.append(0.0)
+		pvalueM=[]
+	
+		print >> stdout,""
+		for x in range(0,len(plotData)):
+			pvalueRow=[]
+			pvalueM.append(pvalueRow)
+			print >> stdout, xtickLabels[x],
+			for y in range(0,len(plotData)):
+				if y<=x:
+					print >> stdout, "",
+					if x==y:
+						if minuslog10pvalue:
+							pvalueRow.append(0.0)
+						else:
+							pvalueRow.append(1.0)
 					else:
-						pvalueRow.append(1.0)
+						pvalueRow.append(pvalueM[y][x])
 				else:
-					pvalueRow.append(pvalueM[y][x])
-					
-			else:
-				try:
-					pvalue=welchs_approximate_ttest_arr(plotData[x],plotData[y])[3]
-				except:
-					pvalue=1.0
-
-				if minuslog10pvalue and str(pvalue)!="NA":
+					#if max(len(plotData[x]),len(plotData[y]))<=20:
 					try:
-						pvalue=-1*log(pvalue,10)
+						pvalue=mannwhitneyu(plotData[x],plotData[y])[1]*2				
 					except:
-						pvalue=-1000.0
-
-				
-				print >> stdout, str(pvalue),
-				pvalueRow.append(pvalue)
-		print >> stdout,"";
-
-	if outXYZPvalues:
-		writeXYZPvalues(outXYZPvalues+"_Welch.xyz",xtickLabels,pvalueM)
-
-	if plotPvalueCluster:
-		makePValueRawPlot(outputClusterPrefix+"_Welch_raw",xtickLabels,pvalueM)
-		makePValueClusterPlot(outputClusterPrefix+"_Welch",xtickLabels,pvalueM,methodCluster)
-
+						pvalue=1.0
 	
-	print >> stdout,""
-	print >> stdout,"non-parametric (Mann-Whitney U)" #"non-parametric (Mann-Whitney U if larger n<=20 else Wilcoxon)"
-	print >> stdout,"p-val",
-	for x in range(0,len(plotData)):
-		print >> stdout,xtickLabels[x],
+					if minuslog10pvalue and str(pvalue)!="NA":
+						try:
+							pvalue=-1*log(pvalue,10)
+						except:
+							pvalue=-1000.0
 	
-
-	pvalueM=[]
-
-	print >> stdout,""
-	for x in range(0,len(plotData)):
-		pvalueRow=[]
-		pvalueM.append(pvalueRow)
-		print >> stdout, xtickLabels[x],
-		for y in range(0,len(plotData)):
-			if y<=x:
-				print >> stdout, "",
-				if x==y:
-					if minuslog10pvalue:
-						pvalueRow.append(0.0)
+	
+					print >> stdout,pvalue, #mann-whiteney need to mul by 2 (one tail to two tail)
+					pvalueRow.append(pvalue)
+					#else:
+					#	print >>  stdout,wilcoxon(plotData[x],plotData[y])[1], # this is two-tailed already stdout, "", #
+			print >> stdout,"";	
+	
+		if outXYZPvalues:
+			writeXYZPvalues(outXYZPvalues+"_U.xyz",xtickLabels,pvalueM)
+		
+	
+		if plotPvalueCluster:
+			makePValueRawPlot(outputClusterPrefix+"_U_raw",xtickLabels,pvalueM)
+			makePValueClusterPlot(outputClusterPrefix+"_U",xtickLabels,pvalueM,methodCluster)
+		
+		#####now the variance tests
+		
+		print >> stdout,""
+		print >> stdout,"Ansari-Bradley Two-sample Test for difference in scale parameters " 
+		print >> stdout,"p-val",
+		
+		
+		for x in range(0,len(plotData)):
+			print >> stdout,xtickLabels[x],
+		
+	
+		pvalueM=[]
+	
+		print >> stdout,""
+		for x in range(0,len(plotData)):
+			pvalueRow=[]
+			pvalueM.append(pvalueRow)
+			print >> stdout, xtickLabels[x],
+			for y in range(0,len(plotData)):
+				if y<=x:
+					print >> stdout, "",
+					if x==y:
+						if minuslog10pvalue:
+							pvalueRow.append(0.0)
+						else:
+							pvalueRow.append(1.0)
 					else:
-						pvalueRow.append(1.0)
+						pvalueRow.append(pvalueM[y][x])
 				else:
-					pvalueRow.append(pvalueM[y][x])
-			else:
-				#if max(len(plotData[x]),len(plotData[y]))<=20:
-				try:
-					pvalue=mannwhitneyu(plotData[x],plotData[y])[1]*2				
-				except:
-					pvalue=1.0
-
-				if minuslog10pvalue and str(pvalue)!="NA":
+					#if max(len(plotData[x]),len(plotData[y]))<=20:
 					try:
-						pvalue=-1*log(pvalue,10)
+						pvalue=ansari(plotData[x],plotData[y])[1]		
 					except:
-						pvalue=-1000.0
-
-
-				print >> stdout,pvalue, #mann-whiteney need to mul by 2 (one tail to two tail)
-				pvalueRow.append(pvalue)
-				#else:
-				#	print >>  stdout,wilcoxon(plotData[x],plotData[y])[1], # this is two-tailed already stdout, "", #
-		print >> stdout,"";	
-
-	if outXYZPvalues:
-		writeXYZPvalues(outXYZPvalues+"_U.xyz",xtickLabels,pvalueM)
+						pvalue="NA"
 	
-
-	if plotPvalueCluster:
-		makePValueRawPlot(outputClusterPrefix+"_U_raw",xtickLabels,pvalueM)
-		makePValueClusterPlot(outputClusterPrefix+"_U",xtickLabels,pvalueM,methodCluster)
-	
-	#####now the variance tests
-	
-	print >> stdout,""
-	print >> stdout,"Ansari-Bradley Two-sample Test for difference in scale parameters " 
-	print >> stdout,"p-val",
+					if minuslog10pvalue and str(pvalue)!="NA":
+						try:
+							pvalue=-1*log(pvalue,10)
+						except:
+							pvalue=-1000.0
 	
 	
-	for x in range(0,len(plotData)):
-		print >> stdout,xtickLabels[x],
+						#pvalue=1.0
+					print >> stdout,pvalue,
+					pvalueRow.append(pvalue)
+					#else:
+					#	print >>  stdout,wilcoxon(plotData[x],plotData[y])[1], # this is two-tailed already stdout, "", #
+			print >> stdout,"";	
+		
+		if plotPvalueCluster:
+			makePValueRawPlot(outputClusterPrefix+"_Ansari_raw",xtickLabels,pvalueM)
+			makePValueClusterPlot(outputClusterPrefix+"_Ansari",xtickLabels,pvalueM,methodCluster)	
+		
+		
+		#####
 	
-
-	pvalueM=[]
-
-	print >> stdout,""
-	for x in range(0,len(plotData)):
-		pvalueRow=[]
-		pvalueM.append(pvalueRow)
-		print >> stdout, xtickLabels[x],
-		for y in range(0,len(plotData)):
-			if y<=x:
-				print >> stdout, "",
-				if x==y:
-					if minuslog10pvalue:
-						pvalueRow.append(0.0)
+		#####now the variance tests
+		
+		print >> stdout,""
+		print >> stdout,"Fligner's Two-sample Test for equal variance (non-parametrics)" 
+		print >> stdout,"p-val",
+		
+		
+		for x in range(0,len(plotData)):
+			print >> stdout,xtickLabels[x],
+		
+	
+		pvalueM=[]
+	
+		print >> stdout,""
+		for x in range(0,len(plotData)):
+			pvalueRow=[]
+			pvalueM.append(pvalueRow)
+			print >> stdout, xtickLabels[x],
+			for y in range(0,len(plotData)):
+				if y<=x:
+					print >> stdout, "",
+					if x==y:
+						if minuslog10pvalue:
+							pvalueRow.append(0.0)
+						else:
+							pvalueRow.append(1.0)
 					else:
-						pvalueRow.append(1.0)
+						pvalueRow.append(pvalueM[y][x])
 				else:
-					pvalueRow.append(pvalueM[y][x])
-			else:
-				#if max(len(plotData[x]),len(plotData[y]))<=20:
-				try:
-					pvalue=ansari(plotData[x],plotData[y])[1]		
-				except:
-					pvalue="NA"
-
-				if minuslog10pvalue and str(pvalue)!="NA":
+					#if max(len(plotData[x]),len(plotData[y]))<=20:
 					try:
-						pvalue=-1*log(pvalue,10)
+						pvalue=fligner(plotData[x],plotData[y])[1]		
 					except:
-						pvalue=-1000.0
-
-
-					#pvalue=1.0
-				print >> stdout,pvalue,
-				pvalueRow.append(pvalue)
-				#else:
-				#	print >>  stdout,wilcoxon(plotData[x],plotData[y])[1], # this is two-tailed already stdout, "", #
-		print >> stdout,"";	
-	
-	if plotPvalueCluster:
-		makePValueRawPlot(outputClusterPrefix+"_Ansari_raw",xtickLabels,pvalueM)
-		makePValueClusterPlot(outputClusterPrefix+"_Ansari",xtickLabels,pvalueM,methodCluster)	
+						pvalue="NA"
+						#pvalue=1.0
+						
+					if minuslog10pvalue and str(pvalue)!="NA":
+						try:
+							pvalue=-1*log(pvalue,10)
+						except:
+							pvalue=-1000.0
 	
 	
-	#####
-
-	#####now the variance tests
+					print >> stdout,pvalue,
+					pvalueRow.append(pvalue)
+					#else:
+					#	print >>  stdout,wilcoxon(plotData[x],plotData[y])[1], # this is two-tailed already stdout, "", #
+			print >> stdout,"";	
+		
+		if plotPvalueCluster:
+			makePValueRawPlot(outputClusterPrefix+"_fligner_raw",xtickLabels,pvalueM)
+			makePValueClusterPlot(outputClusterPrefix+"_fligner",xtickLabels,pvalueM,methodCluster)	
+		
+		
+		#####
 	
-	print >> stdout,""
-	print >> stdout,"Fligner's Two-sample Test for equal variance (non-parametrics)" 
-	print >> stdout,"p-val",
+		#####now the variance tests
+		
+		print >> stdout,""
+		print >> stdout,"Levene's Two-sample Test for equal variance" 
+		print >> stdout,"p-val",
+		
+		
+		for x in range(0,len(plotData)):
+			print >> stdout,xtickLabels[x],
+		
 	
+		pvalueM=[]
 	
-	for x in range(0,len(plotData)):
-		print >> stdout,xtickLabels[x],
-	
-
-	pvalueM=[]
-
-	print >> stdout,""
-	for x in range(0,len(plotData)):
-		pvalueRow=[]
-		pvalueM.append(pvalueRow)
-		print >> stdout, xtickLabels[x],
-		for y in range(0,len(plotData)):
-			if y<=x:
-				print >> stdout, "",
-				if x==y:
-					if minuslog10pvalue:
-						pvalueRow.append(0.0)
+		print >> stdout,""
+		for x in range(0,len(plotData)):
+			pvalueRow=[]
+			pvalueM.append(pvalueRow)
+			print >> stdout, xtickLabels[x],
+			for y in range(0,len(plotData)):
+				if y<=x:
+					print >> stdout, "",
+					if x==y:
+						if minuslog10pvalue:
+							pvalueRow.append(0.0)
+						else:
+							pvalueRow.append(1.0)
 					else:
-						pvalueRow.append(1.0)
+						pvalueRow.append(pvalueM[y][x])
 				else:
-					pvalueRow.append(pvalueM[y][x])
-			else:
-				#if max(len(plotData[x]),len(plotData[y]))<=20:
-				try:
-					pvalue=fligner(plotData[x],plotData[y])[1]		
-				except:
-					pvalue="NA"
-					#pvalue=1.0
-					
-				if minuslog10pvalue and str(pvalue)!="NA":
+					#if max(len(plotData[x]),len(plotData[y]))<=20:
 					try:
-						pvalue=-1*log(pvalue,10)
+						pvalue=levene(plotData[x],plotData[y])[1]		
 					except:
-						pvalue=-1000.0
-
-
-				print >> stdout,pvalue,
-				pvalueRow.append(pvalue)
-				#else:
-				#	print >>  stdout,wilcoxon(plotData[x],plotData[y])[1], # this is two-tailed already stdout, "", #
-		print >> stdout,"";	
-	
-	if plotPvalueCluster:
-		makePValueRawPlot(outputClusterPrefix+"_fligner_raw",xtickLabels,pvalueM)
-		makePValueClusterPlot(outputClusterPrefix+"_fligner",xtickLabels,pvalueM,methodCluster)	
+						pvalue="NA"
+						#pvalue=1.0
+						
+					if minuslog10pvalue and str(pvalue)!="NA":
+						try:
+							pvalue=-1*log(pvalue,10)
+						except:
+							pvalue=-1000.0
 	
 	
-	#####
-
-	#####now the variance tests
+					print >> stdout,pvalue,
+					pvalueRow.append(pvalue)
+					#else:
+					#	print >>  stdout,wilcoxon(plotData[x],plotData[y])[1], # this is two-tailed already stdout, "", #
+			print >> stdout,"";	
+		
+		if plotPvalueCluster:
+			makePValueRawPlot(outputClusterPrefix+"_levene_raw",xtickLabels,pvalueM)
+			makePValueClusterPlot(outputClusterPrefix+"_levene",xtickLabels,pvalueM,methodCluster)	
+		
+		
+		#####
 	
-	print >> stdout,""
-	print >> stdout,"Levene's Two-sample Test for equal variance" 
-	print >> stdout,"p-val",
+		#####now the variance tests
+		
+		print >> stdout,""
+		print >> stdout,"Bartlett's Two-sample Test for equal variance (for normal distributions)" 
+		print >> stdout,"p-val",
+		
+		
+		for x in range(0,len(plotData)):
+			print >> stdout,xtickLabels[x],
+		
 	
+		pvalueM=[]
 	
-	for x in range(0,len(plotData)):
-		print >> stdout,xtickLabels[x],
-	
-
-	pvalueM=[]
-
-	print >> stdout,""
-	for x in range(0,len(plotData)):
-		pvalueRow=[]
-		pvalueM.append(pvalueRow)
-		print >> stdout, xtickLabels[x],
-		for y in range(0,len(plotData)):
-			if y<=x:
-				print >> stdout, "",
-				if x==y:
-					if minuslog10pvalue:
-						pvalueRow.append(0.0)
+		print >> stdout,""
+		for x in range(0,len(plotData)):
+			pvalueRow=[]
+			pvalueM.append(pvalueRow)
+			print >> stdout, xtickLabels[x],
+			for y in range(0,len(plotData)):
+				if y<=x:
+					print >> stdout, "",
+					if x==y:
+						if minuslog10pvalue:
+							pvalueRow.append(0.0)
+						else:
+							pvalueRow.append(1.0)
 					else:
-						pvalueRow.append(1.0)
+						pvalueRow.append(pvalueM[y][x])
 				else:
-					pvalueRow.append(pvalueM[y][x])
-			else:
-				#if max(len(plotData[x]),len(plotData[y]))<=20:
-				try:
-					pvalue=levene(plotData[x],plotData[y])[1]		
-				except:
-					pvalue="NA"
-					#pvalue=1.0
-					
-				if minuslog10pvalue and str(pvalue)!="NA":
+					#if max(len(plotData[x]),len(plotData[y]))<=20:
 					try:
-						pvalue=-1*log(pvalue,10)
+						pvalue=bartlett(plotData[x],plotData[y])[1]		
 					except:
-						pvalue=-1000.0
-
-
-				print >> stdout,pvalue,
-				pvalueRow.append(pvalue)
-				#else:
-				#	print >>  stdout,wilcoxon(plotData[x],plotData[y])[1], # this is two-tailed already stdout, "", #
-		print >> stdout,"";	
+						pvalue="NA"
+						#pvalue=1.0
 	
-	if plotPvalueCluster:
-		makePValueRawPlot(outputClusterPrefix+"_levene_raw",xtickLabels,pvalueM)
-		makePValueClusterPlot(outputClusterPrefix+"_levene",xtickLabels,pvalueM,methodCluster)	
+					if minuslog10pvalue and str(pvalue)!="NA":
+						try:
+							pvalue=-1*log(pvalue,10)
+						except:
+							pvalue=-1000.0
 	
 	
-	#####
-
-	#####now the variance tests
-	
-	print >> stdout,""
-	print >> stdout,"Bartlett's Two-sample Test for equal variance (for normal distributions)" 
-	print >> stdout,"p-val",
-	
-	
-	for x in range(0,len(plotData)):
-		print >> stdout,xtickLabels[x],
-	
-
-	pvalueM=[]
-
-	print >> stdout,""
-	for x in range(0,len(plotData)):
-		pvalueRow=[]
-		pvalueM.append(pvalueRow)
-		print >> stdout, xtickLabels[x],
-		for y in range(0,len(plotData)):
-			if y<=x:
-				print >> stdout, "",
-				if x==y:
-					if minuslog10pvalue:
-						pvalueRow.append(0.0)
-					else:
-						pvalueRow.append(1.0)
-				else:
-					pvalueRow.append(pvalueM[y][x])
-			else:
-				#if max(len(plotData[x]),len(plotData[y]))<=20:
-				try:
-					pvalue=bartlett(plotData[x],plotData[y])[1]		
-				except:
-					pvalue="NA"
-					#pvalue=1.0
-
-				if minuslog10pvalue and str(pvalue)!="NA":
-					try:
-						pvalue=-1*log(pvalue,10)
-					except:
-						pvalue=-1000.0
-
-
-				print >> stdout,pvalue,
-				pvalueRow.append(pvalue)
-				#else:
-				#	print >>  stdout,wilcoxon(plotData[x],plotData[y])[1], # this is two-tailed already stdout, "", #
-		print >> stdout,"";	
-	
-	if plotPvalueCluster:
-		makePValueRawPlot(outputClusterPrefix+"_bartlett_raw",xtickLabels,pvalueM)
-		makePValueClusterPlot(outputClusterPrefix+"_bartlett",xtickLabels,pvalueM,methodCluster)	
-	
-	
-	#####
+					print >> stdout,pvalue,
+					pvalueRow.append(pvalue)
+					#else:
+					#	print >>  stdout,wilcoxon(plotData[x],plotData[y])[1], # this is two-tailed already stdout, "", #
+			print >> stdout,"";	
+		
+		if plotPvalueCluster:
+			makePValueRawPlot(outputClusterPrefix+"_bartlett_raw",xtickLabels,pvalueM)
+			makePValueClusterPlot(outputClusterPrefix+"_bartlett",xtickLabels,pvalueM,methodCluster)	
+		
+		
+		#####
 
 	figure(figsize=figsz)
 	subplots_adjust(top=0.9, bottom=botta, left=0.2, right=0.8)
@@ -1117,19 +1128,24 @@ def usageExit(programName):
 	print >> stderr,"--data-summary-stat-range min,max only consider data within the range min and max for doing summary stat table. Use NA to say no bound for each of the bounds"
 	print >> stderr,"--min-num-data-to-keep. set the minimal number of datapoints per col to keep. [2]"
 	print >> stderr,"--outXYZPvalues prefix. Write pvalues for statistics in the form of xyz format"
+	print >> stderr,"--ylims miny,maxy set min and max y to plot"
+	print >> stderr,"--whisker-style linestyle. set whisker line style, e.g., - for solid line"
+	print >> stderr,"--axhline y,linestyle,color draw horizontal line"
+	print >> stderr,"--skip-stat"
 	print >> stderr, "from PyCluster (see http://www.biopython.org/DIST/docs/api/Bio.Cluster.Record-class.html#treecluster)"
 	print >> stderr, "method   : specifies which linkage method is used:"
 	print >> stderr, "           method=='s': Single pairwise linkage"
 	print >> stderr, "           method=='m': Complete (maximum) pairwise linkage (default)"
 	print >> stderr, "           method=='c': Centroid linkage"
 	print >> stderr, "           method=='a': Average pairwise linkage"
+	
 	explainColumns(stderr)
 
 	sys.exit()
 
 if __name__=='__main__':
 	programName=argv[0]
-	optlist,args=getopt(argv[1:],'t:F:d:r:s:pmn',['fs=','headerRow=','startRow=','showIndPoints','showMean','notch','offWhisker','offOutliers','pvalue-cluster-as=','pvalue-cluster-method=','xtick-rotation=','xlabel=','ylabel=','figsize=','title=','show-sample-sizes','trim-to-min-size','relabel-as=','plot-hist=','plot-median-for-group=','log=','bottom=','hide-violin','hide-box','plot-trend','first-col-annot','show-legend','out-pzfx=','pzfx-tableref-id=','out-bin-matrix=','write-data-summary-stat=','data-summary-stat-range=','minus-log10-pvalue','min-num-data-to-keep=','valpha=','vfacecolor=',"outXYZPvalues="])
+	optlist,args=getopt(argv[1:],'t:F:d:r:s:pmn',['fs=','headerRow=','startRow=','showIndPoints','showMean','notch','offWhisker','offOutliers','pvalue-cluster-as=','pvalue-cluster-method=','xtick-rotation=','xlabel=','ylabel=','figsize=','title=','show-sample-sizes','trim-to-min-size','relabel-as=','plot-hist=','plot-median-for-group=','log=','bottom=','hide-violin','hide-box','plot-trend','first-col-annot','show-legend','out-pzfx=','pzfx-tableref-id=','out-bin-matrix=','write-data-summary-stat=','data-summary-stat-range=','minus-log10-pvalue','min-num-data-to-keep=','valpha=','vfacecolor=',"outXYZPvalues=",'ylims=','whisker-style=','axhline=','skip-stat'])
 
 	headerRow=1
 	startRow=2
@@ -1173,7 +1189,10 @@ if __name__=='__main__':
 	vfacecolor='y'
 	valpha=1.0 #0.3
 	outXYZPvalues=None
-	
+	ylims=None
+	axhlines=[]
+	whiskerStyle="--"
+	skipStat=False
 	#else:
 	try:
 		outputFile=args[0]
@@ -1276,6 +1295,18 @@ if __name__=='__main__':
 					valpha=vfacecolor[3]
 			elif a in ['--outXYZPvalues']:
 				outXYZPvalues=v
+			elif a in ['--ylims']:
+				
+				
+				yl=v.split(",")
+				ylims=[float(yl[0]),float(yl[1])]
+			elif a in ['--whisker-style']:
+				whiskerStyle=v
+			elif a in ['--axhline']:
+				v=v.split(",")
+				axhlines.append([float(v[0]),v[1],v[2]])
+			elif a in ['--skip-stat']:
+				skipStat=True
 	except:
 		traceback.print_stack()
 		usageExit(programName)

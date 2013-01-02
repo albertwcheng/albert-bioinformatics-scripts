@@ -7,8 +7,7 @@ from math import *
 from types import *
 from numpy import *
 
-'''
-def mean( *arguments ):
+def MEAN( *arguments ):
 	_count=0
 	_sum=0.0
 	for argument in arguments:
@@ -20,7 +19,11 @@ def mean( *arguments ):
 			_count+=1
 		
 	return _sum/_count
-'''
+	
+
+
+def ITEM(L,i):
+	return L[i]
 
 def log2(x):
 	return log(x,2)
@@ -62,6 +65,7 @@ def printUsageAndExit(programName):
 	print >> stderr,"SYSTEMVAR:"
 	print >> stderr,"FNR current line number"
 	print >> stderr,"LINE current whole line content"
+	print >> stderr,"ITEM(L,i) return L[i]"
 	print >> stderr,"Extended Functions:"
 	print >> stderr,"COUNTER(x) update and return the count for value x. Example COUNTER([1])==1 will print only the first row for each uniq value at column 1 producing a uniq operation on column 1 retaining order"
 	

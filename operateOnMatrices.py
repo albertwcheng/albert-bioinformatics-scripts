@@ -13,11 +13,12 @@ def printUsageAndExit(programName):
 	print >> stderr,"Variables:"
 	print >> stderr,"ROW:current row number based 1"
 	print >> stderr,"COL:current col number based 1"
-	print >> stderr,"HEADERS[i]:header array based 0"
-	print >> stderr,"FIELDS[i]:current field array based 0"
-	print >> stderr,"ROWNAME[i]:FIELDS[i][0]"
-	print >> stderr,"COLNAME[i]:HEADERS[i][COL-1]"
-	print >> stderr,"X[i]:current field FIELDS[i][COL-1]"
+	print >> stderr,"with i being the (i+1)th matrix:"
+	print >> stderr,"\tHEADERS[i]:header array based 0"
+	print >> stderr,"\tFIELDS[i]:current field array based 0"
+	print >> stderr,"\tROWNAME[i]:FIELDS[i][0]"
+	print >> stderr,"\tCOLNAME[i]:HEADERS[i][COL-1]"
+	print >> stderr,"\tX[i]:current field FIELDS[i][COL-1]"
 	explainColumns(stderr)
 	exit(1)
 

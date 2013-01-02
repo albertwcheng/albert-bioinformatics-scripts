@@ -25,7 +25,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 
 '''
-
+from math import *
 from sys import stdout, argv
 print >> stdout, eval(argv[1])
 
