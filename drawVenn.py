@@ -8,6 +8,8 @@ from pygooglechart import VennChart
 from types import *
 from sys import *
 from os.path import basename
+import fisher
+
 def twodigithex(I):
 	hexString=hex(I)
 	if hexString[0:2]!="0x":
@@ -20,7 +22,7 @@ def twodigithex(I):
 	return hexString.upper()
 	
 
-def drawTwoVenn(set1,set2,intersect,width,height,outfile,title=None,legend=None,indicateNumberInLegend=False,colors=None,htmlReport=None):
+def drawTwoVenn(set1,set2,intersect,width,height,outfile,fisherU=None,title=None,legend=None,indicateNumberInLegend=False,colors=None,htmlReport=None):
 	chart=VennChart(width,height)
 	chart.add_data([set1,set2,0,intersect])
 	if title:
@@ -53,6 +55,25 @@ def drawTwoVenn(set1,set2,intersect,width,height,outfile,title=None,legend=None,
 	
 	chart.download(outfile)
 	
+	if fisherU:
+		#build a contingency table 2x2
+		
+		box1=intersect
+		box2=set2-intersect
+		box3=set2
+		box6=fisherU-set2
+		box7=set1
+		box8=fisherU-set1
+		box9=fisherU
+		box4=set1-intersect
+		box5=fisherU-set1-set2+intersect
+		
+		fisher_pvalues=fisher.pvalue(box1,box2,box4,box5)
+		
+		expectedIntersect=round(float(set1)*set2/fisherU)
+		
+	
+	
 	if htmlReport:
 		if not title:
 			title=""
@@ -60,7 +81,13 @@ def drawTwoVenn(set1,set2,intersect,width,height,outfile,title=None,legend=None,
 			legend=["set1","set2"]
 			
 		fout = open(htmlReport,"w")
-		print >> fout, '<html><head><title>%s</title></head><body><h1>%s</h1><table width=%d><tr><td colspan=2><img src="%s"></td></tr><tr bgcolor="#AAAAAA"><td>%s</td><td>%d</td></tr><tr><td>%s</td><td>%d</td></tr> <tr bgcolor="#AAAAAA">  <td>%s only</td><td>%d</td></tr> <tr><td>%s only</td><td>%d</td></tr> <tr bgcolor="#AAAAAA"> <td>%s &#x2229; %s</td><td>%d</td></tr> </body></html>' %(title,title,width,basename(outfile),legend[0],set1,legend[1],set2,legend[0],set1-intersect,legend[1],set2-intersect,legend[0],legend[1],intersect)
+		print >> fout, '<html><head><title>%s</title></head><body><h1>%s</h1><table width=%d><tr><td colspan=2><img src="%s"></td></tr><tr bgcolor="#AAAAAA"><td>%s</td><td>%d</td></tr><tr><td>%s</td><td>%d</td></tr> <tr bgcolor="#AAAAAA">  <td>%s only</td><td>%d</td></tr> <tr><td>%s only</td><td>%d</td></tr> <tr bgcolor="#AAAAAA"> <td>%s &#x2229; %s</td><td>%d</td></tr>   ' %(title,title,width,basename(outfile),legend[0],set1,legend[1],set2,legend[0],set1-intersect,legend[1],set2-intersect,legend[0],legend[1],intersect)
+		
+		
+		if fisherU:
+			print >> fout, '<tr><td>Universe</td><td>%d</td></tr> <tr bgcolor="#AAAAAA"> <td>E[%s &#x2229; %s]</td><td>%d</td></tr> <tr><td>dnrichment p-value</td><td>%g</td></tr> <tr bgcolor="#AAAAAA"> <td>depletion p-value</td><td>%g</td></tr>' %(fisherU,legend[0],legend[1],expectedIntersect,fisher_pvalues.right_tail,fisher_pvalues.left_tail)
+		
+		print >> fout, '</body></html>'
 		fout.close()
 
 def drawThreeVenn(set1,set2,set3,set1set2Intersect,set1set3Intersect,set2set3Intersect,allIntersect,width,height,outfile,title=None,legend=None,indicateNumberInLegend=False,colors=None,htmlReport=None):

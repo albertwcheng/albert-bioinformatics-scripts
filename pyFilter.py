@@ -183,7 +183,7 @@ if __name__=="__main__":
 			try:
 				logicResult=eval(compiledLogics)
 			except:
-				print >> stderr,"logic error at line "+str(lino)+":"+str(fields)
+				print >> stderr,"logic error at line "+str(lino)+":"+str(fields),compiledLogics
 				exit()
 		else:
 			#logicResult=True

@@ -44,6 +44,7 @@ def printUsageAndExit(programName):
 	print >> stderr,"--usebasename use basename of filenames as label and outcombination infices"
 	print >> stderr,"--remove-ext remove the file extension as label and outcombination infice"
 	print >> stderr,"--draw-venn draw venn report for 3 files (3-venn) or 2 files(2-venn). Other number of files not supported"
+	print >> stderr,"--draw-venn-fisher-U USize. Set the universe size for fisher exact test when --draw-venn-option is on"
 	exit()
 
 def fillListInPlace(L,length,element):
@@ -73,11 +74,11 @@ if __name__=='__main__':
 	contentName="content"
 	useBaseName=False
 	drawVenns=False
-	
+	fisherU=None
 	
 	try:
 		#'remove-ext-on-stdout-labels',
-		opts,args=getopt(argv[1:],'',['headerFrom1To=','outcombination=','suppress-stat','name-content=','maxcountTo1','usebasename','remove-ext','draw-venn'])
+		opts,args=getopt(argv[1:],'',['headerFrom1To=','outcombination=','suppress-stat','name-content=','maxcountTo1','usebasename','remove-ext','draw-venn','draw-venn-fisher-U='])
 		for o,v in opts:
 			if o=='--headerFrom1To':
 				headerFrom1To=int(v)
@@ -95,6 +96,8 @@ if __name__=='__main__':
 				useBaseName=True
 			elif o=='--draw-venn':
 				drawVenns=True
+			elif o=='--draw-venn-fisher-U':
+				fisherU=int(v)
 
 		filenames=args
 	except:
@@ -243,7 +246,7 @@ if __name__=='__main__':
 			a_num=a_only_num+a_b_num
 			b_num=b_only_num+a_b_num
 			
-			drawTwoVenn(a_num,b_num,a_b_num,300,200,outcombination[0]+labels[0]+"_"+labels[1]+".venn.png",labels[0]+" and "+labels[1],[labels[0],labels[1]],True,[[255,0,0],[0,0,255]],outcombination[0]+labels[0]+"_"+labels[1]+".venn.htm")
+			drawTwoVenn(a_num,b_num,a_b_num,300,200,outcombination[0]+labels[0]+"_"+labels[1]+".venn.png",fisherU,labels[0]+" and "+labels[1],[labels[0],labels[1]],True,[[255,0,0],[0,0,255]],outcombination[0]+labels[0]+"_"+labels[1]+".venn.htm")
 		elif len(labels)==3:
 			print >> stderr,"Warning:3-venn can give unknown strange result"
 			a_name=outcombination[0]+("_".join(getSubvector(labels,[0],True)))+outcombination[1]
