@@ -14,7 +14,7 @@ def getOutFileName(outprefix,outsuffix,keys,fnjoiner):
 	
 if __name__=='__main__':
 	programName=argv[0]
-	opts,args=getopt(argv[1:],'',['fnjoiner='])
+	opts,args=getopt(argv[1:],'',['fnjoiner=','startRow=','headerRow='])
 	fnJoiner="_"
 	
 	startRow=2
@@ -24,7 +24,10 @@ if __name__=='__main__':
 	for o,v in opts:
 		if o=='--fnjoiner':
 			fnJoiner=v
-	
+		elif o=='--startRow':
+			startRow=int(v)
+		elif o=='--headerRow':
+			headerRow=int(v)
 	try:
 		filename,outprefix,outsuffix,cols=args
 	except:
@@ -35,6 +38,8 @@ if __name__=='__main__':
 	cols=getCol0ListFromCol1ListStringAdv(header,cols)
 	
 	seen=set()
+	fhandles=dict()
+	
 	
 	fil=open(filename)
 	
@@ -58,16 +63,19 @@ if __name__=='__main__':
 			ofil=open(outname,"w")
 			for prestart in prestarts:
 				print >> ofil,fs.join(prestart)
-		
+			fhandles[outname]=ofil
 		else:
-			ofil=open(outname,"a")
+			#ofil=open(outname,"a")
+			ofil=fhandles[outname]
 		
 		print >> ofil,lin
 			
-		ofil.close()
+		#ofil.close()
 		
 			
 		
 	fil.close()
 	
+	for outname,ofil in fhandles.items():
+		ofil.close()
 	

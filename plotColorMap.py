@@ -177,6 +177,10 @@ def plotColorMatrix(infile,figFileName,options):
 	if options.dataRange:
 		vminToDraw=float(options.dataRange[0])
 		vmaxToDraw=float(options.dataRange[1])
+	elif options.balance0:
+		maxabs=max(fabs(minval),fabs(maxval))
+		vminToDraw=-maxabs
+		vmaxToDraw=maxabs
 	else:
 		vminToDraw=minval
 		vmaxToDraw=maxval
@@ -186,7 +190,7 @@ def plotColorMatrix(infile,figFileName,options):
 	im=matshow(array(values),cmap=plt.get_cmap(options.colormapName),vmin=vminToDraw,vmax=vmaxToDraw)
 	
 
-
+	#im.axes.xaxis.set_label("hello")
 
 	for label in im.axes.xaxis.get_ticklabels():
 		label.set_rotation(options.xtickRotation)
@@ -255,6 +259,12 @@ def plotColorMatrix(infile,figFileName,options):
 	shrink=1.0/(max(fw,fh)/6.0*2.0)
 		
 	colorbar(shrink=shrink)
+	
+	if options.xlabel:
+		xlabel(options.xlabel)
+	if options.ylabel:
+		ylabel(options.ylabel)
+		
 	savefig(figFileName)
 	
 
@@ -326,9 +336,15 @@ def plotColorMatrixWithAllColorMaps(infile,figFileNameIn,options):
 	if options.dataRange:
 		vminToDraw=float(options.dataRange[0])
 		vmaxToDraw=float(options.dataRange[1])
+	elif options.balance0:
+		maxabs=max(fabs(minval),fabs(maxval))
+		vminToDraw=-maxabs
+		vmaxToDraw=maxabs
 	else:
 		vminToDraw=minval
 		vmaxToDraw=maxval
+	
+	
 	
 	maps = plt.cm.datad 
 	
@@ -340,7 +356,7 @@ def plotColorMatrixWithAllColorMaps(infile,figFileNameIn,options):
 		im=matshow(array(values),cmap=plt.get_cmap(curcm),vmin=vminToDraw,vmax=vmaxToDraw)
 		
 	
-	
+		im.axes.xaxis.set_xlabel("hello")
 	
 		for label in im.axes.xaxis.get_ticklabels():
 			label.set_rotation(options.xtickRotation)
@@ -409,6 +425,12 @@ def plotColorMatrixWithAllColorMaps(infile,figFileNameIn,options):
 		shrink=1.0/(max(fw,fh)/6.0*2.0)
 			
 		colorbar(shrink=shrink)
+		
+		if options.xlabel:
+			xlabel(options.xlabel)
+		if options.ylabel:
+			ylabel(options.ylabel)
+		
 		savefig(figFileName)
 	
 
@@ -433,6 +455,9 @@ if __name__=='__main__':
 	parser.add_option('--suffix-files',dest="suffixFiles",default=".pdf",help="set the suffix (including the format) of output figures when using sample all color maps option [default: pdf]")
 	parser.add_option('--normalize-row-to-sum-of',dest="normalizeRowToSumOf",type=float,default=0.0,help="normalize rows to sum of x")
 	parser.add_option('--normalize-row-to-max-of',dest="normalizeRowToMaxOf",type=float,default=0.0,help="normalize row max to x")
+	parser.add_option('--balance-color-at-zero',dest="balance0",default=False, action="store_true",help="center the color map to 0")
+	parser.add_option('--xlabel',dest="xlabel",default=None,help="set x label")
+	parser.add_option("--ylabel",dest="ylabel",default=None,help="set y label")
 	
 	(options, args) = parser.parse_args(argv)
 	

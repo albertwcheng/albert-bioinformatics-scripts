@@ -45,10 +45,35 @@ import traceback
 import numpy
 from math import log
 
+def divideDataPerCols(data,thresholds):  # [||]
+	dividedDataMain=[]
+	lent=len(thresholds)
+	for i in range(0,lent+1):
+		dividedDataMain.append([])
+	
+	for i in range(0,len(data)):	#go thru the columns	
+		curCol=data[i]
+		for j in range(0,len(thresholds)+1):
+			dividedDataMain[j].append([])
+		
+		for x in curCol:
+			#now classifies
+			k=-1
+			if x<thresholds[0]:
+				k=0
+			elif x>=thresholds[lent-1]:
+				k=lent
+			else:
+				for j in range(0,lent-1):
+					if x>=thresholds[j] and x<thresholds[j+1]:
+						k=j+1
+						
+					
+			dividedDataMain[k][i].append(x)
 
-
-
-def plotExpBox(data,xtickLabels,showIndPoints,mark,markMean,showMean,notch,whisker,outliers,xlegendrotation,xlabe,ylabe,titl,showSampleSizes,showViolin,showBox,annot,trendData,plotItemLegend,makePzfxFile,makeBinMatrix):
+	return dividedDataMain
+	
+def plotExpBox(data,xtickLabels,showIndPoints,mark,markMean,showMean,notch,whisker,outliers,xlegendrotation,xlabe,ylabe,titl,showSampleSizes,showViolin,showBox,annot,trendData,plotItemLegend,makePzfxFile,makeBinMatrix,dividePlots):
 	
 	#fig=plt.figure()
 	if plotItemLegend:
@@ -56,6 +81,8 @@ def plotExpBox(data,xtickLabels,showIndPoints,mark,markMean,showMean,notch,whisk
 		ax=subplot(121)
 	else:
 		ax=gca()
+		
+	
 	
 	prevHoldState=ishold()	
 	hold(True)
@@ -71,18 +98,38 @@ def plotExpBox(data,xtickLabels,showIndPoints,mark,markMean,showMean,notch,whisk
 		whisValue=1.5
 
 	for axhlin in axhlines:
-		axhline(axhlin[0],linestyle=axhlin[1],color=axhlin[2])
+		#print axhlin
+		linw=1
+		try:
+			linw=float(axhlin[3])
+		except:
+			pass
+		axhline(float(axhlin[0]),linestyle=axhlin[1],color=axhlin[2],linewidth=linw)
 
-
+	
+	if len(dividePlots)>0: #make divided matrices
+		dataDP=divideDataPerCols(data,dividePlots)
+	
 	##for i in range(0,len(data)):
 	##	print >> stderr,len(data[i])
 
 	if showBox:
-		boxplotted=ax.boxplot(data,notch,widths=0.5,sym=fliers,whis=whisValue)
-		whiskerlines=boxplotted["whiskers"]
-		for w in whiskerlines:
-			w.set_linestyle(whiskerStyle)
-			#w.set_linewidth(5)		
+		if len(dividePlots)==0:
+			boxplotted=ax.boxplot(data,notch,widths=0.5,sym=fliers,whis=whisValue)
+			#setp(boxplotted["boxes"],color="blue")
+			whiskerlines=boxplotted["whiskers"]
+			for w in whiskerlines:
+				w.set_linestyle(whiskerStyle)
+		else:
+			for datdp in dataDP:
+				boxplotted=ax.boxplot(datdp,notch,widths=0.5,sym=fliers,whis=whisValue)
+				#setp(boxplotted["boxes"],color="blue")
+				whiskerlines=boxplotted["whiskers"]
+				for w in whiskerlines:
+					w.set_linestyle(whiskerStyle)			
+	
+	
+	#w.set_linewidth(5)		
 	#print >> stderr,resultD
 	
 	maxMax=-10000000.0
@@ -127,25 +174,47 @@ def plotExpBox(data,xtickLabels,showIndPoints,mark,markMean,showMean,notch,whisk
 		
 		
 				
+
+		if showViolin:
+			if len(dividePlots)==0:
+				kernel=gaussian_kde(curCol)
+				kernel_min=kernel.dataset.min()
+				kernel_max=kernel.dataset.max()
+				violinx=arange(kernel_min,kernel_max,(kernel_max-kernel_min)/100.) 
+				violinv=kernel.evaluate(violinx)
+				violinv=violinv/violinv.max()*violinw
+				fill_betweenx(violinx,i+1,violinv+i+1,facecolor=vfacecolor,alpha=valpha) #'y', 0.3
+				fill_betweenx(violinx,i+1,-violinv+i+1,facecolor=vfacecolor,alpha=valpha)
+			else:
+				for j in range(0,len(dataDP)):
+					curcoldp=dataDP[j][i]
+					if len(curcoldp)<2:
+						continue
+					kernel=gaussian_kde(curcoldp)
+					kernel_min=kernel.dataset.min()
+					kernel_max=kernel.dataset.max()
+					violinx=arange(kernel_min,kernel_max,(kernel_max-kernel_min)/100.) 
+					violinv=kernel.evaluate(violinx)
+					violinv=violinv/violinv.max()*violinw
+					fill_betweenx(violinx,i+1,violinv+i+1,facecolor=vfacecolor,alpha=valpha) #'y', 0.3
+					fill_betweenx(violinx,i+1,-violinv+i+1,facecolor=vfacecolor,alpha=valpha)										
 		if showIndPoints:
 			plot([i+1]*len(curCol),curCol,mark)
-		if showViolin:
 			
-			kernel=gaussian_kde(curCol)
-			kernel_min=kernel.dataset.min()
-			kernel_max=kernel.dataset.max()
-			violinx=arange(kernel_min,kernel_max,(kernel_max-kernel_min)/100.) 
-			violinv=kernel.evaluate(violinx)
-			violinv=violinv/violinv.max()*violinw
-			fill_betweenx(violinx,i+1,violinv+i+1,facecolor=vfacecolor,alpha=valpha) #'y', 0.3
-			fill_betweenx(violinx,i+1,-violinv+i+1,facecolor=vfacecolor,alpha=valpha)						
-
 	if showSampleSizes:
-		for i in range(0,len(data)):
-			curCol=data[i]
-			text(i+1,maxMax*1.05,str(len(curCol)),horizontalalignment='center',verticalalignment='center',color='red')
-
-			
+		if len(dividePlots)==0:
+			for i in range(0,len(data)):
+				curCol=data[i]
+				text(i+1,maxMax*1.05,str(len(curCol)),horizontalalignment='center',verticalalignment='center',color='red')
+		else:
+			for i in range(0,len(data)):
+				thisL=[]
+				for j in range(0,len(dataDP)):
+					thisL.append(len(dataDP[j][i]))
+				
+				sumL=sum(thisL)
+				text(i+1,maxMax*1.05,"+".join([str(x) for x in thisL])+"="+str(sumL),horizontalalignment='center',verticalalignment='center',color='red')
+					
 	
 	
 	xticks( range(1,len(data)+1), xtickLabels , rotation=xlegendrotation)
@@ -171,6 +240,8 @@ def plotExpBox(data,xtickLabels,showIndPoints,mark,markMean,showMean,notch,whisk
 		ylim([ylims[0],ylims[1]])
 	else:
 		ylim([minMin-maxMax*0.1,maxMax*1.1])
+	
+	
 	
 	if plotItemLegend:
 		box=ax.get_position()
@@ -519,7 +590,7 @@ def writeXYZPvalues(filename,xtickLabels,pvalueM):
 def mean2(X):
 	return float(sum(X))/len(X)
 			
-def plotExpBox_Main(inputFiles,headers,valcols,outputFile,sep,startRow,showIndPoints,mark,markMean,showMean,notch,whisker,outliers,plotPvalueCluster,outputClusterPrefix,methodCluster,xlegendrotation,xlabe,ylabe,figsz,titl,showSampleSizes,trimToMinSize,relabels,logb,plotHistogramToFile,plotMedianForGroups,botta,showViolin,showBox,firstColAnnot,plotTrend,showLegend,makePzfxFile,makeBinMatrix,writeDataSummaryStat,summaryStatRange,minuslog10pvalue,minNDataToKeep,vfacecolor,valpha,outXYZPvalues):
+def plotExpBox_Main(inputFiles,headers,valcols,outputFile,sep,startRow,showIndPoints,mark,markMean,showMean,notch,whisker,outliers,plotPvalueCluster,outputClusterPrefix,methodCluster,xlegendrotation,xlabe,ylabe,figsz,titl,showSampleSizes,trimToMinSize,relabels,logb,plotHistogramToFile,plotMedianForGroups,botta,showViolin,showBox,firstColAnnot,plotTrend,showLegend,makePzfxFile,makeBinMatrix,writeDataSummaryStat,summaryStatRange,minuslog10pvalue,minNDataToKeep,vfacecolor,valpha,outXYZPvalues,dividePlots):
 
 	#if plotPvalueCluster:
 		#if pvalue cluster is needed:
@@ -650,7 +721,7 @@ def plotExpBox_Main(inputFiles,headers,valcols,outputFile,sep,startRow,showIndPo
 
 	if not skipStat:
 		print >> stdout,"student t-test (1 sample; mean=0)"
-		print >> stdout,"sample","mean","p-val"
+		print >> stdout,"sample","mean","p-val","median"
 	
 		if writeDataSummaryStat:
 			fDSS=open(writeDataSummaryStat,"w")
@@ -659,9 +730,9 @@ def plotExpBox_Main(inputFiles,headers,valcols,outputFile,sep,startRow,showIndPo
 		for x in range(0,len(plotData)):
 			#print >> stderr, len(plotData[x])
 			try:
-				print >> stdout, xtickLabels[x],mean(plotData[x]),ttest_1samp(plotData[x],0)[1]
+				print >> stdout, xtickLabels[x],mean(plotData[x]),ttest_1samp(plotData[x],0)[1],median(plotData[x])
 			except:
-				print >> stdout, xtickLabels[x],"NA","NA"
+				print >> stdout, xtickLabels[x],mean(plotData[x]),"NA",median(plotData[x])
 			
 			if writeDataSummaryStat:
 				sumData,N,NIN,NBelow,NAbove=filterDataInRangeInclusive(plotData[x],summaryStatRange[0],summaryStatRange[1])
@@ -1074,7 +1145,7 @@ def plotExpBox_Main(inputFiles,headers,valcols,outputFile,sep,startRow,showIndPo
 		titl=outputFile
 
 
-	plotExpBox(plotData,xtickLabels,showIndPoints,mark,markMean,showMean,notch,whisker,outliers,xlegendrotation,xlabe,ylabe,titl,showSampleSizes,showViolin,showBox,annot,trendData,showLegend,makePzfxFile,makeBinMatrix)
+	plotExpBox(plotData,xtickLabels,showIndPoints,mark,markMean,showMean,notch,whisker,outliers,xlegendrotation,xlabe,ylabe,titl,showSampleSizes,showViolin,showBox,annot,trendData,showLegend,makePzfxFile,makeBinMatrix,dividePlots)
 	
 	#ylim([0,200])
 	for m in medianToDraw:
@@ -1132,6 +1203,7 @@ def usageExit(programName):
 	print >> stderr,"--whisker-style linestyle. set whisker line style, e.g., - for solid line"
 	print >> stderr,"--axhline y,linestyle,color draw horizontal line"
 	print >> stderr,"--skip-stat"
+	print >> stderr,"--divide-plots t1,t2,..  divide plots into subpopulations per column by thresholds t1,t2,...."
 	print >> stderr, "from PyCluster (see http://www.biopython.org/DIST/docs/api/Bio.Cluster.Record-class.html#treecluster)"
 	print >> stderr, "method   : specifies which linkage method is used:"
 	print >> stderr, "           method=='s': Single pairwise linkage"
@@ -1145,7 +1217,7 @@ def usageExit(programName):
 
 if __name__=='__main__':
 	programName=argv[0]
-	optlist,args=getopt(argv[1:],'t:F:d:r:s:pmn',['fs=','headerRow=','startRow=','showIndPoints','showMean','notch','offWhisker','offOutliers','pvalue-cluster-as=','pvalue-cluster-method=','xtick-rotation=','xlabel=','ylabel=','figsize=','title=','show-sample-sizes','trim-to-min-size','relabel-as=','plot-hist=','plot-median-for-group=','log=','bottom=','hide-violin','hide-box','plot-trend','first-col-annot','show-legend','out-pzfx=','pzfx-tableref-id=','out-bin-matrix=','write-data-summary-stat=','data-summary-stat-range=','minus-log10-pvalue','min-num-data-to-keep=','valpha=','vfacecolor=',"outXYZPvalues=",'ylims=','whisker-style=','axhline=','skip-stat'])
+	optlist,args=getopt(argv[1:],'t:F:d:r:s:pmn',['fs=','headerRow=','startRow=','showIndPoints','showMean','notch','offWhisker','offOutliers','pvalue-cluster-as=','pvalue-cluster-method=','xtick-rotation=','xlabel=','ylabel=','figsize=','title=','show-sample-sizes','trim-to-min-size','relabel-as=','plot-hist=','plot-median-for-group=','log=','bottom=','hide-violin','hide-box','plot-trend','first-col-annot','show-legend','out-pzfx=','pzfx-tableref-id=','out-bin-matrix=','write-data-summary-stat=','data-summary-stat-range=','minus-log10-pvalue','min-num-data-to-keep=','valpha=','vfacecolor=',"outXYZPvalues=",'ylims=','whisker-style=','axhline=','skip-stat','divide-plots='])
 
 	headerRow=1
 	startRow=2
@@ -1193,6 +1265,8 @@ if __name__=='__main__':
 	axhlines=[]
 	whiskerStyle="--"
 	skipStat=False
+	dividePlots=[]
+	
 	#else:
 	try:
 		outputFile=args[0]
@@ -1304,9 +1378,11 @@ if __name__=='__main__':
 				whiskerStyle=v
 			elif a in ['--axhline']:
 				v=v.split(",")
-				axhlines.append([float(v[0]),v[1],v[2]])
+				axhlines.append(v) #[float(v[0]),v[1],v[2]])
 			elif a in ['--skip-stat']:
 				skipStat=True
+			elif a in ['--divide-plots']:
+				dividePlots=[float(x) for x in v.split(",")]
 	except:
 		traceback.print_stack()
 		usageExit(programName)
@@ -1335,6 +1411,6 @@ if __name__=='__main__':
 	if makePzfxFile:
 		makePzfxFile+=[pzfxTableRefID]
 	
-	plotExpBox_Main(filenames,headers,valcols,outputFile,fs,startRow,showIndPoints,'b,','g--',showMean,notch,whisker,outliers,makePvalueClusters,pvalueClusterOutputPrefix,pvalueClusterMethod,xlegendrotation,xlabe,ylabe,figsz,titl,showSampleSizes,trimToMinSize,relabels,logb,plotHistogramToFile,plotMedianForGroups,botta,showViolin,showBox,firstColAnnot,plotTrend,showLegend,makePzfxFile,makeBinMatrix,writeDataSummaryStat,summaryStatRange,minuslog10pvalue,minNDataToKeep,vfacecolor,valpha,outXYZPvalues)	
+	plotExpBox_Main(filenames,headers,valcols,outputFile,fs,startRow,showIndPoints,'bo','g--',showMean,notch,whisker,outliers,makePvalueClusters,pvalueClusterOutputPrefix,pvalueClusterMethod,xlegendrotation,xlabe,ylabe,figsz,titl,showSampleSizes,trimToMinSize,relabels,logb,plotHistogramToFile,plotMedianForGroups,botta,showViolin,showBox,firstColAnnot,plotTrend,showLegend,makePzfxFile,makeBinMatrix,writeDataSummaryStat,summaryStatRange,minuslog10pvalue,minNDataToKeep,vfacecolor,valpha,outXYZPvalues,dividePlots)	
 		
 		

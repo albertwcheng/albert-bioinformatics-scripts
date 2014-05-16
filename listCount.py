@@ -45,6 +45,8 @@ def printUsageAndExit(programName):
 	print >> stderr,"--remove-ext remove the file extension as label and outcombination infice"
 	print >> stderr,"--draw-venn draw venn report for 3 files (3-venn) or 2 files(2-venn). Other number of files not supported"
 	print >> stderr,"--draw-venn-fisher-U USize. Set the universe size for fisher exact test when --draw-venn-option is on"
+	print >> stderr,"--columns cols. Only extract those columns from the files"
+	explainColumns(stderr)
 	exit()
 
 def fillListInPlace(L,length,element):
@@ -63,6 +65,25 @@ def removeExtension(filename):
 	return ".".join(filename.split(".")[:-1])
 
 
+def readlinesForColumns(filename,cols,fs):
+	headerRow=1
+	startRow=headerRow+1
+
+	header,prestarts=getHeader(filename,headerRow,startRow,fs)
+		
+	cols=getCol0ListFromCol1ListStringAdv(header,cols)
+	
+	lines=[]
+	
+	fil=open(filename)
+	for lin in fil:
+		lin=lin.rstrip("\r\n").split(fs)
+		
+		lines.append(fs.join(getSubvector(lin,cols))+"\r\n")
+	fil.close()
+	
+	return lines
+
 if __name__=='__main__':
 	programName=argv[0]
 	headerFrom1To=-1
@@ -75,12 +96,14 @@ if __name__=='__main__':
 	useBaseName=False
 	drawVenns=False
 	fisherU=None
+	columns=None
 	
 	try:
 		#'remove-ext-on-stdout-labels',
-		opts,args=getopt(argv[1:],'',['headerFrom1To=','outcombination=','suppress-stat','name-content=','maxcountTo1','usebasename','remove-ext','draw-venn','draw-venn-fisher-U='])
+		opts,args=getopt(argv[1:],'',['headerFrom1To=','outcombination=','suppress-stat','name-content=','maxcountTo1','usebasename','remove-ext','draw-venn','draw-venn-fisher-U=','columns='])
 		for o,v in opts:
 			if o=='--headerFrom1To':
+				
 				headerFrom1To=int(v)
 			elif o=='--outcombination':
 				outcombination=v.split(",")
@@ -98,7 +121,9 @@ if __name__=='__main__':
 				drawVenns=True
 			elif o=='--draw-venn-fisher-U':
 				fisherU=int(v)
-
+			elif o=='--columns':
+				columns=v
+				
 		filenames=args
 	except:
 		printUsageAndExit(programName)
@@ -145,9 +170,14 @@ if __name__=='__main__':
 		filename=filenames[filno]		
 		#print >> stderr,"reading file",filno,":",filename
 
-		fil=open(filename)
-		origlines=fil.readlines()
-		fil.close()
+		
+		if columns==None:
+			fil=open(filename)
+			origlines=fil.readlines()
+			fil.close()
+		else:
+			origlines=readlinesForColumns(filename,columns,"\t")
+		
 
 		if headerFrom1To>=0:
 			if firstFile:

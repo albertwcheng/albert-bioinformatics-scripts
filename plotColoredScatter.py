@@ -68,7 +68,7 @@ def toFloatArray(L):
 	
 	
 	
-def plotData(filename,attrMatrix,startRow,labelcol,xcol,ycol,fs,legendOut,suppressNAError):
+def plotData(filename,attrMatrix,startRow,labelcol,xcol,ycol,fs,legendOut,suppressNAError,onlyPlotGroup):
 	# !groupDivider	.
 	# !groupNameComponent	1-_1
 	# !hasGroup	no
@@ -199,10 +199,13 @@ def plotData(filename,attrMatrix,startRow,labelcol,xcol,ycol,fs,legendOut,suppre
 		if hasGroup:
 			#which group is this label?
 			labelon=label.split(groupDivider)
+			
 			groupName=groupDivider.join(getSubvector(labelon,getCol0ListFromCol1ListStringAdv(labelon,groupNameComponent)))
+			#print >> stderr,labelon,groupNameComponent,groupNamey
 			try:
 				groupLabels,groupX,groupY=groups[groupName]
 			except KeyError:
+				
 				groupLabels=[]
 				groupX=[]
 				groupY=[]
@@ -233,6 +236,10 @@ def plotData(filename,attrMatrix,startRow,labelcol,xcol,ycol,fs,legendOut,suppre
 			#print >> stderr,"plotting",groupName,groupData
 		except KeyError:
 			continue
+		
+		if len(onlyPlotGroup)>0 and groupName not in onlyPlotGroup:
+			#print >> stderr,groupName
+			continue
 			
 		groupLabels,groupX,groupY=groupData
 		markerStyle=getLevel2AttrWithDefaultValue(attrMatrix,groupName,"markerStyle",defaultMarkerStyle)
@@ -240,6 +247,8 @@ def plotData(filename,attrMatrix,startRow,labelcol,xcol,ycol,fs,legendOut,suppre
 		#for color, either rgbcolor or colormapcolor:
 		rgbacolor=getLevel2AttrWithDefaultValue(attrMatrix,groupName,"RGBAColor",None)
 		colormapcolor=getLevel2AttrWithDefaultValue(attrMatrix,groupName,"colorMapColor",None)
+		#if colormapcolor==None:
+		#	print >> stderr,"n:",groupName,attrMatrix
 		lineWidth=float(getLevel2AttrWithDefaultValue(attrMatrix,groupName,"lineWidth",defaultLineWidth))
 		markerSize=float(getLevel2AttrWithDefaultValue(attrMatrix,groupName,"markerSize",defaultMarkerSize))
 		showLabel=(getLevel2AttrWithDefaultValue(attrMatrix,groupName,"showLabel",defaultShowLabel).lower()=="yes")
@@ -292,6 +301,7 @@ def plotData(filename,attrMatrix,startRow,labelcol,xcol,ycol,fs,legendOut,suppre
 			
 	
 	if len(xlimsSet)>0:
+		#print >> stderr,xlimsSet
 		cxmin,cxmax=xlimsSet.split(",")
 		xlim(float(cxmin),float(cxmax))
 	
@@ -365,10 +375,12 @@ if __name__=='__main__':
 	
 	legendDataStreamsCreated=set()
 	
-	opts,args=getopt(argv[1:],'',['fs=','headerRow=','startRow=','xcol=','ycol=','labelcol=','config=','file=',"legendOut=",'suppress-NA-error','XLabel=','YLabel='])
+	opts,args=getopt(argv[1:],'',['fs=','headerRow=','startRow=','xcol=','ycol=','labelcol=','config=','file=',"legendOut=",'suppress-NA-error','XLabel=','YLabel=','onlyPlotGroup=','title='])
 
 	fileParamsPassed=False
-
+	onlyPlotGroup=[]
+	
+	titleText=""
 
 	try:
 		outName,=args
@@ -425,16 +437,21 @@ if __name__=='__main__':
 					fil.close()
 					legendDataStreamsCreated.add(legendFile)
 				
-			plotData(filename,attrMatrix,startRow,labelcol,xcol,ycol,fs,legendFile,suppressNAError)
+			plotData(filename,attrMatrix,startRow,labelcol,xcol,ycol,fs,legendFile,suppressNAError,onlyPlotGroup)
 			
 			
 			
 			#after everything
 			reinitLoadingParams()
+		elif o=='--onlyPlotGroup':
+			onlyPlotGroup.append(v)
+		elif o=='--title':
+			titleText=v
 		else:
 			key=o[2:]
 			argsattrMatrix["!"+key]=v		
-		
+	if titleText!="":
+		title(titleText)	
 	savefig(outName)
 	
 	for legendFileI in legendDataStreamsCreated:

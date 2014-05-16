@@ -164,7 +164,7 @@ if __name__=="__main__":
 		print >> stderr, compiledLogics
 		print >> stderr, compiledLineOut
 	
-	exit
+	#exit
 	
 	lino=0
 	

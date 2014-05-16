@@ -191,7 +191,7 @@ def repeat(element,times):
 	return arr
 	
 
-def joinFiles(filename1,filename2,file1f0,file2f0,separator,printFile2Only,skipKeyColFile2,keyInternalSeparator,warningLevel,includeEveryFile1Rows,File2FillIn,warnDuplicateKeys,replaceFile1ColsByFile2,replaceFile1ColsByFile2Cols,stripFields,f1hreplace,f2hreplace,headerRow):
+def joinFiles(filename1,filename2,file1f0,file2f0,separator,printFile2Only,skipKeyColFile2,keyInternalSeparator,warningLevel,includeEveryFile1Rows,File2FillIn,warnDuplicateKeys,replaceFile1ColsByFile2,replaceFile1ColsByFile2Cols,stripFields,f1hreplace,f2hreplace,headerRow,prefixfile1line1,prefixfile2line1):
 
 	
 	#get the Keys and lines in order from file1
@@ -246,6 +246,17 @@ def joinFiles(filename1,filename2,file1f0,file2f0,separator,printFile2Only,skipK
 				joined_lines.append(toPrint)
 			else:
 				for rowFile2 in CoKeyRowsFile2:
+					if len(joined_lines)==0: #first line to be outputed
+						if len(prefixfile1line1)>0:
+							for i in range(0,len(line1)):
+								if i not in file1f0: #not a key
+									line1[i]=prefixfile1line1+line1[i]
+						if len(prefixfile2line1)>0:
+							for i in range(0,len(rowFile2)):
+								if i not in file2f0: #not a key
+									rowFile2[i]=prefixfile2line1+rowFile2[i]
+									
+					
 					toPrint=[] #""
 					if not printFile2Only: #print also file 1
 						toPrint+=line1
@@ -298,7 +309,7 @@ def joinFiles(filename1,filename2,file1f0,file2f0,separator,printFile2Only,skipK
 
 def joinu_Main():
 	programName=argv[0]
-	optlist,argvs=getopt(argv[1:],'1:2:rck:t:h:f:w:W:s',['replace-file1-cols-by-file2-cols-on-joined-items=','r1=','r2=','with=','12='])
+	optlist,argvs=getopt(argv[1:],'1:2:rck:t:h:f:w:W:s',['replace-file1-cols-by-file2-cols-on-joined-items=','r1=','r2=','with=','12=','prefix-first-line-of-file-1=','prefix-first-line-of-file-2='])
 	headerRow=1
 
 	if len(argvs)<2:
@@ -319,6 +330,8 @@ def joinu_Main():
 		print >> stderr,"-w warningLevel. Warning print to stderr. 0=no warning, 1=print the number of lines matched and unmatched at the end, 2=print every instances of unmatching, and the total number at the end"
 		print >> stderr,"-Wd warn duplicate keys in files"
 		print >> stderr,"-s  strip fields"
+		print >> stderr,"--prefix-first-line-of-file-1 p"
+		print >> stderr,"--prefix-first-line-of-file-2 p"
 		explainColumns(stderr)
 		return
 		
@@ -341,7 +354,8 @@ def joinu_Main():
 	headerFieldReplaceeKey=""
 	f1hreplace=dict()
 	f2hreplace=dict()
-	
+	prefixfile1line1=""
+	prefixfile2line1=""
 	for k,v in optlist:
 		if k=="-h":
 			headerRow=int(v)
@@ -424,6 +438,10 @@ def joinu_Main():
 		elif k=='--r2':
 			headerFieldReplaceeSelector=2
 			headerFieldReplaceeKey=v
+		elif k=='--prefix-first-line-of-file-1':
+			prefixfile1line1=v
+		elif k=='--prefix-first-line-of-file-2':
+			prefixfile2line1=v		
 		elif k=='--with':
 
 			if headerFieldReplaceeSelector==1:
@@ -434,11 +452,11 @@ def joinu_Main():
 				print >> stderr,"--with not preceded by --r1 or --r2. Abort"
 				#printUsageAndExit(programName)
 				exit()
-								
+						
 			headerFieldReplaceeSelector=0
 	if warningLevel>0:		
 		print >> sys.stderr,"seperator is ["+separator+"]";
-	joinFiles(filename1,filename2,file1f0,file2f0,separator,printFile2Only,skipKeyColFile2,keyInternalSeparator,warningLevel,includeEveryFile1Rows,File2FillIn,warnDuplicateKeys,replaceFile1ColsByFile2,replaceFile1ColsByFile2Cols,stripFields,f1hreplace,f2hreplace,headerRow)
+	joinFiles(filename1,filename2,file1f0,file2f0,separator,printFile2Only,skipKeyColFile2,keyInternalSeparator,warningLevel,includeEveryFile1Rows,File2FillIn,warnDuplicateKeys,replaceFile1ColsByFile2,replaceFile1ColsByFile2Cols,stripFields,f1hreplace,f2hreplace,headerRow,prefixfile1line1,prefixfile2line1)
 
 if __name__=='__main__':
 	joinu_Main()

@@ -31,21 +31,25 @@ import time
 from getopt import getopt
 
 programName=argv[0]
-opts,args=getopt(argv[1:],'',['header='])
+opts,args=getopt(argv[1:],'',['header=','draw-as-possible'])
 
 header=0
 
 try:
 	filename,ndraws=args
 except:
-	print >> stderr,"Usage",programName,"[--header #lines] filename ndraws"
+	print >> stderr,"Usage",programName,"[--header #lines] [--draw-as-possible] filename ndraws"
 	print >> stderr,"default no header. ndraws do not include header rows"
+	print >> stderr,"--draw-as-possible: no abort even if num of lines in file < num of lines needed to be drawn. Just return a randomized list"
 	exit()
+
+drawAsMany=False
 
 for o,v in opts:
 	if o=='--header':
 		header=int(v)
-
+	elif o=='--draw-as-possible':
+		drawAsMany=True
 
 ndraws=int(ndraws)
 
@@ -64,7 +68,7 @@ if header>0:
 	del lines[:header]
 
 
-if ndraws>len(lines):
+if ndraws>len(lines) and not drawAsMany:
 	print >> stderr,"ndraws > number of lines. Abort","ndraws:",ndraws,"num lines:",len(lines)
 	exit()
 
@@ -76,5 +80,7 @@ def drawALine(lines):
 	
 	
 for i in range(0,ndraws):
+	if len(lines)==0:
+		break
 	print >> stdout, drawALine(lines).rstrip("\r\n")
 

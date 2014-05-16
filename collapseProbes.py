@@ -245,8 +245,10 @@ def collapseProbes(geneSets,lineOrderedKey,idCols,valueCols,minFilter,maxFilter,
 			mean_X=sumX/NValues
 			mean_Xsq=sumXsq/NValues
 			var_X=mean_Xsq-(mean_X)**2
-			stddev_X=sqrt(var_X)
-
+			try:
+				stddev_X=sqrt(var_X)
+			except:
+				print >> sys.stderr,"stddev_X error var_X=",var_X
 			if method==1 or featureSel==1: #maxMax
 				if maxX>feature:
 					feature=maxX

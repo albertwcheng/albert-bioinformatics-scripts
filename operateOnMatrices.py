@@ -9,7 +9,7 @@ def log2(x):
 	return log(x,2)
 
 def printUsageAndExit(programName):
-	print >> stderr,programName,"matrix1 matrix2 ... matrixN  [--rows rows (format start-[end] Default: 2-)|--cols columns (Default:2-_1)|-c conditional|-o conditional-operation|-O non-conditional-operation|-v conditional value|-V non-conditional-value] ... "
+	print >> stderr,programName,"[options] matrix1 matrix2 ... matrixN  [--rows rows (format start-[end] Default: 2-)|--cols columns (Default:2-_1)|-c conditional|-o conditional-operation|-O non-conditional-operation|-v conditional value|-V non-conditional-value] ... "
 	print >> stderr,"Variables:"
 	print >> stderr,"ROW:current row number based 1"
 	print >> stderr,"COL:current col number based 1"
@@ -19,12 +19,20 @@ def printUsageAndExit(programName):
 	print >> stderr,"\tROWNAME[i]:FIELDS[i][0]"
 	print >> stderr,"\tCOLNAME[i]:HEADERS[i][COL-1]"
 	print >> stderr,"\tX[i]:current field FIELDS[i][COL-1]"
+	print >> stderr,"\tMEM[key]:memorize"
 	explainColumns(stderr)
 	exit(1)
 
+
+MEM=dict()
+
+def setMEM(k,v):
+	MEM[k]=eval(v)
+	return True
+
 if __name__=='__main__':
 	programName=argv[0]
-	opts,args=getopt(argv[1:],'c:o:O:v:V:',['cols=','rows='])
+	opts,args=getopt(argv[1:],'c:o:O:v:V:',['cols=','rows=','meminit='])
 	
 	try:
 		filenames=args
@@ -45,6 +53,7 @@ if __name__=='__main__':
 	currentRows="2-"
 	fs="\t"
 	
+
 	
 	for o,v in opts:
 		if o=='--cols':
@@ -64,6 +73,9 @@ if __name__=='__main__':
 
 		elif o=='--rows':
 			currentRows=v
+		elif o=='--meminit':
+			v=v.split("=")
+			MEM[v[0]]=eval(v[1])
 	
 	HEADERS,prestarts=getHeader(filenames[0],headerRow,startRow,fs)
 	
@@ -148,11 +160,13 @@ if __name__=='__main__':
 							FIELDS[0][column]=eval(operation)
 						except:
 							for i in range(0,len(X)):
-								if "." in X[i]:
-									X[i]=float(X[i])
-								else:
-									X[i]=int(X[i])
-									
+								try:
+									if "." in X[i]:
+										X[i]=float(X[i])
+									else:
+										X[i]=int(X[i])
+								except: #probably just a str
+									pass	
 							FIELDS[0][column]=eval(operation)
 								
 		print >> stdout,"\t".join(toStrList(FIELDS[0]))
@@ -160,3 +174,6 @@ if __name__=='__main__':
 	for fil in fils:
 		fil.close()
 	
+	
+	for key,value in MEM.items():
+		print >> stderr,key,"=",value

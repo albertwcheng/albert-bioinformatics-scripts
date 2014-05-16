@@ -811,6 +811,7 @@ def getHeader(filename,headerRow,startRow,FS):
 	c=0;
 	for lin in fil:
 		c+=1;
+		
 		if(c==headerRow):
 			lin=lin.rstrip()
 			if FS=="":
@@ -825,7 +826,8 @@ def getHeader(filename,headerRow,startRow,FS):
 			else:
 				prestartRows.append(lin.split(FS))		
 	
-
+		if(c>=startRow):
+			break
 	fil.close()	
 
 	return header,prestartRows
