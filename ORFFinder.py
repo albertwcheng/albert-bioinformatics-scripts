@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python2.7
 
 '''
 genetic code copied from 
@@ -243,7 +243,13 @@ def findORFInSixFrames(seq,findLongestORFs=True,minORFLength=-1,maxORFLength=-1,
 		return returna
 			
 def findLongestORFInSixFrames(seq,startCodonsUpper=["ATG"],stopCodonsUpper=["TAA","TAG","TGA"],minORFLength=-1,maxORFLength=-1):
-	return findORFInSixFrames(seq,startCodonsUpper,stopCodonsUpper,True,minORFLength,maxORFLength)
+	return findORFInSixFrames(seq,True,minORFLength,maxORFLength,startCodonsUpper,stopCodonsUpper)
+
+def DNA2Protein(seq):
+	aaSeq=""
+	for i in range(0,len(seq),3):
+		aaSeq+=gencode[seq[i:i+3]]
+	return aaSeq.replace("_","")
 
 if __name__=='__main__':
 

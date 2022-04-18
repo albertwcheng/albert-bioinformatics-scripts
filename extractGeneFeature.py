@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python2.7
 
 '''
 
@@ -239,7 +239,33 @@ def getStrArray(L):
 	xL=[]
 	for x in L:
 		xL.append(str(x))
-	return xL		
+	return xL
+
+
+def outEBed(o,score,strand,itemRgb):
+	o=list(o)
+	if len(o)==0:
+		return
+	#print >> stderr,o
+	o.sort(key=itemgetter(1))
+	chrom=o[0][0]
+	gStart0=o[0][1]
+	gEnd1=o[-1][2]
+	name=o[0][3]
+	blockSizes=[]
+	blockStarts=[]
+
+	for item in o:
+		itemStart=item[1]
+		itemEnd=item[2]
+		itemSize=itemEnd-itemStart
+		blockStarts.append(str(itemStart-gStart0))
+		blockSizes.append(str(itemSize))
+	
+	outFields=[chrom,str(gStart0),str(gEnd1),name,str(score),strand,str(gStart0),str(gEnd1),itemRgb,str(len(blockStarts)),",".join(blockSizes),",".join(blockStarts)]
+	print >> stdout,"\t".join(outFields)
+
+	
 	
 if __name__=='__main__':
 	from optparse import OptionParser
@@ -247,7 +273,7 @@ if __name__=='__main__':
 	usage="""usage: %prog  [*--genePred|--ebed] [other options] inbed feature1 [feature2 ...] > outbed
 feature list format:
 transcript\ttranscription start to transcription stop of transcript
-orf\ttranslation start to translation stop of transcript
+cds\ttranslation start to translation stop of transcript
 5utr\t5' utr
 3utr\t3' utr
 cds\tcoding exons (coding regions of exons)
@@ -265,6 +291,7 @@ all\treturn all features
 	
 	parser.add_option("--genePred",dest="inFormat",default="genePred",action="store_const",const="genePred",help="input file is genePred format. Default is genePred")
 	parser.add_option("--ebed",dest="inFormat",default="genePred",action="store_const",const="ebed",help="input file is ebed format")
+	parser.add_option("--output-ebed",dest="outEBed",default=False,action="store_true",help="output ebed format")
 	parser.add_option("--fs",dest="fs",default="\t",help="set input file field separate [tab]")
 	parser.add_option("--genomic-index",dest="genomicIndex",default=False,action="store_true",help="index features by genomic strand")
 	parser.add_option("--append-feature-to-id",dest="IdFeatureSep",default=None,help="<sep> turn on output of feature indicator to id, with separator. [default: off]")
@@ -276,6 +303,7 @@ all\treturn all features
 	parser.add_option("--3utr-name-string",dest="threeUTRNameString",default="3utr",help="set the name of a 3' utr [3utr]")
 	parser.add_option("--upstream-name-string",dest="upstreamNameString",default="upstream",help="set the name of an upstream region [upstream]")
 	parser.add_option("--downstream-name-string",dest="downstreamNameString",default="downstream",help="set the name of a downstream region [downstream]")
+
 		
 	parser.add_option("--score",dest="bedScore",default="0",help="set score of the out bed [0]")
 	
@@ -310,7 +338,7 @@ all\treturn all features
 				fields=ebedFields2genePredFields(fields,0,"0,0,0",options)
 			except:
 				continue
-				
+		itemRgb=fields[8]	
 		#get stuff into geneStruct
 		#try:
 		geneStruct=transcriptToGeneStruct(fields,options)
@@ -388,8 +416,12 @@ all\treturn all features
 							
 					break
 		#now output:
-		for o in toOutputObjects:
-			printListOfFields(stdout,getStrArray(o+(options.bedScore,geneStruct["strand"])))
+
+		if options.outEBed:
+			outEBed(toOutputObjects,options.bedScore,geneStruct["strand"],itemRgb)
+		else:
+			for o in toOutputObjects:
+				printListOfFields(stdout,getStrArray(o+(options.bedScore,geneStruct["strand"])))
 			
 	fil.close()
 	
