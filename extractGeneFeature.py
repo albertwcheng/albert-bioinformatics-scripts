@@ -243,6 +243,8 @@ def getStrArray(L):
 
 
 def outEBed(o,score,strand,itemRgb):
+	#print >> stderr,itemRgb
+
 	o=list(o)
 	if len(o)==0:
 		return
@@ -333,12 +335,15 @@ all\treturn all features
 		if options.inFormat=="genePred":
 			pass #this is fine. No conversion needed
 		elif options.inFormat=="ebed":
+			itemRgb=fields[8]
 			#conversion
 			try:
 				fields=ebedFields2genePredFields(fields,0,"0,0,0",options)
 			except:
 				continue
-		itemRgb=fields[8]	
+
+		#print >> stderr,fields
+			
 		#get stuff into geneStruct
 		#try:
 		geneStruct=transcriptToGeneStruct(fields,options)
