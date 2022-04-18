@@ -110,17 +110,46 @@ def generatePatterns(patternString):
 
 def printUsageAndExit(programName):
 	print >> stderr,programName,"filename colName colCDS pattern"
-	print >> stderr,"pattern length has to be multiple of 3"
+	print >> stderr,"patterns can be comma separated list of subpatterns that will be joined to give patterns, e.g., ACA,1-3:NCN will give ACANCN, ACANCNNCN, ACANCNNCNNCN patterns"
+	print >> stderr,"compiled pattern length has to be multiple of 3"
 	print >> stderr,"A = Adenine"
 	print >> stderr,"C = Cytosine"
 	print >> stderr,"G = Guanine"
 	print >> stderr,"T = Thymine"
-	print >> stderr,"a = not A"
-	print >> stderr,"c = not C"
-	print >> stderr,"g = not G"
-	print >> stderr,"t = not T"
+	print >> stderr,"a or B = not A"
+	print >> stderr,"c or D = not C"
+	print >> stderr,"g or H = not G"
+	print >> stderr,"t or V = not T"
+	print >> stderr,"M = A or C"
+	print >> stderr,"R = A or G"
+	print >> stderr,"W = A or T"
+	print >> stderr,"S = C or G"
+	print >> stderr,"Y = C or T"
+	print >> stderr,"K = G or T"
 	exit(1)
 
+'''
+	if x=='M' and y in ['A','C']:
+		return True
+	if x=='R' and y in ['A','G']:
+		return True
+	if x=='W' and y in ['A','T']:
+		return True
+	if x=='S' and y in ['C','G']:
+		return True
+	if x=='Y' and y in ['C','T']:
+		return True
+	if x=='K' and y in ['G','T']:
+		return True
+	if x=='V' and y in ['A','C','G']:
+		return True
+	if x=='H' and y in ['A','C','T']:
+		return True
+	if x=='D' and y in ['A','G','T']:
+		return True
+	if x=='B' and y in ['C','G','T']:
+		return True
+'''
 
 
 if __name__=='__main__':
